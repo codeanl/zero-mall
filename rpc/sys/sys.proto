@@ -54,6 +54,46 @@ message RoleListResp {
   repeated RoleListData list = 2;
 }
 
+//添加｜｜更新菜单
+message SaveOrUpdateMenuReq {
+  int64 id = 1;
+  string name = 2;
+  int64 parent_id = 3;
+  string url = 4;
+  string type = 5;
+  string icon = 6;
+  int64 order_num = 7;
+  string tag = 8;
+}
+message SaveOrUpdateMenuResp {
+  string pong = 1;
+}
+
+//删除菜单
+message MenuDeleteReq {
+  repeated int64 ids = 1;
+}
+message MenuDeleteResp {
+  string pong = 1;
+}
+//菜单列表
+message  MenuListReq{
+}
+
+message MenuList{
+  int64 id = 1;
+  string name = 2;
+  int64 parent_id = 3;
+  string url = 4;
+  string type = 5;
+  string icon = 6;
+  int64 order_num = 7;
+  string tag = 8;
+}
+message MenuListResp{
+  repeated MenuList MenuList =  1;
+}
+
 service Sys{
   //UserLogin 用户登录
   rpc UserLogin(LoginReq) returns(LoginResp);
@@ -64,4 +104,12 @@ service Sys{
   rpc RoleDelete(RoleDeleteReq) returns(RoleDeleteResp);
   //RoleList 角色列表
   rpc RoleList(RoleListReq) returns(RoleListResp);
+
+
+  //SaveOrUpdateMenu 添加｜｜更新菜单
+  rpc SaveOrUpdateMenu(SaveOrUpdateMenuReq) returns(SaveOrUpdateMenuResp);
+  //菜单列表
+  rpc MenuList(MenuListReq) returns(MenuListResp);
+  //删除菜单
+  rpc MenuDelete(MenuDeleteReq) returns(MenuDeleteResp);
 }

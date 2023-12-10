@@ -1,0 +1,75 @@
+syntax = "v1"
+
+info(
+    title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+type(
+    //添加||修改菜单
+     SaveOrUpdateMenuReq struct {
+         ID int64 `json:"id,optional"`
+         Name string `json:"name"`
+         ParentId int64 `json:"parent_id"`
+         Url string `json:"url"`
+         Type string `json:"type"`
+         Icon string `json:"icon"`
+         OrderNum int64 `json:"order_num"`
+         TAG string `json:"tag"`
+     }
+     SaveOrUpdateMenuResp struct {
+         Code int64 `json:"code"`
+         Message string `json:"message"`
+     }
+
+     //菜单列表
+    ListMenuReq struct {
+    }
+    ListMenuData struct {
+        ID int64 `json:"id"`
+        Name string `json:"name"`
+        ParentId int64 `json:"parent_id"`
+        Url string `json:"url"`
+        Type string `json:"type"`
+        Icon string `json:"icon"`
+        OrderNum int64 `json:"order_num"`
+        TAG string `json:"tag"`
+        Children []ListMenuData `json:"children"`
+    }
+    ListMenuResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data []ListMenuData `json:"data"`
+    }
+
+
+    //删除菜单
+    DeleteMenuReq struct {
+        Ids []int64 `json:"ids"`
+    }
+    DeleteMenuResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+)
+@server(
+    jwt: Auth
+    group: sys/menu
+    prefix: /api/sys/menu
+)
+service api {
+    @doc(summary: "添加||修改菜单")
+    @handler SaveOrUpdateMenu
+    post / (SaveOrUpdateMenuReq) returns (SaveOrUpdateMenuResp)
+
+    @doc(summary: "菜单列表")
+    @handler MenuLists
+    post /list (ListMenuReq) returns (ListMenuResp)
+
+    @doc(summary: "删除菜单")
+   @handler MenuDelete
+    post /delete (DeleteMenuReq) returns (DeleteMenuResp)
+}

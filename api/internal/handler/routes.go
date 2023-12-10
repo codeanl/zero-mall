@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	sysmenu "simple_mall_new/api/internal/handler/sys/menu"
 	sysrole "simple_mall_new/api/internal/handler/sys/role"
 	sysuser "simple_mall_new/api/internal/handler/sys/user"
 	"simple_mall_new/api/internal/svc"
@@ -43,5 +44,27 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/sys/role"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/",
+				Handler: sysmenu.SaveOrUpdateMenuHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/list",
+				Handler: sysmenu.MenuListsHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: sysmenu.MenuDeleteHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/sys/menu"),
 	)
 }

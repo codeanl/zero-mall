@@ -45,3 +45,21 @@ func (s *SysServer) RoleList(ctx context.Context, in *sys.RoleListReq) (*sys.Rol
 	l := logic.NewRoleListLogic(ctx, s.svcCtx)
 	return l.RoleList(in)
 }
+
+// SaveOrUpdateMenu 添加｜｜更新菜单
+func (s *SysServer) SaveOrUpdateMenu(ctx context.Context, in *sys.SaveOrUpdateMenuReq) (*sys.SaveOrUpdateMenuResp, error) {
+	l := logic.NewSaveOrUpdateMenuLogic(ctx, s.svcCtx)
+	return l.SaveOrUpdateMenu(in)
+}
+
+// 菜单列表
+func (s *SysServer) MenuList(ctx context.Context, in *sys.MenuListReq) (*sys.MenuListResp, error) {
+	l := logic.NewMenuListLogic(ctx, s.svcCtx)
+	return l.MenuList(in)
+}
+
+// 删除菜单
+func (s *SysServer) MenuDelete(ctx context.Context, in *sys.MenuDeleteReq) (*sys.MenuDeleteResp, error) {
+	l := logic.NewMenuDeleteLogic(ctx, s.svcCtx)
+	return l.MenuDelete(in)
+}

@@ -15,11 +15,18 @@ import (
 type (
 	LoginReq             = sys.LoginReq
 	LoginResp            = sys.LoginResp
+	MenuDeleteReq        = sys.MenuDeleteReq
+	MenuDeleteResp       = sys.MenuDeleteResp
+	MenuList             = sys.MenuList
+	MenuListReq          = sys.MenuListReq
+	MenuListResp         = sys.MenuListResp
 	RoleDeleteReq        = sys.RoleDeleteReq
 	RoleDeleteResp       = sys.RoleDeleteResp
 	RoleListData         = sys.RoleListData
 	RoleListReq          = sys.RoleListReq
 	RoleListResp         = sys.RoleListResp
+	SaveOrUpdateMenuReq  = sys.SaveOrUpdateMenuReq
+	SaveOrUpdateMenuResp = sys.SaveOrUpdateMenuResp
 	SaveOrUpdateRoleReq  = sys.SaveOrUpdateRoleReq
 	SaveOrUpdateRoleResp = sys.SaveOrUpdateRoleResp
 
@@ -32,6 +39,12 @@ type (
 		RoleDelete(ctx context.Context, in *RoleDeleteReq, opts ...grpc.CallOption) (*RoleDeleteResp, error)
 		// RoleList 角色列表
 		RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error)
+		// SaveOrUpdateMenu 添加｜｜更新菜单
+		SaveOrUpdateMenu(ctx context.Context, in *SaveOrUpdateMenuReq, opts ...grpc.CallOption) (*SaveOrUpdateMenuResp, error)
+		// 菜单列表
+		MenuList(ctx context.Context, in *MenuListReq, opts ...grpc.CallOption) (*MenuListResp, error)
+		// 删除菜单
+		MenuDelete(ctx context.Context, in *MenuDeleteReq, opts ...grpc.CallOption) (*MenuDeleteResp, error)
 	}
 
 	defaultSys struct {
@@ -67,4 +80,22 @@ func (m *defaultSys) RoleDelete(ctx context.Context, in *RoleDeleteReq, opts ...
 func (m *defaultSys) RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error) {
 	client := sys.NewSysClient(m.cli.Conn())
 	return client.RoleList(ctx, in, opts...)
+}
+
+// SaveOrUpdateMenu 添加｜｜更新菜单
+func (m *defaultSys) SaveOrUpdateMenu(ctx context.Context, in *SaveOrUpdateMenuReq, opts ...grpc.CallOption) (*SaveOrUpdateMenuResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.SaveOrUpdateMenu(ctx, in, opts...)
+}
+
+// 菜单列表
+func (m *defaultSys) MenuList(ctx context.Context, in *MenuListReq, opts ...grpc.CallOption) (*MenuListResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.MenuList(ctx, in, opts...)
+}
+
+// 删除菜单
+func (m *defaultSys) MenuDelete(ctx context.Context, in *MenuDeleteReq, opts ...grpc.CallOption) (*MenuDeleteResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.MenuDelete(ctx, in, opts...)
 }

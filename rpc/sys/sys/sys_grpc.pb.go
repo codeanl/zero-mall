@@ -23,6 +23,9 @@ const (
 	Sys_SaveOrUpdateRole_FullMethodName = "/sys.Sys/SaveOrUpdateRole"
 	Sys_RoleDelete_FullMethodName       = "/sys.Sys/RoleDelete"
 	Sys_RoleList_FullMethodName         = "/sys.Sys/RoleList"
+	Sys_SaveOrUpdateMenu_FullMethodName = "/sys.Sys/SaveOrUpdateMenu"
+	Sys_MenuList_FullMethodName         = "/sys.Sys/MenuList"
+	Sys_MenuDelete_FullMethodName       = "/sys.Sys/MenuDelete"
 )
 
 // SysClient is the client API for Sys service.
@@ -37,6 +40,12 @@ type SysClient interface {
 	RoleDelete(ctx context.Context, in *RoleDeleteReq, opts ...grpc.CallOption) (*RoleDeleteResp, error)
 	// RoleList 角色列表
 	RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error)
+	// SaveOrUpdateMenu 添加｜｜更新菜单
+	SaveOrUpdateMenu(ctx context.Context, in *SaveOrUpdateMenuReq, opts ...grpc.CallOption) (*SaveOrUpdateMenuResp, error)
+	// 菜单列表
+	MenuList(ctx context.Context, in *MenuListReq, opts ...grpc.CallOption) (*MenuListResp, error)
+	// 删除菜单
+	MenuDelete(ctx context.Context, in *MenuDeleteReq, opts ...grpc.CallOption) (*MenuDeleteResp, error)
 }
 
 type sysClient struct {
@@ -83,6 +92,33 @@ func (c *sysClient) RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.
 	return out, nil
 }
 
+func (c *sysClient) SaveOrUpdateMenu(ctx context.Context, in *SaveOrUpdateMenuReq, opts ...grpc.CallOption) (*SaveOrUpdateMenuResp, error) {
+	out := new(SaveOrUpdateMenuResp)
+	err := c.cc.Invoke(ctx, Sys_SaveOrUpdateMenu_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) MenuList(ctx context.Context, in *MenuListReq, opts ...grpc.CallOption) (*MenuListResp, error) {
+	out := new(MenuListResp)
+	err := c.cc.Invoke(ctx, Sys_MenuList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) MenuDelete(ctx context.Context, in *MenuDeleteReq, opts ...grpc.CallOption) (*MenuDeleteResp, error) {
+	out := new(MenuDeleteResp)
+	err := c.cc.Invoke(ctx, Sys_MenuDelete_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SysServer is the server API for Sys service.
 // All implementations must embed UnimplementedSysServer
 // for forward compatibility
@@ -95,6 +131,12 @@ type SysServer interface {
 	RoleDelete(context.Context, *RoleDeleteReq) (*RoleDeleteResp, error)
 	// RoleList 角色列表
 	RoleList(context.Context, *RoleListReq) (*RoleListResp, error)
+	// SaveOrUpdateMenu 添加｜｜更新菜单
+	SaveOrUpdateMenu(context.Context, *SaveOrUpdateMenuReq) (*SaveOrUpdateMenuResp, error)
+	// 菜单列表
+	MenuList(context.Context, *MenuListReq) (*MenuListResp, error)
+	// 删除菜单
+	MenuDelete(context.Context, *MenuDeleteReq) (*MenuDeleteResp, error)
 	mustEmbedUnimplementedSysServer()
 }
 
@@ -113,6 +155,15 @@ func (UnimplementedSysServer) RoleDelete(context.Context, *RoleDeleteReq) (*Role
 }
 func (UnimplementedSysServer) RoleList(context.Context, *RoleListReq) (*RoleListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RoleList not implemented")
+}
+func (UnimplementedSysServer) SaveOrUpdateMenu(context.Context, *SaveOrUpdateMenuReq) (*SaveOrUpdateMenuResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveOrUpdateMenu not implemented")
+}
+func (UnimplementedSysServer) MenuList(context.Context, *MenuListReq) (*MenuListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MenuList not implemented")
+}
+func (UnimplementedSysServer) MenuDelete(context.Context, *MenuDeleteReq) (*MenuDeleteResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MenuDelete not implemented")
 }
 func (UnimplementedSysServer) mustEmbedUnimplementedSysServer() {}
 
@@ -199,6 +250,60 @@ func _Sys_RoleList_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Sys_SaveOrUpdateMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveOrUpdateMenuReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).SaveOrUpdateMenu(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_SaveOrUpdateMenu_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).SaveOrUpdateMenu(ctx, req.(*SaveOrUpdateMenuReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_MenuList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MenuListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).MenuList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_MenuList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).MenuList(ctx, req.(*MenuListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_MenuDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MenuDeleteReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).MenuDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_MenuDelete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).MenuDelete(ctx, req.(*MenuDeleteReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Sys_ServiceDesc is the grpc.ServiceDesc for Sys service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -221,6 +326,18 @@ var Sys_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RoleList",
 			Handler:    _Sys_RoleList_Handler,
+		},
+		{
+			MethodName: "SaveOrUpdateMenu",
+			Handler:    _Sys_SaveOrUpdateMenu_Handler,
+		},
+		{
+			MethodName: "MenuList",
+			Handler:    _Sys_MenuList_Handler,
+		},
+		{
+			MethodName: "MenuDelete",
+			Handler:    _Sys_MenuDelete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

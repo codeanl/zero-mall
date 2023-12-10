@@ -12,6 +12,7 @@ type ServiceContext struct {
 	LoginLogModel model.LoginLogModel
 	RoleModel     model.RoleModel
 	UserRoleModel model.UserRoleModel
+	MenuModel     model.MenuModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -23,5 +24,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		LoginLogModel: model.NewLoginLogModel(conn),
 		RoleModel:     model.NewRoleModel(conn),
 		UserRoleModel: model.NewUserRoleModel(conn),
+		MenuModel:     model.NewMenuModel(conn),
 	}
 }
