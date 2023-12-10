@@ -63,6 +63,6 @@ func (l *UserLoginLogic) UserLogin(in *sys.LoginReq) (*sys.LoginResp, error) {
 	//返回响应
 	return &sys.LoginResp{
 		Token:  Token,
-		UserID: int64(user.ID),
+		UserId: int64(user.ID),
 	}, nil
 }

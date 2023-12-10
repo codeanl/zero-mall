@@ -9,11 +9,59 @@ message LoginReq {
   string password = 2;
 }
 message LoginResp {
-  string Token = 1;
-  int64 UserID=2;
+  string token = 1;
+  int64 user_id=2;
+}
+
+
+
+//添加｜｜更新角色
+message SaveOrUpdateRoleReq {
+  int64 id=1;
+  string name =2;
+  string remark = 3;
+  string create_by = 4;
+  string update_by = 5;
+}
+message SaveOrUpdateRoleResp {
+  string pong = 1;
+}
+
+//删除角色
+message RoleDeleteReq {
+  repeated int64 ids = 1;
+}
+message RoleDeleteResp {
+  string pong = 1;
+}
+//角色列表
+message RoleListReq {
+  int64 page_num = 1;
+  int64 page_size = 2;
+  string name = 3;
+}
+message RoleListData {
+  int64 id = 1;
+  string name = 2;
+  string remark = 3;
+  string create_by = 4;
+  string create_at = 5;
+  string update_by = 6;
+  string update_at = 7;
+}
+message RoleListResp {
+  int64 total = 1;
+  repeated RoleListData list = 2;
 }
 
 service Sys{
   //UserLogin 用户登录
   rpc UserLogin(LoginReq) returns(LoginResp);
+
+  //SaveOrUpdateRole 添加｜｜更新角色
+  rpc SaveOrUpdateRole(SaveOrUpdateRoleReq) returns(SaveOrUpdateRoleResp);
+  //RoleDelete 删除角色
+  rpc RoleDelete(RoleDeleteReq) returns(RoleDeleteResp);
+  //RoleList 角色列表
+  rpc RoleList(RoleListReq) returns(RoleListResp);
 }

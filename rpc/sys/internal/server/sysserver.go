@@ -22,8 +22,26 @@ func NewSysServer(svcCtx *svc.ServiceContext) *SysServer {
 	}
 }
 
-// 用户登录
+// UserLogin 用户登录
 func (s *SysServer) UserLogin(ctx context.Context, in *sys.LoginReq) (*sys.LoginResp, error) {
 	l := logic.NewUserLoginLogic(ctx, s.svcCtx)
 	return l.UserLogin(in)
+}
+
+// SaveOrUpdateRole 添加｜｜更新角色
+func (s *SysServer) SaveOrUpdateRole(ctx context.Context, in *sys.SaveOrUpdateRoleReq) (*sys.SaveOrUpdateRoleResp, error) {
+	l := logic.NewSaveOrUpdateRoleLogic(ctx, s.svcCtx)
+	return l.SaveOrUpdateRole(in)
+}
+
+// RoleDelete 删除角色
+func (s *SysServer) RoleDelete(ctx context.Context, in *sys.RoleDeleteReq) (*sys.RoleDeleteResp, error) {
+	l := logic.NewRoleDeleteLogic(ctx, s.svcCtx)
+	return l.RoleDelete(in)
+}
+
+// RoleList 角色列表
+func (s *SysServer) RoleList(ctx context.Context, in *sys.RoleListReq) (*sys.RoleListResp, error) {
+	l := logic.NewRoleListLogic(ctx, s.svcCtx)
+	return l.RoleList(in)
 }

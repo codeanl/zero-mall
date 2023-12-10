@@ -19,15 +19,24 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Sys_UserLogin_FullMethodName = "/sys.Sys/UserLogin"
+	Sys_UserLogin_FullMethodName        = "/sys.Sys/UserLogin"
+	Sys_SaveOrUpdateRole_FullMethodName = "/sys.Sys/SaveOrUpdateRole"
+	Sys_RoleDelete_FullMethodName       = "/sys.Sys/RoleDelete"
+	Sys_RoleList_FullMethodName         = "/sys.Sys/RoleList"
 )
 
 // SysClient is the client API for Sys service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SysClient interface {
-	// 用户登录
+	// UserLogin 用户登录
 	UserLogin(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+	// SaveOrUpdateRole 添加｜｜更新角色
+	SaveOrUpdateRole(ctx context.Context, in *SaveOrUpdateRoleReq, opts ...grpc.CallOption) (*SaveOrUpdateRoleResp, error)
+	// RoleDelete 删除角色
+	RoleDelete(ctx context.Context, in *RoleDeleteReq, opts ...grpc.CallOption) (*RoleDeleteResp, error)
+	// RoleList 角色列表
+	RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error)
 }
 
 type sysClient struct {
@@ -47,12 +56,45 @@ func (c *sysClient) UserLogin(ctx context.Context, in *LoginReq, opts ...grpc.Ca
 	return out, nil
 }
 
+func (c *sysClient) SaveOrUpdateRole(ctx context.Context, in *SaveOrUpdateRoleReq, opts ...grpc.CallOption) (*SaveOrUpdateRoleResp, error) {
+	out := new(SaveOrUpdateRoleResp)
+	err := c.cc.Invoke(ctx, Sys_SaveOrUpdateRole_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) RoleDelete(ctx context.Context, in *RoleDeleteReq, opts ...grpc.CallOption) (*RoleDeleteResp, error) {
+	out := new(RoleDeleteResp)
+	err := c.cc.Invoke(ctx, Sys_RoleDelete_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error) {
+	out := new(RoleListResp)
+	err := c.cc.Invoke(ctx, Sys_RoleList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SysServer is the server API for Sys service.
 // All implementations must embed UnimplementedSysServer
 // for forward compatibility
 type SysServer interface {
-	// 用户登录
+	// UserLogin 用户登录
 	UserLogin(context.Context, *LoginReq) (*LoginResp, error)
+	// SaveOrUpdateRole 添加｜｜更新角色
+	SaveOrUpdateRole(context.Context, *SaveOrUpdateRoleReq) (*SaveOrUpdateRoleResp, error)
+	// RoleDelete 删除角色
+	RoleDelete(context.Context, *RoleDeleteReq) (*RoleDeleteResp, error)
+	// RoleList 角色列表
+	RoleList(context.Context, *RoleListReq) (*RoleListResp, error)
 	mustEmbedUnimplementedSysServer()
 }
 
@@ -62,6 +104,15 @@ type UnimplementedSysServer struct {
 
 func (UnimplementedSysServer) UserLogin(context.Context, *LoginReq) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
+}
+func (UnimplementedSysServer) SaveOrUpdateRole(context.Context, *SaveOrUpdateRoleReq) (*SaveOrUpdateRoleResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveOrUpdateRole not implemented")
+}
+func (UnimplementedSysServer) RoleDelete(context.Context, *RoleDeleteReq) (*RoleDeleteResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RoleDelete not implemented")
+}
+func (UnimplementedSysServer) RoleList(context.Context, *RoleListReq) (*RoleListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RoleList not implemented")
 }
 func (UnimplementedSysServer) mustEmbedUnimplementedSysServer() {}
 
@@ -94,6 +145,60 @@ func _Sys_UserLogin_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Sys_SaveOrUpdateRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveOrUpdateRoleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).SaveOrUpdateRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_SaveOrUpdateRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).SaveOrUpdateRole(ctx, req.(*SaveOrUpdateRoleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_RoleDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleDeleteReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).RoleDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_RoleDelete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).RoleDelete(ctx, req.(*RoleDeleteReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_RoleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).RoleList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_RoleList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).RoleList(ctx, req.(*RoleListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Sys_ServiceDesc is the grpc.ServiceDesc for Sys service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -104,6 +209,18 @@ var Sys_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserLogin",
 			Handler:    _Sys_UserLogin_Handler,
+		},
+		{
+			MethodName: "SaveOrUpdateRole",
+			Handler:    _Sys_SaveOrUpdateRole_Handler,
+		},
+		{
+			MethodName: "RoleDelete",
+			Handler:    _Sys_RoleDelete_Handler,
+		},
+		{
+			MethodName: "RoleList",
+			Handler:    _Sys_RoleList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

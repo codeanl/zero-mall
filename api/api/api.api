@@ -1,4 +1,5 @@
 import "sys/user.api"
+import "sys/role.api"
 
 info(
 	title: "type title here"

@@ -1,0 +1,73 @@
+syntax = "v1"
+
+info(
+    title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+type(
+   //添加角色
+   SaveOrUpdateRoleReq struct {
+        ID int64 `json:"id,optional"`
+        Name string `json:"name"`
+        Remark string `json:"remark,optional"`
+    }
+    SaveOrUpdateRoleResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+    //删除角色
+    DeleteRoleReq struct {
+        IDs []int64 `json:"ids"`
+    }
+    DeleteRoleResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+    //角色列表
+    ListRoleReq struct {
+        PageNum int64 `form:"page_num,optional"`
+        PageSize int64 `form:"page_size,optional"`
+        Name string `form:"name,optional"`
+    }
+    ListRoleData struct {
+        Id int64 `json:"id"`
+        Name string `json:"name"`
+        Remark string `json:"remark"`
+        CreateBy string `json:"create_by"`
+        CreateAt string `json:"create_at"`
+        UpdateBy string `json:"update_by"`
+        UpdateAt string `json:"update_at"`
+    }
+    ListRoleResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Total int64 `json:"total"`
+        Data []*ListRoleData `json:"data"`
+    }
+
+)
+
+
+@server(
+    jwt: Auth
+    group: sys/role
+    prefix: /api/sys/role
+)
+service api {
+    @doc(summary: "添加||修改角色")
+    @handler SaveOrUpdateRole
+    post / (SaveOrUpdateRoleReq) returns (SaveOrUpdateRoleResp)
+
+    @doc(summary: "删除角色")
+    @handler RoleDelete
+    post /delete (DeleteRoleReq) returns (DeleteRoleResp)
+
+    @doc(summary: "角色列表")
+    @handler RoleList
+    get /list (ListRoleReq) returns (ListRoleResp)
+}

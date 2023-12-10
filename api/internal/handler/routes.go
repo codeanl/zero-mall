@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	sysrole "simple_mall_new/api/internal/handler/sys/role"
 	sysuser "simple_mall_new/api/internal/handler/sys/user"
 	"simple_mall_new/api/internal/svc"
 
@@ -20,5 +21,27 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/api/sys/user"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/",
+				Handler: sysrole.SaveOrUpdateRoleHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: sysrole.RoleDeleteHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: sysrole.RoleListHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/sys/role"),
 	)
 }
