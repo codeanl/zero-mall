@@ -1,0 +1,10 @@
+Name: api
+Host: 0.0.0.0
+Port: 6666
+
+SysRpc:
+  Etcd:
+    Hosts:
+      - localhost:2379
+    Key: sys.rpc
+

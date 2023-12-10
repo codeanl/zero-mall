@@ -1,0 +1,35 @@
+syntax = "v1"
+
+info(
+    title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+type(
+   //用户登录
+   loginReq struct {
+        Username string `json:"username"`
+        Password string `json:"password"`
+   }
+   loginResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data string `json:"data"`
+   }
+
+)
+
+@server(
+    group: sys/user
+    prefix: /api/sys/user
+)
+service api {
+    @doc(
+		summary: "登录"
+	)
+    @handler UserLogin
+    post /login (loginReq) returns (loginResp)
+}
+

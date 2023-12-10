@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package sys;
+option go_package = "./sys";
+
+//用户登录
+message LoginReq {
+  string username = 1;
+  string password = 2;
+}
+message LoginResp {
+  string Token = 1;
+  int64 UserID=2;
+}
+
+service Sys{
+  //UserLogin 用户登录
+  rpc UserLogin(LoginReq) returns(LoginResp);
+}
