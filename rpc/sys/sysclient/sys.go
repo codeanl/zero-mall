@@ -40,12 +40,26 @@ type (
 	SaveOrUpdateMenuResp   = sys.SaveOrUpdateMenuResp
 	SaveOrUpdateRoleReq    = sys.SaveOrUpdateRoleReq
 	SaveOrUpdateRoleResp   = sys.SaveOrUpdateRoleResp
+	SaveOrUpdateUserReq    = sys.SaveOrUpdateUserReq
+	SaveOrUpdateUserResp   = sys.SaveOrUpdateUserResp
 	SysLogListData         = sys.SysLogListData
 	User                   = sys.User
+	UserDeleteReq          = sys.UserDeleteReq
+	UserDeleteResp         = sys.UserDeleteResp
+	UserList               = sys.UserList
+	UserListReq            = sys.UserListReq
+	UserListResp           = sys.UserListResp
+	UserRole               = sys.UserRole
 
 	Sys interface {
 		// UserLogin 用户登录
 		UserLogin(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+		// SaveOrUpdateUser添加｜｜更新用户
+		SaveOrUpdateUser(ctx context.Context, in *SaveOrUpdateUserReq, opts ...grpc.CallOption) (*SaveOrUpdateUserResp, error)
+		// 删除用户
+		UserDelete(ctx context.Context, in *UserDeleteReq, opts ...grpc.CallOption) (*UserDeleteResp, error)
+		// 用户列表
+		UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error)
 		// SaveOrUpdateRole 添加｜｜更新角色
 		SaveOrUpdateRole(ctx context.Context, in *SaveOrUpdateRoleReq, opts ...grpc.CallOption) (*SaveOrUpdateRoleResp, error)
 		// RoleDelete 删除角色
@@ -85,6 +99,24 @@ func NewSys(cli zrpc.Client) Sys {
 func (m *defaultSys) UserLogin(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
 	client := sys.NewSysClient(m.cli.Conn())
 	return client.UserLogin(ctx, in, opts...)
+}
+
+// SaveOrUpdateUser添加｜｜更新用户
+func (m *defaultSys) SaveOrUpdateUser(ctx context.Context, in *SaveOrUpdateUserReq, opts ...grpc.CallOption) (*SaveOrUpdateUserResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.SaveOrUpdateUser(ctx, in, opts...)
+}
+
+// 删除用户
+func (m *defaultSys) UserDelete(ctx context.Context, in *UserDeleteReq, opts ...grpc.CallOption) (*UserDeleteResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.UserDelete(ctx, in, opts...)
+}
+
+// 用户列表
+func (m *defaultSys) UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.UserList(ctx, in, opts...)
 }
 
 // SaveOrUpdateRole 添加｜｜更新角色

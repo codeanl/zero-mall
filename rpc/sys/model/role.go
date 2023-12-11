@@ -12,6 +12,7 @@ type (
 		DeleteRoleByIds(ids []int64) error
 		GetRoleList(req *sys.RoleListReq) ([]*Role, int64, error)
 		GetRoleByName(name string) (role *Role, exist bool, err error)
+		GetRoleByUserID(userid int64) ([]Role, error)
 	}
 
 	defaultRoleModel struct {
@@ -87,4 +88,21 @@ func (m *defaultRoleModel) GetRoleList(req *sys.RoleListReq) ([]*Role, int64, er
 		err = db.Find(&list).Error
 	}
 	return list, total, err
+}
+
+// GetRoleByUserID 通过用户id查询用户的所有角色
+func (m *defaultRoleModel) GetRoleByUserID(userid int64) ([]Role, error) {
+	var userrole []UserRole
+	if err := m.conn.Model(&UserRole{}).Where("user_id=?", userid).Find(&userrole).Error; err != nil {
+		return nil, err
+	}
+	var roles []Role
+	for _, item := range userrole {
+		var role Role
+		if err := m.conn.Model(&Role{}).Where("id = ?", item.RoleID).First(&role).Error; err != nil {
+			return nil, err
+		}
+		roles = append(roles, role)
+	}
+	return roles, nil
 }

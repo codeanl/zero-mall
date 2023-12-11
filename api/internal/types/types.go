@@ -12,6 +12,68 @@ type LoginResp struct {
 	Data    string `json:"data"`
 }
 
+type SaveOrUpdateUserReq struct {
+	ID       int64      `json:"id,optional"`
+	Username string     `json:"username,optional"`
+	Phone    string     `json:"phone,optional"`
+	Nickname string     `json:"nickname,optional"`
+	Gender   string     `json:"gender,optional"`
+	Status   string     `json:"status,optional"`
+	Email    string     `json:"email,optional"`
+	Avatar   string     `json:"avatar,optional"`
+	UserRole []UserRole `json:"user_role,optional"`
+}
+
+type UserRole struct {
+	RoleID   int64  `json:"role_id"`
+	DataType string `json:"data_type"`
+}
+
+type SaveOrUpdateUserResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type DeleteUserReq struct {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteUserResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type ListUserReq struct {
+	PageNum  int64  `form:"page_num,default=1"`
+	PageSize int64  `form:"page_size,default=1"`
+	Nickname string `form:"nickname,optional"`
+	Phone    string `form:"phone,optional"`
+	Username string `form:"username,optional"`
+	Status   string `form:"status,optional"`
+	Gander   string `form:"gender,optional"`
+	Email    string `form:"email,optional"`
+}
+
+type ListUser struct {
+	ID       int64    `json:"id"`
+	Username string   `json:"username"`
+	NickName string   `json:"nickname"`
+	Phone    string   `json:"phone"`
+	Gander   string   `json:"gender"`
+	Avatar   string   `json:"avatar"`
+	Email    string   `json:"email"`
+	Status   string   `json:"status"`
+	CreateAt string   `json:"creat_at"`
+	RoleName []string `json:"rol_name"`
+}
+
+type ListUserResp struct {
+	Code    int64       `json:"code"`
+	Message string      `json:"message"`
+	Data    []*ListUser `json:"data"`
+	Total   int64       `json:"total"`
+}
+
 type SaveOrUpdateRoleReq struct {
 	ID     int64  `json:"id,optional"`
 	Name   string `json:"name"`
@@ -146,7 +208,7 @@ type ListSysLogData struct {
 	Time      int64  `json:"time"`
 	IP        string `json:"ip"`
 	CreateAt  string `json:"create_at"`
-	User      User   `json:"user"`
+	UserInfo  User   `json:"user"`
 }
 
 type User struct {

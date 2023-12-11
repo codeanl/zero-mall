@@ -19,6 +19,64 @@ type(
         Data string `json:"data"`
    }
 
+   SaveOrUpdateUserReq struct {
+        ID int64 `json:"id,optional"`
+        Username string `json:"username,optional"`
+        Phone string `json:"phone,optional"`
+        Nickname string `json:"nickname,optional"`
+        Gender string `json:"gender,optional"`
+        Status string `json:"status,optional"`
+        Email string `json:"email,optional"`
+        Avatar string `json:"avatar,optional"`
+        UserRole []UserRole `json:"user_role,optional"`
+   }
+   UserRole struct{
+        RoleID int64 `json:"role_id"`
+        DataType string `json:"data_type"`
+
+   }
+   SaveOrUpdateUserResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+   }
+
+   DeleteUserReq struct {
+        Ids []int64 `json:"ids"`
+   }
+   DeleteUserResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+   }
+
+    ListUserReq struct {
+        PageNum int64 `form:"page_num,default=1"`
+        PageSize int64 `form:"page_size,default=1"`
+        Nickname string `form:"nickname,optional"`
+        Phone string `form:"phone,optional"`
+        Username string `form:"username,optional"`
+        Status string `form:"status,optional"`
+        Gander string `form:"gender,optional"`
+        Email string `form:"email,optional"`
+    }
+    ListUser struct {
+        ID int64 `json:"id"`
+        Username string `json:"username"`
+        NickName string `json:"nickname"`
+        Phone string `json:"phone"`
+        Gander string `json:"gender"`
+        Avatar string `json:"avatar"`
+        Email string `json:"email"`
+        Status string `json:"status"`
+        CreateAt string `json:"creat_at"`
+        RoleName  []string `json:"rol_name"`
+    }
+    ListUserResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data []*ListUser `json:"data"`
+        Total int64 `json:"total"`
+    }
+
 )
 
 @server(
@@ -31,5 +89,17 @@ service api {
 	)
     @handler UserLogin
     post /login (loginReq) returns (loginResp)
+
+    @doc(summary: "添加｜｜更新")
+    @handler SaveOrUpdateUser
+    post / (SaveOrUpdateUserReq) returns (SaveOrUpdateUserResp)
+
+    @doc(summary: "删除")
+    @handler UserDelete
+    post /delete (DeleteUserReq) returns (DeleteUserResp)
+
+    @doc(summary: "列表")
+    @handler UserList
+    get /list (ListUserReq) returns (ListUserResp)
 }
 

@@ -12,6 +12,63 @@ message LoginResp {
   string token = 1;
   int64 user_id=2;
 }
+
+//添加｜｜更新用户
+message SaveOrUpdateUserReq {
+  int64 id=1;
+  string username = 2;
+  string phone = 3;
+  string nickname = 4;
+  string gender =5;
+  string avatar = 7;
+  string email = 8;
+  string status=9;
+  repeated UserRole user_role=10;
+}
+message UserRole {
+  int64 role_id = 1;
+  string data_type  = 2;
+}
+message SaveOrUpdateUserResp {
+  string pong = 1;
+}
+
+//删除用户
+message UserDeleteReq {
+  repeated int64 ids = 1;
+}
+message UserDeleteResp {
+  string pong = 1;
+}
+//用户列表
+message UserListReq {
+  int64 page_num = 1;
+  int64 page_size = 2;
+  string nickname = 3;
+  string phone = 4;
+  string username = 5;
+  string status = 6;
+  string gender = 7;
+  string Email = 8;
+}
+message UserList{
+  int64 id = 1;
+  string username = 2;
+  string phone = 3;
+  string nickname = 4;
+  string gender = 5;
+  string avatar = 6;
+  string email = 7;
+  string status = 8;
+  string create_at=9;
+  repeated  string RoleName=10;
+}
+
+message UserListResp {
+  int64 total = 1;
+  repeated UserList list = 2;
+}
+
 //用户
 message User {
   int64 id = 1;
@@ -175,6 +232,13 @@ message OperationLogDeleteResp {
 service Sys{
   //UserLogin 用户登录
   rpc UserLogin(LoginReq) returns(LoginResp);
+  //SaveOrUpdateUser 添加｜｜更新用户
+  rpc SaveOrUpdateUser(SaveOrUpdateUserReq) returns(SaveOrUpdateUserResp);
+  //删除用户
+  rpc UserDelete(UserDeleteReq) returns(UserDeleteResp);
+  //用户列表
+  rpc UserList(UserListReq) returns(UserListResp);
+
 
   //SaveOrUpdateRole 添加｜｜更新角色
   rpc SaveOrUpdateRole(SaveOrUpdateRoleReq) returns(SaveOrUpdateRoleResp);

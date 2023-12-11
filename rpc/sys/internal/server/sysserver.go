@@ -28,6 +28,24 @@ func (s *SysServer) UserLogin(ctx context.Context, in *sys.LoginReq) (*sys.Login
 	return l.UserLogin(in)
 }
 
+// SaveOrUpdateUser添加｜｜更新用户
+func (s *SysServer) SaveOrUpdateUser(ctx context.Context, in *sys.SaveOrUpdateUserReq) (*sys.SaveOrUpdateUserResp, error) {
+	l := logic.NewSaveOrUpdateUserLogic(ctx, s.svcCtx)
+	return l.SaveOrUpdateUser(in)
+}
+
+// 删除用户
+func (s *SysServer) UserDelete(ctx context.Context, in *sys.UserDeleteReq) (*sys.UserDeleteResp, error) {
+	l := logic.NewUserDeleteLogic(ctx, s.svcCtx)
+	return l.UserDelete(in)
+}
+
+// 用户列表
+func (s *SysServer) UserList(ctx context.Context, in *sys.UserListReq) (*sys.UserListResp, error) {
+	l := logic.NewUserListLogic(ctx, s.svcCtx)
+	return l.UserList(in)
+}
+
 // SaveOrUpdateRole 添加｜｜更新角色
 func (s *SysServer) SaveOrUpdateRole(ctx context.Context, in *sys.SaveOrUpdateRoleReq) (*sys.SaveOrUpdateRoleResp, error) {
 	l := logic.NewSaveOrUpdateRoleLogic(ctx, s.svcCtx)

@@ -22,6 +22,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/login",
 				Handler: sysuser.UserLoginHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/",
+				Handler: sysuser.SaveOrUpdateUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: sysuser.UserDeleteHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: sysuser.UserListHandler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/api/sys/user"),
 	)

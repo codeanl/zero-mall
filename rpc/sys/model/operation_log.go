@@ -20,8 +20,8 @@ type (
 		gorm.Model
 		UserID    int64  `json:"user_id" gorm:"type:bigint;comment:用户名;not null"`          //用户名
 		Operation string `json:"operation" gorm:"type:varchar(191);comment:用户操作;not null"` //用户操作
-		Method    string `json:"method" gorm:"type:varchar(191);comment:请求方法;not null"`    //请求方法
-		Params    string `json:"params" gorm:"type:varchar(191);comment:请求参数;not null"`    //请求参数
+		Method    string `json:"method" gorm:"type:varchar(1000);comment:请求方法;not null"`   //请求方法
+		Params    string `json:"params" gorm:"type:varchar(1000);comment:请求参数;not null"`   //请求参数
 		Time      int64  `json:"time" gorm:"type:varchar(191);comment:执行时长(毫秒);not null"`  //执行时长(毫秒)
 		IP        string `json:"ip" gorm:"type:varchar(191);comment:IP地址;not null"`        //IP地址
 	}

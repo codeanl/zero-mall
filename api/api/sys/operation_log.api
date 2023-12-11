@@ -21,7 +21,7 @@ type (
         Time int64 `json:"time"`
         IP string `json:"ip"`
         CreateAt string `json:"create_at"`
-        User User `json:"user"`
+        UserInfo User `json:"user"`
     }
 
     User struct {

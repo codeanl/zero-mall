@@ -20,6 +20,9 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	Sys_UserLogin_FullMethodName          = "/sys.Sys/UserLogin"
+	Sys_SaveOrUpdateUser_FullMethodName   = "/sys.Sys/SaveOrUpdateUser"
+	Sys_UserDelete_FullMethodName         = "/sys.Sys/UserDelete"
+	Sys_UserList_FullMethodName           = "/sys.Sys/UserList"
 	Sys_SaveOrUpdateRole_FullMethodName   = "/sys.Sys/SaveOrUpdateRole"
 	Sys_RoleDelete_FullMethodName         = "/sys.Sys/RoleDelete"
 	Sys_RoleList_FullMethodName           = "/sys.Sys/RoleList"
@@ -39,6 +42,12 @@ const (
 type SysClient interface {
 	// UserLogin 用户登录
 	UserLogin(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+	// SaveOrUpdateUser添加｜｜更新用户
+	SaveOrUpdateUser(ctx context.Context, in *SaveOrUpdateUserReq, opts ...grpc.CallOption) (*SaveOrUpdateUserResp, error)
+	// 删除用户
+	UserDelete(ctx context.Context, in *UserDeleteReq, opts ...grpc.CallOption) (*UserDeleteResp, error)
+	// 用户列表
+	UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error)
 	// SaveOrUpdateRole 添加｜｜更新角色
 	SaveOrUpdateRole(ctx context.Context, in *SaveOrUpdateRoleReq, opts ...grpc.CallOption) (*SaveOrUpdateRoleResp, error)
 	// RoleDelete 删除角色
@@ -74,6 +83,33 @@ func NewSysClient(cc grpc.ClientConnInterface) SysClient {
 func (c *sysClient) UserLogin(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
 	out := new(LoginResp)
 	err := c.cc.Invoke(ctx, Sys_UserLogin_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) SaveOrUpdateUser(ctx context.Context, in *SaveOrUpdateUserReq, opts ...grpc.CallOption) (*SaveOrUpdateUserResp, error) {
+	out := new(SaveOrUpdateUserResp)
+	err := c.cc.Invoke(ctx, Sys_SaveOrUpdateUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) UserDelete(ctx context.Context, in *UserDeleteReq, opts ...grpc.CallOption) (*UserDeleteResp, error) {
+	out := new(UserDeleteResp)
+	err := c.cc.Invoke(ctx, Sys_UserDelete_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error) {
+	out := new(UserListResp)
+	err := c.cc.Invoke(ctx, Sys_UserList_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -185,6 +221,12 @@ func (c *sysClient) OperationLogDelete(ctx context.Context, in *OperationLogDele
 type SysServer interface {
 	// UserLogin 用户登录
 	UserLogin(context.Context, *LoginReq) (*LoginResp, error)
+	// SaveOrUpdateUser添加｜｜更新用户
+	SaveOrUpdateUser(context.Context, *SaveOrUpdateUserReq) (*SaveOrUpdateUserResp, error)
+	// 删除用户
+	UserDelete(context.Context, *UserDeleteReq) (*UserDeleteResp, error)
+	// 用户列表
+	UserList(context.Context, *UserListReq) (*UserListResp, error)
 	// SaveOrUpdateRole 添加｜｜更新角色
 	SaveOrUpdateRole(context.Context, *SaveOrUpdateRoleReq) (*SaveOrUpdateRoleResp, error)
 	// RoleDelete 删除角色
@@ -216,6 +258,15 @@ type UnimplementedSysServer struct {
 
 func (UnimplementedSysServer) UserLogin(context.Context, *LoginReq) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
+}
+func (UnimplementedSysServer) SaveOrUpdateUser(context.Context, *SaveOrUpdateUserReq) (*SaveOrUpdateUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveOrUpdateUser not implemented")
+}
+func (UnimplementedSysServer) UserDelete(context.Context, *UserDeleteReq) (*UserDeleteResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserDelete not implemented")
+}
+func (UnimplementedSysServer) UserList(context.Context, *UserListReq) (*UserListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserList not implemented")
 }
 func (UnimplementedSysServer) SaveOrUpdateRole(context.Context, *SaveOrUpdateRoleReq) (*SaveOrUpdateRoleResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveOrUpdateRole not implemented")
@@ -277,6 +328,60 @@ func _Sys_UserLogin_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SysServer).UserLogin(ctx, req.(*LoginReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_SaveOrUpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveOrUpdateUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).SaveOrUpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_SaveOrUpdateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).SaveOrUpdateUser(ctx, req.(*SaveOrUpdateUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_UserDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserDeleteReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).UserDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_UserDelete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).UserDelete(ctx, req.(*UserDeleteReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_UserList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).UserList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_UserList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).UserList(ctx, req.(*UserListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -489,6 +594,18 @@ var Sys_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserLogin",
 			Handler:    _Sys_UserLogin_Handler,
+		},
+		{
+			MethodName: "SaveOrUpdateUser",
+			Handler:    _Sys_SaveOrUpdateUser_Handler,
+		},
+		{
+			MethodName: "UserDelete",
+			Handler:    _Sys_UserDelete_Handler,
+		},
+		{
+			MethodName: "UserList",
+			Handler:    _Sys_UserList_Handler,
 		},
 		{
 			MethodName: "SaveOrUpdateRole",
