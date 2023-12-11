@@ -4,7 +4,9 @@ package handler
 import (
 	"net/http"
 
+	syslogin_log "simple_mall_new/api/internal/handler/sys/login_log"
 	sysmenu "simple_mall_new/api/internal/handler/sys/menu"
+	sysoperation_log "simple_mall_new/api/internal/handler/sys/operation_log"
 	sysrole "simple_mall_new/api/internal/handler/sys/role"
 	sysuser "simple_mall_new/api/internal/handler/sys/user"
 	"simple_mall_new/api/internal/svc"
@@ -66,5 +68,39 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/sys/menu"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: syslogin_log.LoginLogListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: syslogin_log.LoginLogDeleteHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/sys/login_log"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: sysoperation_log.OperationLogListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: sysoperation_log.OperationLogDeleteHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/sys/operation_log"),
 	)
 }

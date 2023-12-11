@@ -19,13 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Sys_UserLogin_FullMethodName        = "/sys.Sys/UserLogin"
-	Sys_SaveOrUpdateRole_FullMethodName = "/sys.Sys/SaveOrUpdateRole"
-	Sys_RoleDelete_FullMethodName       = "/sys.Sys/RoleDelete"
-	Sys_RoleList_FullMethodName         = "/sys.Sys/RoleList"
-	Sys_SaveOrUpdateMenu_FullMethodName = "/sys.Sys/SaveOrUpdateMenu"
-	Sys_MenuList_FullMethodName         = "/sys.Sys/MenuList"
-	Sys_MenuDelete_FullMethodName       = "/sys.Sys/MenuDelete"
+	Sys_UserLogin_FullMethodName          = "/sys.Sys/UserLogin"
+	Sys_SaveOrUpdateRole_FullMethodName   = "/sys.Sys/SaveOrUpdateRole"
+	Sys_RoleDelete_FullMethodName         = "/sys.Sys/RoleDelete"
+	Sys_RoleList_FullMethodName           = "/sys.Sys/RoleList"
+	Sys_SaveOrUpdateMenu_FullMethodName   = "/sys.Sys/SaveOrUpdateMenu"
+	Sys_MenuList_FullMethodName           = "/sys.Sys/MenuList"
+	Sys_MenuDelete_FullMethodName         = "/sys.Sys/MenuDelete"
+	Sys_LoginLogList_FullMethodName       = "/sys.Sys/LoginLogList"
+	Sys_LoginLogDelete_FullMethodName     = "/sys.Sys/LoginLogDelete"
+	Sys_OperationLogAdd_FullMethodName    = "/sys.Sys/OperationLogAdd"
+	Sys_OperationLogList_FullMethodName   = "/sys.Sys/OperationLogList"
+	Sys_OperationLogDelete_FullMethodName = "/sys.Sys/OperationLogDelete"
 )
 
 // SysClient is the client API for Sys service.
@@ -42,10 +47,20 @@ type SysClient interface {
 	RoleList(ctx context.Context, in *RoleListReq, opts ...grpc.CallOption) (*RoleListResp, error)
 	// SaveOrUpdateMenu 添加｜｜更新菜单
 	SaveOrUpdateMenu(ctx context.Context, in *SaveOrUpdateMenuReq, opts ...grpc.CallOption) (*SaveOrUpdateMenuResp, error)
-	// 菜单列表
+	// MenuList 菜单列表
 	MenuList(ctx context.Context, in *MenuListReq, opts ...grpc.CallOption) (*MenuListResp, error)
-	// 删除菜单
+	// MenuDelete 删除菜单
 	MenuDelete(ctx context.Context, in *MenuDeleteReq, opts ...grpc.CallOption) (*MenuDeleteResp, error)
+	// LoginLogList 登录日志列表
+	LoginLogList(ctx context.Context, in *LoginLogListReq, opts ...grpc.CallOption) (*LoginLogListResp, error)
+	// LoginLogDelete 删除登录日志
+	LoginLogDelete(ctx context.Context, in *LoginLogDeleteReq, opts ...grpc.CallOption) (*LoginLogDeleteResp, error)
+	// 添加日志
+	OperationLogAdd(ctx context.Context, in *OperationLogAddReq, opts ...grpc.CallOption) (*OperationLogAddResp, error)
+	// 日志列表
+	OperationLogList(ctx context.Context, in *OperationLogListReq, opts ...grpc.CallOption) (*OperationLogListResp, error)
+	// 删除日志
+	OperationLogDelete(ctx context.Context, in *OperationLogDeleteReq, opts ...grpc.CallOption) (*OperationLogDeleteResp, error)
 }
 
 type sysClient struct {
@@ -119,6 +134,51 @@ func (c *sysClient) MenuDelete(ctx context.Context, in *MenuDeleteReq, opts ...g
 	return out, nil
 }
 
+func (c *sysClient) LoginLogList(ctx context.Context, in *LoginLogListReq, opts ...grpc.CallOption) (*LoginLogListResp, error) {
+	out := new(LoginLogListResp)
+	err := c.cc.Invoke(ctx, Sys_LoginLogList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) LoginLogDelete(ctx context.Context, in *LoginLogDeleteReq, opts ...grpc.CallOption) (*LoginLogDeleteResp, error) {
+	out := new(LoginLogDeleteResp)
+	err := c.cc.Invoke(ctx, Sys_LoginLogDelete_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) OperationLogAdd(ctx context.Context, in *OperationLogAddReq, opts ...grpc.CallOption) (*OperationLogAddResp, error) {
+	out := new(OperationLogAddResp)
+	err := c.cc.Invoke(ctx, Sys_OperationLogAdd_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) OperationLogList(ctx context.Context, in *OperationLogListReq, opts ...grpc.CallOption) (*OperationLogListResp, error) {
+	out := new(OperationLogListResp)
+	err := c.cc.Invoke(ctx, Sys_OperationLogList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) OperationLogDelete(ctx context.Context, in *OperationLogDeleteReq, opts ...grpc.CallOption) (*OperationLogDeleteResp, error) {
+	out := new(OperationLogDeleteResp)
+	err := c.cc.Invoke(ctx, Sys_OperationLogDelete_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SysServer is the server API for Sys service.
 // All implementations must embed UnimplementedSysServer
 // for forward compatibility
@@ -133,10 +193,20 @@ type SysServer interface {
 	RoleList(context.Context, *RoleListReq) (*RoleListResp, error)
 	// SaveOrUpdateMenu 添加｜｜更新菜单
 	SaveOrUpdateMenu(context.Context, *SaveOrUpdateMenuReq) (*SaveOrUpdateMenuResp, error)
-	// 菜单列表
+	// MenuList 菜单列表
 	MenuList(context.Context, *MenuListReq) (*MenuListResp, error)
-	// 删除菜单
+	// MenuDelete 删除菜单
 	MenuDelete(context.Context, *MenuDeleteReq) (*MenuDeleteResp, error)
+	// LoginLogList 登录日志列表
+	LoginLogList(context.Context, *LoginLogListReq) (*LoginLogListResp, error)
+	// LoginLogDelete 删除登录日志
+	LoginLogDelete(context.Context, *LoginLogDeleteReq) (*LoginLogDeleteResp, error)
+	// 添加日志
+	OperationLogAdd(context.Context, *OperationLogAddReq) (*OperationLogAddResp, error)
+	// 日志列表
+	OperationLogList(context.Context, *OperationLogListReq) (*OperationLogListResp, error)
+	// 删除日志
+	OperationLogDelete(context.Context, *OperationLogDeleteReq) (*OperationLogDeleteResp, error)
 	mustEmbedUnimplementedSysServer()
 }
 
@@ -164,6 +234,21 @@ func (UnimplementedSysServer) MenuList(context.Context, *MenuListReq) (*MenuList
 }
 func (UnimplementedSysServer) MenuDelete(context.Context, *MenuDeleteReq) (*MenuDeleteResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MenuDelete not implemented")
+}
+func (UnimplementedSysServer) LoginLogList(context.Context, *LoginLogListReq) (*LoginLogListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoginLogList not implemented")
+}
+func (UnimplementedSysServer) LoginLogDelete(context.Context, *LoginLogDeleteReq) (*LoginLogDeleteResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoginLogDelete not implemented")
+}
+func (UnimplementedSysServer) OperationLogAdd(context.Context, *OperationLogAddReq) (*OperationLogAddResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OperationLogAdd not implemented")
+}
+func (UnimplementedSysServer) OperationLogList(context.Context, *OperationLogListReq) (*OperationLogListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OperationLogList not implemented")
+}
+func (UnimplementedSysServer) OperationLogDelete(context.Context, *OperationLogDeleteReq) (*OperationLogDeleteResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OperationLogDelete not implemented")
 }
 func (UnimplementedSysServer) mustEmbedUnimplementedSysServer() {}
 
@@ -304,6 +389,96 @@ func _Sys_MenuDelete_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Sys_LoginLogList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginLogListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).LoginLogList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_LoginLogList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).LoginLogList(ctx, req.(*LoginLogListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_LoginLogDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginLogDeleteReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).LoginLogDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_LoginLogDelete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).LoginLogDelete(ctx, req.(*LoginLogDeleteReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_OperationLogAdd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OperationLogAddReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).OperationLogAdd(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_OperationLogAdd_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).OperationLogAdd(ctx, req.(*OperationLogAddReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_OperationLogList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OperationLogListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).OperationLogList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_OperationLogList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).OperationLogList(ctx, req.(*OperationLogListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_OperationLogDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OperationLogDeleteReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).OperationLogDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_OperationLogDelete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).OperationLogDelete(ctx, req.(*OperationLogDeleteReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Sys_ServiceDesc is the grpc.ServiceDesc for Sys service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -338,6 +513,26 @@ var Sys_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MenuDelete",
 			Handler:    _Sys_MenuDelete_Handler,
+		},
+		{
+			MethodName: "LoginLogList",
+			Handler:    _Sys_LoginLogList_Handler,
+		},
+		{
+			MethodName: "LoginLogDelete",
+			Handler:    _Sys_LoginLogDelete_Handler,
+		},
+		{
+			MethodName: "OperationLogAdd",
+			Handler:    _Sys_OperationLogAdd_Handler,
+		},
+		{
+			MethodName: "OperationLogList",
+			Handler:    _Sys_OperationLogList_Handler,
+		},
+		{
+			MethodName: "OperationLogDelete",
+			Handler:    _Sys_OperationLogDelete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

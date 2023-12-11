@@ -52,14 +52,44 @@ func (s *SysServer) SaveOrUpdateMenu(ctx context.Context, in *sys.SaveOrUpdateMe
 	return l.SaveOrUpdateMenu(in)
 }
 
-// 菜单列表
+// MenuList 菜单列表
 func (s *SysServer) MenuList(ctx context.Context, in *sys.MenuListReq) (*sys.MenuListResp, error) {
 	l := logic.NewMenuListLogic(ctx, s.svcCtx)
 	return l.MenuList(in)
 }
 
-// 删除菜单
+// MenuDelete 删除菜单
 func (s *SysServer) MenuDelete(ctx context.Context, in *sys.MenuDeleteReq) (*sys.MenuDeleteResp, error) {
 	l := logic.NewMenuDeleteLogic(ctx, s.svcCtx)
 	return l.MenuDelete(in)
+}
+
+// LoginLogList 登录日志列表
+func (s *SysServer) LoginLogList(ctx context.Context, in *sys.LoginLogListReq) (*sys.LoginLogListResp, error) {
+	l := logic.NewLoginLogListLogic(ctx, s.svcCtx)
+	return l.LoginLogList(in)
+}
+
+// LoginLogDelete 删除登录日志
+func (s *SysServer) LoginLogDelete(ctx context.Context, in *sys.LoginLogDeleteReq) (*sys.LoginLogDeleteResp, error) {
+	l := logic.NewLoginLogDeleteLogic(ctx, s.svcCtx)
+	return l.LoginLogDelete(in)
+}
+
+// 添加日志
+func (s *SysServer) OperationLogAdd(ctx context.Context, in *sys.OperationLogAddReq) (*sys.OperationLogAddResp, error) {
+	l := logic.NewOperationLogAddLogic(ctx, s.svcCtx)
+	return l.OperationLogAdd(in)
+}
+
+// 日志列表
+func (s *SysServer) OperationLogList(ctx context.Context, in *sys.OperationLogListReq) (*sys.OperationLogListResp, error) {
+	l := logic.NewOperationLogListLogic(ctx, s.svcCtx)
+	return l.OperationLogList(in)
+}
+
+// 删除日志
+func (s *SysServer) OperationLogDelete(ctx context.Context, in *sys.OperationLogDeleteReq) (*sys.OperationLogDeleteResp, error) {
+	l := logic.NewOperationLogDeleteLogic(ctx, s.svcCtx)
+	return l.OperationLogDelete(in)
 }

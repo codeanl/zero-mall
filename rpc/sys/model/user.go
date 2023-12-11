@@ -7,6 +7,7 @@ import (
 type (
 	UserModel interface {
 		GetUserByUsername(username string) (user *User, exist bool, err error)
+		GetUserByID(id int64) (user *User, err error)
 	}
 	defaultUserModel struct {
 		conn *gorm.DB
@@ -44,4 +45,8 @@ func (m *defaultUserModel) GetUserByUsername(username string) (user *User, exist
 		return nil, false, err
 	}
 	return user, true, nil
+}
+func (m *defaultUserModel) GetUserByID(id int64) (user *User, err error) {
+	err = m.conn.Model(&User{}).Where("id=?", id).First(&user).Error
+	return user, err
 }

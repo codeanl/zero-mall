@@ -100,3 +100,79 @@ type DeleteMenuResp struct {
 	Code    int64  `json:"code"`
 	Message string `json:"message"`
 }
+
+type ListLoginLogReq struct {
+	PageNum  int64 `form:"page_num,default=1"`
+	PageSize int64 `form:"page_size,default=10"`
+	UserID   int64 `form:"user_id,optional"`
+}
+
+type ListLoginLogData struct {
+	ID       int64  `json:"id"`
+	UserId   int64  `json:"user_id"`
+	IP       string `json:"ip"`
+	Address  string `json:"address"`
+	CreateAt string `json:"create_at"`
+}
+
+type ListLoginLogResp struct {
+	Code    int64               `json:"code"`
+	Message string              `json:"message"`
+	Total   int64               `json:"total"`
+	Data    []*ListLoginLogData `json:"data"`
+}
+
+type DeleteLoginLogReq struct {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteLoginLogResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type OperationLogListReq struct {
+	PageNum  int64  `form:"page_num,default=1"`
+	PageSize int64  `form:"page_size,default=20"`
+	Method   string `form:"method,optional"`
+}
+
+type ListSysLogData struct {
+	Id        int64  `json:"id"`
+	UserId    int64  `json:"user_id"`
+	Operation string `json:"operation"`
+	Method    string `json:"method"`
+	Params    string `json:"params"`
+	Time      int64  `json:"time"`
+	IP        string `json:"ip"`
+	CreateAt  string `json:"create_at"`
+	User      User   `json:"user"`
+}
+
+type User struct {
+	Id       int64  `json:"id"`
+	Username string `json:"username"`
+	Phone    string `json:"phone"`
+	Nickname string `json:"nickname"`
+	Password string `json:"password"`
+	Gender   string `json:"gender"`
+	Avatar   string `json:"avatar"`
+	Email    string `json:"email"`
+	Status   string `json:"status"`
+}
+
+type OperationLogListResp struct {
+	Code    int64             `json:"code"`
+	Message string            `json:"message"`
+	Data    []*ListSysLogData `json:"data"`
+	Total   int64             `json:"total"`
+}
+
+type OperationLogDeleteReq struct {
+	Ids []int64 `json:"ids"`
+}
+
+type OperationLogDeleteResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}

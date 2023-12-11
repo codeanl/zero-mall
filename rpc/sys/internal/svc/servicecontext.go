@@ -7,23 +7,25 @@ import (
 )
 
 type ServiceContext struct {
-	Config        config.Config
-	UserModel     model.UserModel
-	LoginLogModel model.LoginLogModel
-	RoleModel     model.RoleModel
-	UserRoleModel model.UserRoleModel
-	MenuModel     model.MenuModel
+	Config            config.Config
+	UserModel         model.UserModel
+	LoginLogModel     model.LoginLogModel
+	RoleModel         model.RoleModel
+	UserRoleModel     model.UserRoleModel
+	MenuModel         model.MenuModel
+	OperationLogModel model.OperationLogModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	mysql := c.Mysql
 	conn := utils.InitMysql(mysql.DataSource)
 	return &ServiceContext{
-		Config:        c,
-		UserModel:     model.NewUserModel(conn),
-		LoginLogModel: model.NewLoginLogModel(conn),
-		RoleModel:     model.NewRoleModel(conn),
-		UserRoleModel: model.NewUserRoleModel(conn),
-		MenuModel:     model.NewMenuModel(conn),
+		Config:            c,
+		UserModel:         model.NewUserModel(conn),
+		LoginLogModel:     model.NewLoginLogModel(conn),
+		RoleModel:         model.NewRoleModel(conn),
+		UserRoleModel:     model.NewUserRoleModel(conn),
+		MenuModel:         model.NewMenuModel(conn),
+		OperationLogModel: model.NewOperationLogModel(conn),
 	}
 }

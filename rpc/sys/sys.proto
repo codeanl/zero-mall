@@ -12,8 +12,17 @@ message LoginResp {
   string token = 1;
   int64 user_id=2;
 }
-
-
+//用户
+message User {
+  int64 id = 1;
+  string username =2;
+  string phone=3;
+  string nickname=4;
+  string gender=5;
+  string avatar=6;
+  string email=7;
+  string status=8;
+}
 
 //添加｜｜更新角色
 message SaveOrUpdateRoleReq {
@@ -94,6 +103,75 @@ message MenuListResp{
   repeated MenuList MenuList =  1;
 }
 
+//登录日志列表
+message LoginLogListReq {
+  int64 page_num = 1;
+  int64 page_size = 2;
+  int64 user_id = 3;
+}
+message LoginLogListData {
+  int64 id = 1;
+  int64 user_id=2;
+  string ip = 3;
+  string address = 4;
+  string create_at = 5;
+}
+message LoginLogListResp{
+  int64 total = 1;
+  repeated  LoginLogListData list = 2;
+}
+//删除登录日志
+message LoginLogDeleteReq {
+  repeated int64 ids = 1;
+}
+message LoginLogDeleteResp {
+  string pong = 1;
+}
+
+
+// 添加日志
+message OperationLogAddReq {
+  int64 user_id = 1;
+  string operation = 2;
+  string method = 3;
+  string params = 4;
+  int64 time = 5;
+  string ip = 6;
+}
+message OperationLogAddResp {
+  string pong = 1;
+}
+// 日志列表
+message OperationLogListReq {
+  int64 page_num = 1;
+  int64 page_size = 2;
+  int64 user_id = 3;
+  string method = 4;
+}
+message SysLogListData {
+  int64 id = 1;
+  int64 user_id = 2;
+  string operation = 3;
+  string method = 4;
+  string params = 5;
+  int64 time = 6;
+  string ip = 7;
+  string create_at = 9;
+  User user=10;
+}
+
+message OperationLogListResp{
+  int64 total = 1;
+  repeated  SysLogListData list = 2;
+}
+// 删除日志
+message OperationLogDeleteReq {
+  repeated int64 ids = 1;
+}
+message OperationLogDeleteResp {
+  string pong = 1;
+}
+
 service Sys{
   //UserLogin 用户登录
   rpc UserLogin(LoginReq) returns(LoginResp);
@@ -108,8 +186,20 @@ service Sys{
 
   //SaveOrUpdateMenu 添加｜｜更新菜单
   rpc SaveOrUpdateMenu(SaveOrUpdateMenuReq) returns(SaveOrUpdateMenuResp);
-  //菜单列表
+  //MenuList 菜单列表
   rpc MenuList(MenuListReq) returns(MenuListResp);
-  //删除菜单
+  //MenuDelete 删除菜单
   rpc MenuDelete(MenuDeleteReq) returns(MenuDeleteResp);
+
+  //LoginLogList 登录日志列表
+  rpc LoginLogList(LoginLogListReq) returns(LoginLogListResp);
+  //LoginLogDelete 删除登录日志
+  rpc LoginLogDelete(LoginLogDeleteReq) returns(LoginLogDeleteResp);
+
+  // 添加日志
+  rpc OperationLogAdd(OperationLogAddReq) returns(OperationLogAddResp);
+  // 日志列表
+  rpc OperationLogList(OperationLogListReq) returns(OperationLogListResp);
+  // 删除日志
+  rpc OperationLogDelete(OperationLogDeleteReq) returns(OperationLogDeleteResp);
 }

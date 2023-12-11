@@ -1,0 +1,49 @@
+info(
+  title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+
+type (
+    ListLoginLogReq struct {
+        PageNum int64 `form:"page_num,default=1"`
+        PageSize int64 `form:"page_size,default=10"`
+        UserID int64 `form:"user_id,optional"`
+    }
+    ListLoginLogData struct {
+        ID int64 `json:"id"`
+        UserId   int64 `json:"user_id"`
+        IP string `json:"ip"`
+        Address string `json:"address"`
+        CreateAt string `json:"create_at"`
+    }
+
+    ListLoginLogResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Total int64 `json:"total"`
+        Data []*ListLoginLogData `json:"data"`
+    }
+    DeleteLoginLogReq struct {
+        Ids []int64 `json:"ids"`
+    }
+    DeleteLoginLogResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+)
+
+@server(
+    jwt: Auth
+    group: sys/login_log
+    prefix: /api/sys/login_log
+)
+service api {
+    @handler LoginLogList
+    get /list (ListLoginLogReq) returns (ListLoginLogResp)
+
+    @handler LoginLogDelete
+    post /delete (DeleteLoginLogReq) returns (DeleteLoginLogResp)
+}
