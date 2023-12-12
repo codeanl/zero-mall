@@ -77,6 +77,16 @@ type(
         Total int64 `json:"total"`
     }
 
+    UpdatePasswordReq struct{
+       ID  int64 `json:"id,optional"`
+       Type  string `json:"type"`
+       OldPassword  string `json:"old_password,optional"`
+       NewPassword  string `json:"new_password,optional"`
+    }
+    UpdatePasswordResp struct{
+       Code int64 `json:"code"`
+       Message string `json:"message"`
+    }
 )
 
 @server(
@@ -89,7 +99,14 @@ service api {
 	)
     @handler UserLogin
     post /login (loginReq) returns (loginResp)
+}
 
+@server(
+    jwt:Auth
+    group: sys/user
+    prefix: /api/sys/user
+)
+service api {
     @doc(summary: "添加｜｜更新")
     @handler SaveOrUpdateUser
     post / (SaveOrUpdateUserReq) returns (SaveOrUpdateUserResp)
@@ -101,5 +118,9 @@ service api {
     @doc(summary: "列表")
     @handler UserList
     get /list (ListUserReq) returns (ListUserResp)
+
+    @doc(summary: "更新密码｜｜重置密码")
+    @handler UpdatePassword
+    post /update_pass (UpdatePasswordReq) returns (UpdatePasswordResp)
 }
 

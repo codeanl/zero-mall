@@ -28,7 +28,7 @@ func (s *SysServer) UserLogin(ctx context.Context, in *sys.LoginReq) (*sys.Login
 	return l.UserLogin(in)
 }
 
-// SaveOrUpdateUser添加｜｜更新用户
+// SaveOrUpdateUser 添加｜｜更新用户
 func (s *SysServer) SaveOrUpdateUser(ctx context.Context, in *sys.SaveOrUpdateUserReq) (*sys.SaveOrUpdateUserResp, error) {
 	l := logic.NewSaveOrUpdateUserLogic(ctx, s.svcCtx)
 	return l.SaveOrUpdateUser(in)
@@ -44,6 +44,18 @@ func (s *SysServer) UserDelete(ctx context.Context, in *sys.UserDeleteReq) (*sys
 func (s *SysServer) UserList(ctx context.Context, in *sys.UserListReq) (*sys.UserListResp, error) {
 	l := logic.NewUserListLogic(ctx, s.svcCtx)
 	return l.UserList(in)
+}
+
+// 更新密码｜｜重置密码
+func (s *SysServer) UpdatePassword(ctx context.Context, in *sys.UpdatePasswordReq) (*sys.UpdatePasswordResp, error) {
+	l := logic.NewUpdatePasswordLogic(ctx, s.svcCtx)
+	return l.UpdatePassword(in)
+}
+
+// 用户信息
+func (s *SysServer) UserInfo(ctx context.Context, in *sys.UserInfoReq) (*sys.UserInfoResp, error) {
+	l := logic.NewUserInfoLogic(ctx, s.svcCtx)
+	return l.UserInfo(in)
 }
 
 // SaveOrUpdateRole 添加｜｜更新角色

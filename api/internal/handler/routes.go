@@ -22,6 +22,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/login",
 				Handler: sysuser.UserLoginHandler(serverCtx),
 			},
+		},
+		rest.WithPrefix("/api/sys/user"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/",
@@ -37,7 +43,13 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/list",
 				Handler: sysuser.UserListHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/update_pass",
+				Handler: sysuser.UpdatePasswordHandler(serverCtx),
+			},
 		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/sys/user"),
 	)
 

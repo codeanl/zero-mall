@@ -74,6 +74,18 @@ type ListUserResp struct {
 	Total   int64       `json:"total"`
 }
 
+type UpdatePasswordReq struct {
+	ID          int64  `json:"id,optional"`
+	Type        string `json:"type"`
+	OldPassword string `json:"old_password,optional"`
+	NewPassword string `json:"new_password,optional"`
+}
+
+type UpdatePasswordResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
 type SaveOrUpdateRoleReq struct {
 	ID     int64  `json:"id,optional"`
 	Name   string `json:"name"`

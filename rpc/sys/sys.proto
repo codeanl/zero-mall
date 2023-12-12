@@ -68,7 +68,17 @@ message UserListResp {
   int64 total = 1;
   repeated UserList list = 2;
 }
+//更新密码｜｜重置密码
+message UpdatePasswordReq {
+  int64 id = 1;
+  string type=2;
+  string old_password=3;
+  string new_password=4;
 
+}
+message UpdatePasswordResp {
+  string pong = 1;
+}
 //用户
 message User {
   int64 id = 1;
@@ -79,6 +89,16 @@ message User {
   string avatar=6;
   string email=7;
   string status=8;
+  string create_at=13;
+}
+
+//用户信息
+message UserInfoReq {
+  int64 id = 1;
+}
+message UserInfoResp {
+  User user=1;
+  repeated RoleListData roles = 5;
 }
 
 //添加｜｜更新角色
@@ -238,7 +258,10 @@ service Sys{
   rpc UserDelete(UserDeleteReq) returns(UserDeleteResp);
   //用户列表
   rpc UserList(UserListReq) returns(UserListResp);
-
+  //更新密码｜｜重置密码
+  rpc UpdatePassword(UpdatePasswordReq) returns(UpdatePasswordResp);
+  //用户信息
+  rpc UserInfo(UserInfoReq) returns(UserInfoResp);
 
   //SaveOrUpdateRole 添加｜｜更新角色
   rpc SaveOrUpdateRole(SaveOrUpdateRoleReq) returns(SaveOrUpdateRoleResp);

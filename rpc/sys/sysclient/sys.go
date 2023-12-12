@@ -43,9 +43,13 @@ type (
 	SaveOrUpdateUserReq    = sys.SaveOrUpdateUserReq
 	SaveOrUpdateUserResp   = sys.SaveOrUpdateUserResp
 	SysLogListData         = sys.SysLogListData
+	UpdatePasswordReq      = sys.UpdatePasswordReq
+	UpdatePasswordResp     = sys.UpdatePasswordResp
 	User                   = sys.User
 	UserDeleteReq          = sys.UserDeleteReq
 	UserDeleteResp         = sys.UserDeleteResp
+	UserInfoReq            = sys.UserInfoReq
+	UserInfoResp           = sys.UserInfoResp
 	UserList               = sys.UserList
 	UserListReq            = sys.UserListReq
 	UserListResp           = sys.UserListResp
@@ -54,12 +58,16 @@ type (
 	Sys interface {
 		// UserLogin 用户登录
 		UserLogin(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-		// SaveOrUpdateUser添加｜｜更新用户
+		// SaveOrUpdateUser 添加｜｜更新用户
 		SaveOrUpdateUser(ctx context.Context, in *SaveOrUpdateUserReq, opts ...grpc.CallOption) (*SaveOrUpdateUserResp, error)
 		// 删除用户
 		UserDelete(ctx context.Context, in *UserDeleteReq, opts ...grpc.CallOption) (*UserDeleteResp, error)
 		// 用户列表
 		UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error)
+		// 更新密码｜｜重置密码
+		UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error)
+		// 用户信息
+		UserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 		// SaveOrUpdateRole 添加｜｜更新角色
 		SaveOrUpdateRole(ctx context.Context, in *SaveOrUpdateRoleReq, opts ...grpc.CallOption) (*SaveOrUpdateRoleResp, error)
 		// RoleDelete 删除角色
@@ -101,7 +109,7 @@ func (m *defaultSys) UserLogin(ctx context.Context, in *LoginReq, opts ...grpc.C
 	return client.UserLogin(ctx, in, opts...)
 }
 
-// SaveOrUpdateUser添加｜｜更新用户
+// SaveOrUpdateUser 添加｜｜更新用户
 func (m *defaultSys) SaveOrUpdateUser(ctx context.Context, in *SaveOrUpdateUserReq, opts ...grpc.CallOption) (*SaveOrUpdateUserResp, error) {
 	client := sys.NewSysClient(m.cli.Conn())
 	return client.SaveOrUpdateUser(ctx, in, opts...)
@@ -117,6 +125,18 @@ func (m *defaultSys) UserDelete(ctx context.Context, in *UserDeleteReq, opts ...
 func (m *defaultSys) UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error) {
 	client := sys.NewSysClient(m.cli.Conn())
 	return client.UserList(ctx, in, opts...)
+}
+
+// 更新密码｜｜重置密码
+func (m *defaultSys) UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.UpdatePassword(ctx, in, opts...)
+}
+
+// 用户信息
+func (m *defaultSys) UserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+	client := sys.NewSysClient(m.cli.Conn())
+	return client.UserInfo(ctx, in, opts...)
 }
 
 // SaveOrUpdateRole 添加｜｜更新角色

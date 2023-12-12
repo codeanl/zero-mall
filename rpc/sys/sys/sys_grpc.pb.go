@@ -23,6 +23,8 @@ const (
 	Sys_SaveOrUpdateUser_FullMethodName   = "/sys.Sys/SaveOrUpdateUser"
 	Sys_UserDelete_FullMethodName         = "/sys.Sys/UserDelete"
 	Sys_UserList_FullMethodName           = "/sys.Sys/UserList"
+	Sys_UpdatePassword_FullMethodName     = "/sys.Sys/UpdatePassword"
+	Sys_UserInfo_FullMethodName           = "/sys.Sys/UserInfo"
 	Sys_SaveOrUpdateRole_FullMethodName   = "/sys.Sys/SaveOrUpdateRole"
 	Sys_RoleDelete_FullMethodName         = "/sys.Sys/RoleDelete"
 	Sys_RoleList_FullMethodName           = "/sys.Sys/RoleList"
@@ -42,12 +44,16 @@ const (
 type SysClient interface {
 	// UserLogin 用户登录
 	UserLogin(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-	// SaveOrUpdateUser添加｜｜更新用户
+	// SaveOrUpdateUser 添加｜｜更新用户
 	SaveOrUpdateUser(ctx context.Context, in *SaveOrUpdateUserReq, opts ...grpc.CallOption) (*SaveOrUpdateUserResp, error)
 	// 删除用户
 	UserDelete(ctx context.Context, in *UserDeleteReq, opts ...grpc.CallOption) (*UserDeleteResp, error)
 	// 用户列表
 	UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error)
+	// 更新密码｜｜重置密码
+	UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error)
+	// 用户信息
+	UserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 	// SaveOrUpdateRole 添加｜｜更新角色
 	SaveOrUpdateRole(ctx context.Context, in *SaveOrUpdateRoleReq, opts ...grpc.CallOption) (*SaveOrUpdateRoleResp, error)
 	// RoleDelete 删除角色
@@ -110,6 +116,24 @@ func (c *sysClient) UserDelete(ctx context.Context, in *UserDeleteReq, opts ...g
 func (c *sysClient) UserList(ctx context.Context, in *UserListReq, opts ...grpc.CallOption) (*UserListResp, error) {
 	out := new(UserListResp)
 	err := c.cc.Invoke(ctx, Sys_UserList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error) {
+	out := new(UpdatePasswordResp)
+	err := c.cc.Invoke(ctx, Sys_UpdatePassword_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *sysClient) UserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+	out := new(UserInfoResp)
+	err := c.cc.Invoke(ctx, Sys_UserInfo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -221,12 +245,16 @@ func (c *sysClient) OperationLogDelete(ctx context.Context, in *OperationLogDele
 type SysServer interface {
 	// UserLogin 用户登录
 	UserLogin(context.Context, *LoginReq) (*LoginResp, error)
-	// SaveOrUpdateUser添加｜｜更新用户
+	// SaveOrUpdateUser 添加｜｜更新用户
 	SaveOrUpdateUser(context.Context, *SaveOrUpdateUserReq) (*SaveOrUpdateUserResp, error)
 	// 删除用户
 	UserDelete(context.Context, *UserDeleteReq) (*UserDeleteResp, error)
 	// 用户列表
 	UserList(context.Context, *UserListReq) (*UserListResp, error)
+	// 更新密码｜｜重置密码
+	UpdatePassword(context.Context, *UpdatePasswordReq) (*UpdatePasswordResp, error)
+	// 用户信息
+	UserInfo(context.Context, *UserInfoReq) (*UserInfoResp, error)
 	// SaveOrUpdateRole 添加｜｜更新角色
 	SaveOrUpdateRole(context.Context, *SaveOrUpdateRoleReq) (*SaveOrUpdateRoleResp, error)
 	// RoleDelete 删除角色
@@ -267,6 +295,12 @@ func (UnimplementedSysServer) UserDelete(context.Context, *UserDeleteReq) (*User
 }
 func (UnimplementedSysServer) UserList(context.Context, *UserListReq) (*UserListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserList not implemented")
+}
+func (UnimplementedSysServer) UpdatePassword(context.Context, *UpdatePasswordReq) (*UpdatePasswordResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePassword not implemented")
+}
+func (UnimplementedSysServer) UserInfo(context.Context, *UserInfoReq) (*UserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserInfo not implemented")
 }
 func (UnimplementedSysServer) SaveOrUpdateRole(context.Context, *SaveOrUpdateRoleReq) (*SaveOrUpdateRoleResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveOrUpdateRole not implemented")
@@ -382,6 +416,42 @@ func _Sys_UserList_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SysServer).UserList(ctx, req.(*UserListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_UpdatePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePasswordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).UpdatePassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_UpdatePassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).UpdatePassword(ctx, req.(*UpdatePasswordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Sys_UserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SysServer).UserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Sys_UserInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SysServer).UserInfo(ctx, req.(*UserInfoReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -606,6 +676,14 @@ var Sys_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserList",
 			Handler:    _Sys_UserList_Handler,
+		},
+		{
+			MethodName: "UpdatePassword",
+			Handler:    _Sys_UpdatePassword_Handler,
+		},
+		{
+			MethodName: "UserInfo",
+			Handler:    _Sys_UserInfo_Handler,
 		},
 		{
 			MethodName: "SaveOrUpdateRole",
