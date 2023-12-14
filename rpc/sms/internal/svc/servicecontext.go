@@ -10,6 +10,7 @@ type ServiceContext struct {
 	Config             config.Config
 	HomeAdvertiseModel model.HomeAdvertiseModel
 	CouponModel        model.CouponModel
+	SubjectModel       model.SubjectModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -18,5 +19,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Config:             c,
 		HomeAdvertiseModel: model.NewHomeAdvertiseModel(conn),
 		CouponModel:        model.NewCouponModel(conn),
+		SubjectModel:       model.NewSubjectModel(conn),
 	}
 }

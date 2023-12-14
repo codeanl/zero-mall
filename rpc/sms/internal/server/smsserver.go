@@ -57,3 +57,39 @@ func (s *SmsServer) CouponList(ctx context.Context, in *sms.CouponListReq) (*sms
 	l := logic.NewCouponListLogic(ctx, s.svcCtx)
 	return l.CouponList(in)
 }
+
+// SaveOrUpdateSubject 添加｜｜更新专题
+func (s *SmsServer) SaveOrUpdateSubject(ctx context.Context, in *sms.SaveOrUpdateSubjectReq) (*sms.SaveOrUpdateSubjectResp, error) {
+	l := logic.NewSaveOrUpdateSubjectLogic(ctx, s.svcCtx)
+	return l.SaveOrUpdateSubject(in)
+}
+
+// SubjectDelete 删除专题
+func (s *SmsServer) SubjectDelete(ctx context.Context, in *sms.SubjectDeleteAddReq) (*sms.SubjectDeleteResp, error) {
+	l := logic.NewSubjectDeleteLogic(ctx, s.svcCtx)
+	return l.SubjectDelete(in)
+}
+
+// SubjectList 专题列表
+func (s *SmsServer) SubjectList(ctx context.Context, in *sms.SubjectListReq) (*sms.SubjectListResp, error) {
+	l := logic.NewSubjectListLogic(ctx, s.svcCtx)
+	return l.SubjectList(in)
+}
+
+// SaveOrUpdateSubjectProduct 添加｜｜更新专题商品
+func (s *SmsServer) SaveOrUpdateSubjectProduct(ctx context.Context, in *sms.SaveOrUpdateSubjectProductReq) (*sms.SaveOrUpdateSubjectProductResp, error) {
+	l := logic.NewSaveOrUpdateSubjectProductLogic(ctx, s.svcCtx)
+	return l.SaveOrUpdateSubjectProduct(in)
+}
+
+// 删除专题商品
+func (s *SmsServer) SubjectProductDelete(ctx context.Context, in *sms.SubjectProductDeleteAddReq) (*sms.SubjectProductDeleteResp, error) {
+	l := logic.NewSubjectProductDeleteLogic(ctx, s.svcCtx)
+	return l.SubjectProductDelete(in)
+}
+
+// 专题列表商品
+func (s *SmsServer) SubjectProductList(ctx context.Context, in *sms.SubjectProductListReq) (*sms.SubjectProductListResp, error) {
+	l := logic.NewSubjectProductListLogic(ctx, s.svcCtx)
+	return l.SubjectProductList(in)
+}

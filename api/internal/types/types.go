@@ -445,3 +445,47 @@ type DeleteCouponResp struct {
 	Code    int64  `json:"code"`
 	Message string `json:"message"`
 }
+
+type SaveOrUpdateSubjectReq struct {
+	ID     int64  `json:"id,optional"`
+	Name   string `json:"name"`
+	Pic    string `json:"pic"`
+	Status string `json:"status"`
+	Sort   int64  `json:"sort"`
+}
+
+type SaveOrUpdateSubjectResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type DeleteSubjectReq struct {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteSubjectResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type ListSubjectReq struct {
+	PageNum  int64  `form:"page_num,default=1"`
+	PageSize int64  `form:"page_size,default=20"`
+	Name     string `form:"name,optional "`
+	Status   string `form:"status,optional"`
+}
+
+type ListSubjectData struct {
+	ID     int64  `json:"id"`
+	Name   string `json:"name"`
+	Pic    string `json:"pic"`
+	Status string `json:"status"`
+	Sort   int64  `json:"sort"`
+}
+
+type ListSubjectResp struct {
+	Code    int64              `json:"code"`
+	Message string             `json:"message"`
+	Total   int64              `json:"total"`
+	Data    []*ListSubjectData `json:"data"`
+}

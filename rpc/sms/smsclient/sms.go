@@ -13,20 +13,34 @@ import (
 )
 
 type (
-	CouponDeleteReq               = sms.CouponDeleteReq
-	CouponDeleteResp              = sms.CouponDeleteResp
-	CouponListData                = sms.CouponListData
-	CouponListReq                 = sms.CouponListReq
-	CouponListResp                = sms.CouponListResp
-	HomeAdvertiseDeleteReq        = sms.HomeAdvertiseDeleteReq
-	HomeAdvertiseDeleteResp       = sms.HomeAdvertiseDeleteResp
-	HomeAdvertiseListData         = sms.HomeAdvertiseListData
-	HomeAdvertiseListReq          = sms.HomeAdvertiseListReq
-	HomeAdvertiseListResp         = sms.HomeAdvertiseListResp
-	SaveOrUpdateCouponReq         = sms.SaveOrUpdateCouponReq
-	SaveOrUpdateCouponResp        = sms.SaveOrUpdateCouponResp
-	SaveOrUpdateHomeAdvertiseReq  = sms.SaveOrUpdateHomeAdvertiseReq
-	SaveOrUpdateHomeAdvertiseResp = sms.SaveOrUpdateHomeAdvertiseResp
+	CouponDeleteReq                = sms.CouponDeleteReq
+	CouponDeleteResp               = sms.CouponDeleteResp
+	CouponListData                 = sms.CouponListData
+	CouponListReq                  = sms.CouponListReq
+	CouponListResp                 = sms.CouponListResp
+	HomeAdvertiseDeleteReq         = sms.HomeAdvertiseDeleteReq
+	HomeAdvertiseDeleteResp        = sms.HomeAdvertiseDeleteResp
+	HomeAdvertiseListData          = sms.HomeAdvertiseListData
+	HomeAdvertiseListReq           = sms.HomeAdvertiseListReq
+	HomeAdvertiseListResp          = sms.HomeAdvertiseListResp
+	SaveOrUpdateCouponReq          = sms.SaveOrUpdateCouponReq
+	SaveOrUpdateCouponResp         = sms.SaveOrUpdateCouponResp
+	SaveOrUpdateHomeAdvertiseReq   = sms.SaveOrUpdateHomeAdvertiseReq
+	SaveOrUpdateHomeAdvertiseResp  = sms.SaveOrUpdateHomeAdvertiseResp
+	SaveOrUpdateSubjectProductReq  = sms.SaveOrUpdateSubjectProductReq
+	SaveOrUpdateSubjectProductResp = sms.SaveOrUpdateSubjectProductResp
+	SaveOrUpdateSubjectReq         = sms.SaveOrUpdateSubjectReq
+	SaveOrUpdateSubjectResp        = sms.SaveOrUpdateSubjectResp
+	SubjectDeleteAddReq            = sms.SubjectDeleteAddReq
+	SubjectDeleteResp              = sms.SubjectDeleteResp
+	SubjectListData                = sms.SubjectListData
+	SubjectListReq                 = sms.SubjectListReq
+	SubjectListResp                = sms.SubjectListResp
+	SubjectProductDeleteAddReq     = sms.SubjectProductDeleteAddReq
+	SubjectProductDeleteResp       = sms.SubjectProductDeleteResp
+	SubjectProductListData         = sms.SubjectProductListData
+	SubjectProductListReq          = sms.SubjectProductListReq
+	SubjectProductListResp         = sms.SubjectProductListResp
 
 	Sms interface {
 		// 添加｜｜更新广告
@@ -41,6 +55,18 @@ type (
 		CouponDelete(ctx context.Context, in *CouponDeleteReq, opts ...grpc.CallOption) (*CouponDeleteResp, error)
 		// 优惠券列表
 		CouponList(ctx context.Context, in *CouponListReq, opts ...grpc.CallOption) (*CouponListResp, error)
+		// SaveOrUpdateSubject 添加｜｜更新专题
+		SaveOrUpdateSubject(ctx context.Context, in *SaveOrUpdateSubjectReq, opts ...grpc.CallOption) (*SaveOrUpdateSubjectResp, error)
+		// SubjectDelete 删除专题
+		SubjectDelete(ctx context.Context, in *SubjectDeleteAddReq, opts ...grpc.CallOption) (*SubjectDeleteResp, error)
+		// SubjectList 专题列表
+		SubjectList(ctx context.Context, in *SubjectListReq, opts ...grpc.CallOption) (*SubjectListResp, error)
+		// SaveOrUpdateSubjectProduct 添加｜｜更新专题商品
+		SaveOrUpdateSubjectProduct(ctx context.Context, in *SaveOrUpdateSubjectProductReq, opts ...grpc.CallOption) (*SaveOrUpdateSubjectProductResp, error)
+		// 删除专题商品
+		SubjectProductDelete(ctx context.Context, in *SubjectProductDeleteAddReq, opts ...grpc.CallOption) (*SubjectProductDeleteResp, error)
+		// 专题列表商品
+		SubjectProductList(ctx context.Context, in *SubjectProductListReq, opts ...grpc.CallOption) (*SubjectProductListResp, error)
 	}
 
 	defaultSms struct {
@@ -88,4 +114,40 @@ func (m *defaultSms) CouponDelete(ctx context.Context, in *CouponDeleteReq, opts
 func (m *defaultSms) CouponList(ctx context.Context, in *CouponListReq, opts ...grpc.CallOption) (*CouponListResp, error) {
 	client := sms.NewSmsClient(m.cli.Conn())
 	return client.CouponList(ctx, in, opts...)
+}
+
+// SaveOrUpdateSubject 添加｜｜更新专题
+func (m *defaultSms) SaveOrUpdateSubject(ctx context.Context, in *SaveOrUpdateSubjectReq, opts ...grpc.CallOption) (*SaveOrUpdateSubjectResp, error) {
+	client := sms.NewSmsClient(m.cli.Conn())
+	return client.SaveOrUpdateSubject(ctx, in, opts...)
+}
+
+// SubjectDelete 删除专题
+func (m *defaultSms) SubjectDelete(ctx context.Context, in *SubjectDeleteAddReq, opts ...grpc.CallOption) (*SubjectDeleteResp, error) {
+	client := sms.NewSmsClient(m.cli.Conn())
+	return client.SubjectDelete(ctx, in, opts...)
+}
+
+// SubjectList 专题列表
+func (m *defaultSms) SubjectList(ctx context.Context, in *SubjectListReq, opts ...grpc.CallOption) (*SubjectListResp, error) {
+	client := sms.NewSmsClient(m.cli.Conn())
+	return client.SubjectList(ctx, in, opts...)
+}
+
+// SaveOrUpdateSubjectProduct 添加｜｜更新专题商品
+func (m *defaultSms) SaveOrUpdateSubjectProduct(ctx context.Context, in *SaveOrUpdateSubjectProductReq, opts ...grpc.CallOption) (*SaveOrUpdateSubjectProductResp, error) {
+	client := sms.NewSmsClient(m.cli.Conn())
+	return client.SaveOrUpdateSubjectProduct(ctx, in, opts...)
+}
+
+// 删除专题商品
+func (m *defaultSms) SubjectProductDelete(ctx context.Context, in *SubjectProductDeleteAddReq, opts ...grpc.CallOption) (*SubjectProductDeleteResp, error) {
+	client := sms.NewSmsClient(m.cli.Conn())
+	return client.SubjectProductDelete(ctx, in, opts...)
+}
+
+// 专题列表商品
+func (m *defaultSms) SubjectProductList(ctx context.Context, in *SubjectProductListReq, opts ...grpc.CallOption) (*SubjectProductListResp, error) {
+	client := sms.NewSmsClient(m.cli.Conn())
+	return client.SubjectProductList(ctx, in, opts...)
 }

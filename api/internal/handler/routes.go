@@ -6,6 +6,7 @@ import (
 
 	smscoupon "simple_mall_new/api/internal/handler/sms/coupon"
 	smshome_advertise "simple_mall_new/api/internal/handler/sms/home_advertise"
+	smssubject "simple_mall_new/api/internal/handler/sms/subject"
 	syslogin_log "simple_mall_new/api/internal/handler/sys/login_log"
 	sysmenu "simple_mall_new/api/internal/handler/sys/menu"
 	sysoperation_log "simple_mall_new/api/internal/handler/sys/operation_log"
@@ -203,5 +204,27 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/sms/coupon"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/",
+				Handler: smssubject.SaveOrUpdateSubjectHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: smssubject.SubjectDeleteHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: smssubject.SubjectListHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/sms/subject"),
 	)
 }

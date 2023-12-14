@@ -108,6 +108,79 @@ message CouponListResp {
   repeated  CouponListData list = 2;
 }
 
+//添加专题
+message  SaveOrUpdateSubjectReq{
+  int64 id=1;
+  string name=2;
+  string pic=3;
+  string status=4;
+  int64 sort=5;
+}
+message  SaveOrUpdateSubjectResp{
+  string pong = 1;
+}
+//删除专题
+message  SubjectDeleteAddReq{
+  repeated int64  ids=1;
+}
+message  SubjectDeleteResp{
+  string pong = 1;
+}
+//专题列表
+message SubjectListReq {
+  int64 page_num = 1;
+  int64 page_size = 2;
+  string status = 4;
+  string name = 5;
+}
+message SubjectListData {
+  int64 id=1;
+  string name=2;
+  string pic=3;
+  string status=4;
+  int64 sort=5;
+  string created_at=6;
+}
+message SubjectListResp{
+  int64 total = 1;
+  repeated  SubjectListData list = 2;
+}
+
+//SaveOrUpdateSubjectProduct 添加｜｜更新专题商品
+message  SaveOrUpdateSubjectProductReq{
+  int64 id=1;
+  int64 subject_id=2;
+  string status=3;
+  repeated int64 product_id=4;
+
+}
+message  SaveOrUpdateSubjectProductResp{
+  string pong = 1;
+}
+//删除专题商品
+message  SubjectProductDeleteAddReq{
+  repeated int64  IDs=1;
+}
+message  SubjectProductDeleteResp{
+  string pong = 1;
+}
+//专题列表商品
+message SubjectProductListReq {
+  int64 page_num = 1;
+  int64 page_size = 2;
+  int64 subject_id = 5;
+}
+message SubjectProductListData {
+  int64 id = 1;
+  int64 subject_id = 2;
+  int64 product_id = 3;
+  int64 sort=5;
+}
+message SubjectProductListResp{
+  int64 total = 1;
+  repeated  SubjectProductListData list = 2;
+}
+
 service Sms {
   //添加｜｜更新广告
   rpc SaveOrUpdateHomeAdvertise(SaveOrUpdateHomeAdvertiseReq) returns(SaveOrUpdateHomeAdvertiseResp);
@@ -122,4 +195,18 @@ service Sms {
   rpc CouponDelete(CouponDeleteReq) returns(CouponDeleteResp);
   //优惠券列表
   rpc CouponList(CouponListReq) returns(CouponListResp);
+
+  //SaveOrUpdateSubject 添加｜｜更新专题
+  rpc SaveOrUpdateSubject(SaveOrUpdateSubjectReq) returns(SaveOrUpdateSubjectResp);
+  //SubjectDelete 删除专题
+  rpc SubjectDelete(SubjectDeleteAddReq) returns(SubjectDeleteResp);
+  //SubjectList 专题列表
+  rpc SubjectList(SubjectListReq) returns(SubjectListResp);
+
+  //SaveOrUpdateSubjectProduct 添加｜｜更新专题商品
+  rpc SaveOrUpdateSubjectProduct(SaveOrUpdateSubjectProductReq) returns(SaveOrUpdateSubjectProductResp);
+  //删除专题商品
+  rpc SubjectProductDelete(SubjectProductDeleteAddReq) returns(SubjectProductDeleteResp);
+  //专题列表商品
+  rpc SubjectProductList(SubjectProductListReq) returns(SubjectProductListResp);
 }

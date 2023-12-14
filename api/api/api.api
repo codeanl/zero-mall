@@ -8,6 +8,7 @@ import "ums/member.api"
 
 import "sms/home_advertise.api"
 import "sms/coupon.api"
+import "sms/subject.api"
 
 info(
 	title: "type title here"

@@ -1,0 +1,68 @@
+syntax = "v1"
+
+info(
+    title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+type(
+    SaveOrUpdateSubjectReq struct {
+        ID int64 `json:"id,optional"`
+        Name string `json:"name"`
+        Pic string `json:"pic"`
+        Status string `json:"status"`
+        Sort int64 `json:"sort"`
+    }
+    SaveOrUpdateSubjectResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+    DeleteSubjectReq struct {
+          Ids []int64 `json:"ids"`
+    }
+    DeleteSubjectResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+    ListSubjectReq struct {
+          PageNum int64 `form:"page_num,default=1"`
+          PageSize int64 `form:"page_size,default=20"`
+          Name string `form:"name,optional "`
+          Status string `form:"status,optional"`
+      }
+      ListSubjectData struct {
+            ID int64 `json:"id"`
+            Name string `json:"name"`
+            Pic string `json:"pic"`
+            Status string `json:"status"`
+            Sort int64 `json:"sort"`
+      }
+      ListSubjectResp struct {
+          Code int64 `json:"code"`
+          Message string `json:"message"`
+          Total int64 `json:"total"`
+          Data []*ListSubjectData `json:"data"`
+      }
+)
+
+
+@server(
+    jwt: Auth
+    group: sms/subject
+    prefix: /api/sms/subject
+)
+service api {
+
+    @handler SaveOrUpdateSubject
+    post / (SaveOrUpdateSubjectReq) returns (SaveOrUpdateSubjectResp)
+
+    @handler SubjectDelete
+    post /delete (DeleteSubjectReq) returns (DeleteSubjectResp)
+
+    @handler SubjectList
+    get /list (ListSubjectReq) returns (ListSubjectResp)
+}
