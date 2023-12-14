@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"errors"
+	"simple_mall_new/rpc/sms/model"
 
 	"simple_mall_new/rpc/sms/internal/svc"
 	"simple_mall_new/rpc/sms/sms"
@@ -25,7 +27,28 @@ func NewSaveOrUpdateSubjectProductLogic(ctx context.Context, svcCtx *svc.Service
 
 // SaveOrUpdateSubjectProduct 添加｜｜更新专题商品
 func (l *SaveOrUpdateSubjectProductLogic) SaveOrUpdateSubjectProduct(in *sms.SaveOrUpdateSubjectProductReq) (*sms.SaveOrUpdateSubjectProductResp, error) {
-	// todo: add your logic here and delete this line
-
+	if in.Id > 0 {
+		err := l.svcCtx.SubjectProductModel.UpdateSubjectProduct(in.Id, &model.SubjectProduct{
+			Sort: in.Sort,
+		})
+		if err != nil {
+			return nil, errors.New("更新失败")
+		}
+	} else {
+		for _, i := range in.ProductId {
+			exist, _ := l.svcCtx.SubjectProductModel.GetSubjectProductExist(in.SubjectId, 1)
+			if exist {
+				return nil, errors.New("该商品已存在")
+			}
+			err := l.svcCtx.SubjectProductModel.AddSubjectProduct(&model.SubjectProduct{
+				SubjectID: in.SubjectId,
+				ProductID: i,
+				Sort:      in.Sort,
+			})
+			if err != nil {
+				return nil, errors.New("添加失败")
+			}
+		}
+	}
 	return &sms.SaveOrUpdateSubjectProductResp{}, nil
 }

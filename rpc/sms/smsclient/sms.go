@@ -38,6 +38,7 @@ type (
 	SubjectListResp                = sms.SubjectListResp
 	SubjectProductDeleteAddReq     = sms.SubjectProductDeleteAddReq
 	SubjectProductDeleteResp       = sms.SubjectProductDeleteResp
+	SubjectProductInfo             = sms.SubjectProductInfo
 	SubjectProductListData         = sms.SubjectProductListData
 	SubjectProductListReq          = sms.SubjectProductListReq
 	SubjectProductListResp         = sms.SubjectProductListResp

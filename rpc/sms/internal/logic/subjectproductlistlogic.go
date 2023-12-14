@@ -23,9 +23,8 @@ func NewSubjectProductListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-// 专题列表商品
+// 专题列表商品 todo
 func (l *SubjectProductListLogic) SubjectProductList(in *sms.SubjectProductListReq) (*sms.SubjectProductListResp, error) {
-	// todo: add your logic here and delete this line
 
 	return &sms.SubjectProductListResp{}, nil
 }

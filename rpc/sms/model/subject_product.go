@@ -1,8 +1,8 @@
 package model
 
 import (
-	"SimplePick-Mall-Server/service/sms/rpc/sms"
 	"gorm.io/gorm"
+	"simple_mall_new/rpc/sms/sms"
 )
 
 type (
@@ -13,6 +13,7 @@ type (
 		GetSubjectProductList(in *sms.SubjectProductListReq) ([]*SubjectProduct, int64, error)
 		////GetUserByID(id int64) (user *User, err error)
 		ExistSubjectProductById(id int64) (info *SubjectProduct, exist bool, err error)
+		GetSubjectProductExist(SubjectID, ProductID int64) (exist bool, err error)
 	}
 	defaultSubjectProductModel struct {
 		conn *gorm.DB
@@ -66,21 +67,30 @@ func (m *defaultSubjectProductModel) DeleteSubjectProductByIds(ids []int64) erro
 func (m *defaultSubjectProductModel) GetSubjectProductList(in *sms.SubjectProductListReq) ([]*SubjectProduct, int64, error) {
 	var list []*SubjectProduct
 	db := m.conn.Model(&list).Order("sort ASC")
-	if in.Status != "" {
-		db = db.Where("status =?", in.Status)
-	}
-	if in.SubjectID != 0 {
-		db = db.Where("subject_id =?", in.SubjectID)
+
+	if in.SubjectId != 0 {
+		db = db.Where("subject_id =?", in.SubjectId)
 	}
 	var total int64
 	err := db.Count(&total).Error
 	if err != nil {
 		return list, total, err
 	}
-	if in.Current > 0 && in.PageSize > 0 {
-		err = db.Offset(int((in.Current - 1) * in.PageSize)).Limit(int(in.PageSize)).Find(&list).Error
+	if in.PageNum > 0 && in.PageSize > 0 {
+		err = db.Offset(int((in.PageNum - 1) * in.PageSize)).Limit(int(in.PageSize)).Find(&list).Error
 	} else {
 		err = db.Find(&list).Error
 	}
 	return list, total, err
+}
+func (m *defaultSubjectProductModel) GetSubjectProductExist(SubjectID, ProductID int64) (exist bool, err error) {
+	var count int64
+	err = m.conn.Model(&SubjectProduct{}).Where("subject_id=? && product_id=?", SubjectID, ProductID).Count(&count).Error
+	if err != nil {
+		return false, err
+	}
+	if count == 0 {
+		return false, nil
+	}
+	return true, nil
 }

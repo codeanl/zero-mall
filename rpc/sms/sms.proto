@@ -150,9 +150,8 @@ message SubjectListResp{
 message  SaveOrUpdateSubjectProductReq{
   int64 id=1;
   int64 subject_id=2;
-  string status=3;
+  int64 sort=3;
   repeated int64 product_id=4;
-
 }
 message  SaveOrUpdateSubjectProductResp{
   string pong = 1;
@@ -175,7 +174,16 @@ message SubjectProductListData {
   int64 subject_id = 2;
   int64 product_id = 3;
   int64 sort=5;
+  SubjectProductInfo subject_product_info=6;
 }
+message SubjectProductInfo {
+  string name = 1;
+  string pic = 2;
+  string product_sn = 3;
+  string desc = 4;
+  float price = 5;
+}
+
 message SubjectProductListResp{
   int64 total = 1;
   repeated  SubjectProductListData list = 2;
