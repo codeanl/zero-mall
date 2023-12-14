@@ -1,0 +1,88 @@
+info(
+  title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+
+
+type (
+    SaveOrUpdateCouponReq struct {
+        ID int64 `json:"id,optional"`
+        Type string `json:"type"`
+        Name string `json:"name"`
+        Count int64 `json:"count"`
+        Amount float64 `json:"amount"`
+        PerLimit int64 `json:"per_limit"`
+        MinPoint float64 `json:"min_point"`
+        StartTime string `json:"start_time"`
+        EndTime string `json:"end_time"`
+        Note string `json:"note,optional"`
+        EnableTime string `json:"enable_time"`
+        Code string `json:"code"`
+        UseType string `json:"use_type"`
+        UseProduct int64 `json:"use_product,optional"`
+        UseCategory int64 `json:"use_category,optional"`
+    }
+    SaveOrUpdateCouponResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+    ListCouponReq struct {
+        PageNum int64 `form:"page_num,default=1"`
+        PageSize int64 `form:"page_size,default=20"`
+        Type string `form:"type,optional"`
+        Name string `form:"name,optional"`
+        UseType string `form:"use_type,optional"`
+    }
+    ListCouponData struct {
+        ID string `json:"id"`
+        Type string `json:"type"`
+        Name string `json:"name"`
+        Count int64 `json:"count"`
+        Amount float64 `json:"amount"`
+        PerLimit int64 `json:"per_limit"`
+        MinPoint float64 `json:"min_point"`
+        StartTime string `json:"start_time"`
+        EndTime string `json:"end_time"`
+        Note string `json:"note,optional"`
+        EnableTime string `json:"enable_time"`
+        Code string `json:"code"`
+        UseType string `json:"use_type"`
+        UseProduct int64 `json:"use_product"`
+        UseCategory int64 `json:"use_category"`
+        CreatedAt string `json:"created_at"`
+    }
+    ListCouponResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data []*ListCouponData `json:"data"`
+        Total int64 `json:"total"`
+    }
+
+    DeleteCouponReq struct {
+        Ids []int64 `json:"ids"`
+    }
+    DeleteCouponResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+)
+
+@server(
+    jwt: Auth
+    group: sms/coupon
+    prefix: /api/sms/coupon
+)
+service api {
+    @handler SaveOrUpdateCoupon
+    post / (SaveOrUpdateCouponReq) returns (SaveOrUpdateCouponResp)
+
+    @handler CouponDelete
+    post /delete (DeleteCouponReq) returns (DeleteCouponResp)
+
+    @handler CouponList
+    get /list (ListCouponReq) returns (ListCouponResp)
+}
