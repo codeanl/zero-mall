@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package sms;
+
+option go_package = "./sms";
+
+
+//添加｜｜更新广告
+message SaveOrUpdateHomeAdvertiseReq {
+  int64 id = 1;
+  string name = 2;
+  string pic = 3;
+  string status = 4;
+  int64 sort = 5;
+  string url = 6;
+  string note = 7;
+}
+message SaveOrUpdateHomeAdvertiseResp {
+  string pong = 1;
+}
+//广告列表
+message HomeAdvertiseListReq {
+  int64 page_num =1;
+  int64 page_size =2;
+  string name = 3;
+  string status =4;
+}
+message HomeAdvertiseListData {
+  int64 id = 1;
+  string name = 2;
+  string pic = 3;
+  string status = 4;
+  int64 sort = 5;
+  string url = 6;
+  string note = 7;
+  string created_at = 8;
+}
+message HomeAdvertiseListResp {
+  int64 total = 1;
+  repeated  HomeAdvertiseListData list = 2;
+}
+
+//删除广告
+message HomeAdvertiseDeleteReq {
+  repeated int64 ids = 1;
+}
+message HomeAdvertiseDeleteResp {
+  string pong = 1;
+}
+
+//添加｜｜更新优惠券
+message SaveOrUpdateCouponReq {
+  int64  id = 1;
+  string type = 2;
+  string name = 3;
+  int64 count = 4;
+  float amount = 6;
+  int64 per_limit = 7;
+  float min_point = 8;
+  string start_time = 9;
+  string end_time = 10;
+  string use_type = 11;
+  string note = 12;
+  string enable_time = 16;
+  string code = 17;
+  int64 use_product = 18;
+  int64 use_category = 19;
+}
+message SaveOrUpdateCouponResp {
+  string pong = 1;
+}
+
+//删除优惠券
+message CouponDeleteReq {
+  repeated int64 ids = 1;
+}
+message CouponDeleteResp {
+  string pong = 1;
+}
+//优惠券列表
+message CouponListReq {
+  int64 page_num = 1;
+  int64 page_size = 2;
+  string type = 3;
+  string name = 4;
+  string use_type = 8;
+}
+message CouponListData {
+  int64  id = 1;
+  string type = 2;
+  string name = 3;
+  int64 count = 4;
+  float amount = 6;
+  int64 per_limit = 7;
+  float min_point = 8;
+  string start_time = 9;
+  string end_time = 10;
+  string use_type = 11;
+  string note = 12;
+  string enable_time = 16;
+  string code = 17;
+  int64 use_product = 18;
+  int64 use_category = 19;
+  string created_at = 20;
+}
+message CouponListResp {
+  int64 total = 1;
+  repeated  CouponListData list = 2;
+}
+
+service Sms {
+  //添加｜｜更新广告
+  rpc SaveOrUpdateHomeAdvertise(SaveOrUpdateHomeAdvertiseReq) returns(SaveOrUpdateHomeAdvertiseResp);
+  //广告列表
+  rpc HomeAdvertiseList(HomeAdvertiseListReq) returns(HomeAdvertiseListResp);
+  //删除广告
+  rpc HomeAdvertiseDelete(HomeAdvertiseDeleteReq) returns(HomeAdvertiseDeleteResp);
+
+  //添加｜｜更新优惠券
+  rpc SaveOrUpdateCoupon(SaveOrUpdateCouponReq) returns(SaveOrUpdateCouponResp);
+  //删除优惠券
+  rpc CouponDelete(CouponDeleteReq) returns(CouponDeleteResp);
+  //优惠券列表
+  rpc CouponList(CouponListReq) returns(CouponListResp);
+}

@@ -6,6 +6,9 @@ import "sys/operation_log.api"
 
 import "ums/member.api"
 
+import "sms/home_advertise.api"
+import "sms/coupon.api"
+
 info(
 	title: "type title here"
 	desc: "type desc here"

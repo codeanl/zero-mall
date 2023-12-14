@@ -1,0 +1,69 @@
+info(
+  title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+
+type (
+    SaveOrUpdateHomeAdvertiseReq struct {
+        ID int64 `json:"id,optional"`
+        Name string `json:"name,optional"`
+        Pic string `json:"pic,optional"`
+        Status string `json:"status,optional"`
+        Sort int64 `json:"sort,optional"`
+        Url string `json:"url,optional"`
+        Note string `json:"note,optional"`
+    }
+    SaveOrUpdateHomeAdvertiseResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+    ListHomeAdvertiseReq struct {
+        PageNum int64 `form:"page_num,default=1"`
+        PageSize int64 `form:"page_size,default=20"`
+        Name string `form:"name,optional"`
+        Status string `form:"status,optional"`
+    }
+    ListHomeAdvertiseData struct {
+        ID int64 `json:"id"`
+        Name string `json:"name"`
+        Pic string `json:"pic"`
+        Status string `json:"status"`
+        Sort int64 `json:"sort"`
+        Url string `json:"url"`
+        Note string `json:"note"`
+        CreatedAt string `json:"created_at"`
+    }
+    ListHomeAdvertiseResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data []*ListHomeAdvertiseData `json:"data"`
+        Total int64 `json:"total"`
+    }
+    DeleteHomeAdvertiseReq struct {
+        Ids []int64 `json:"ids"`
+    }
+    DeleteHomeAdvertiseResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+)
+
+@server(
+    jwt: Auth
+    group: sms/home_advertise
+    prefix: /api/sms/home_advertise
+)
+service api {
+    @handler SaveOrUpdateHomeAdvertise
+    post / (SaveOrUpdateHomeAdvertiseReq) returns (SaveOrUpdateHomeAdvertiseResp)
+
+    @handler HomeAdvertiseList
+    get /list (ListHomeAdvertiseReq) returns (ListHomeAdvertiseResp)
+
+    @handler HomeAdvertiseDelete
+    post /delete (DeleteHomeAdvertiseReq) returns (DeleteHomeAdvertiseResp)
+}

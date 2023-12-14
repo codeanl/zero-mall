@@ -330,3 +330,118 @@ type DeleteMemberResp struct {
 	Code    int64  `json:"code"`
 	Message string `json:"message"`
 }
+
+type SaveOrUpdateHomeAdvertiseReq struct {
+	ID     int64  `json:"id,optional"`
+	Name   string `json:"name,optional"`
+	Pic    string `json:"pic,optional"`
+	Status string `json:"status,optional"`
+	Sort   int64  `json:"sort,optional"`
+	Url    string `json:"url,optional"`
+	Note   string `json:"note,optional"`
+}
+
+type SaveOrUpdateHomeAdvertiseResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type ListHomeAdvertiseReq struct {
+	PageNum  int64  `form:"page_num,default=1"`
+	PageSize int64  `form:"page_size,default=20"`
+	Name     string `form:"name,optional"`
+	Status   string `form:"status,optional"`
+}
+
+type ListHomeAdvertiseData struct {
+	ID        int64  `json:"id"`
+	Name      string `json:"name"`
+	Pic       string `json:"pic"`
+	Status    string `json:"status"`
+	Sort      int64  `json:"sort"`
+	Url       string `json:"url"`
+	Note      string `json:"note"`
+	CreatedAt string `json:"created_at"`
+}
+
+type ListHomeAdvertiseResp struct {
+	Code    int64                    `json:"code"`
+	Message string                   `json:"message"`
+	Data    []*ListHomeAdvertiseData `json:"data"`
+	Total   int64                    `json:"total"`
+}
+
+type DeleteHomeAdvertiseReq struct {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteHomeAdvertiseResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type SaveOrUpdateCouponReq struct {
+	ID          int64   `json:"id,optional"`
+	Type        string  `json:"type"`
+	Name        string  `json:"name"`
+	Count       int64   `json:"count"`
+	Amount      float64 `json:"amount"`
+	PerLimit    int64   `json:"per_limit"`
+	MinPoint    float64 `json:"min_point"`
+	StartTime   string  `json:"start_time"`
+	EndTime     string  `json:"end_time"`
+	Note        string  `json:"note,optional"`
+	EnableTime  string  `json:"enable_time"`
+	Code        string  `json:"code"`
+	UseType     string  `json:"use_type"`
+	UseProduct  int64   `json:"use_product,optional"`
+	UseCategory int64   `json:"use_category,optional"`
+}
+
+type SaveOrUpdateCouponResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type ListCouponReq struct {
+	PageNum  int64  `form:"page_num,default=1"`
+	PageSize int64  `form:"page_size,default=20"`
+	Type     string `form:"type,optional"`
+	Name     string `form:"name,optional"`
+	UseType  string `form:"use_type,optional"`
+}
+
+type ListCouponData struct {
+	ID          string  `json:"id"`
+	Type        string  `json:"type"`
+	Name        string  `json:"name"`
+	Count       int64   `json:"count"`
+	Amount      float64 `json:"amount"`
+	PerLimit    int64   `json:"per_limit"`
+	MinPoint    float64 `json:"min_point"`
+	StartTime   string  `json:"start_time"`
+	EndTime     string  `json:"end_time"`
+	Note        string  `json:"note,optional"`
+	EnableTime  string  `json:"enable_time"`
+	Code        string  `json:"code"`
+	UseType     string  `json:"use_type"`
+	UseProduct  int64   `json:"use_product"`
+	UseCategory int64   `json:"use_category"`
+	CreatedAt   string  `json:"created_at"`
+}
+
+type ListCouponResp struct {
+	Code    int64             `json:"code"`
+	Message string            `json:"message"`
+	Data    []*ListCouponData `json:"data"`
+	Total   int64             `json:"total"`
+}
+
+type DeleteCouponReq struct {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteCouponResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}

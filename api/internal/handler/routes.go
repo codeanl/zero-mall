@@ -4,6 +4,8 @@ package handler
 import (
 	"net/http"
 
+	smscoupon "simple_mall_new/api/internal/handler/sms/coupon"
+	smshome_advertise "simple_mall_new/api/internal/handler/sms/home_advertise"
 	syslogin_log "simple_mall_new/api/internal/handler/sys/login_log"
 	sysmenu "simple_mall_new/api/internal/handler/sys/menu"
 	sysoperation_log "simple_mall_new/api/internal/handler/sys/operation_log"
@@ -157,5 +159,49 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/ums/member"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/",
+				Handler: smshome_advertise.SaveOrUpdateHomeAdvertiseHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: smshome_advertise.HomeAdvertiseListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: smshome_advertise.HomeAdvertiseDeleteHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/sms/home_advertise"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/",
+				Handler: smscoupon.SaveOrUpdateCouponHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: smscoupon.CouponDeleteHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: smscoupon.CouponListHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/sms/coupon"),
 	)
 }
