@@ -9,6 +9,7 @@ import (
 	sysoperation_log "simple_mall_new/api/internal/handler/sys/operation_log"
 	sysrole "simple_mall_new/api/internal/handler/sys/role"
 	sysuser "simple_mall_new/api/internal/handler/sys/user"
+	umsmember "simple_mall_new/api/internal/handler/ums/member"
 	"simple_mall_new/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -47,6 +48,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/update_pass",
 				Handler: sysuser.UpdatePasswordHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/info",
+				Handler: sysuser.UserInfoHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
@@ -129,5 +135,27 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/sys/operation_log"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/",
+				Handler: umsmember.SaveOrUpdateMemberHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: umsmember.MemberListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: umsmember.MemberDeleteHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/ums/member"),
 	)
 }

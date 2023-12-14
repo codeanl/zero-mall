@@ -33,6 +33,9 @@ func (l *OperationLogListLogic) OperationLogList(in *sys.OperationLogListReq) (*
 	var list []*sys.SysLogListData
 	jsonData, _ := json.Marshal(all)
 	err = json.Unmarshal(jsonData, &list)
+	for index, i := range all {
+		list[index].CreatedAt = i.CreatedAt.Format("2006-01-02 15:04:05")
+	}
 	for index, log := range list {
 		userinfo, _ := l.svcCtx.UserModel.GetUserByID(log.UserId)
 		var user *sys.User

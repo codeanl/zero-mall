@@ -45,7 +45,7 @@ type DeleteUserResp struct {
 
 type ListUserReq struct {
 	PageNum  int64  `form:"page_num,default=1"`
-	PageSize int64  `form:"page_size,default=1"`
+	PageSize int64  `form:"page_size,default=10"`
 	Nickname string `form:"nickname,optional"`
 	Phone    string `form:"phone,optional"`
 	Username string `form:"username,optional"`
@@ -55,16 +55,16 @@ type ListUserReq struct {
 }
 
 type ListUser struct {
-	ID       int64    `json:"id"`
-	Username string   `json:"username"`
-	NickName string   `json:"nickname"`
-	Phone    string   `json:"phone"`
-	Gander   string   `json:"gender"`
-	Avatar   string   `json:"avatar"`
-	Email    string   `json:"email"`
-	Status   string   `json:"status"`
-	CreateAt string   `json:"creat_at"`
-	RoleName []string `json:"rol_name"`
+	ID        int64    `json:"id"`
+	Username  string   `json:"username"`
+	NickName  string   `json:"nickname"`
+	Phone     string   `json:"phone"`
+	Gander    string   `json:"gender"`
+	Avatar    string   `json:"avatar"`
+	Email     string   `json:"email"`
+	Status    string   `json:"status"`
+	CreatedAt string   `json:"created_at"`
+	RoleName  []string `json:"role_name"`
 }
 
 type ListUserResp struct {
@@ -84,6 +84,35 @@ type UpdatePasswordReq struct {
 type UpdatePasswordResp struct {
 	Code    int64  `json:"code"`
 	Message string `json:"message"`
+}
+
+type UserInfoResp struct {
+	Code    int64        `json:"code"`
+	Message string       `json:"message"`
+	Data    UserInfoData `json:"data"`
+}
+
+type UserInfoData struct {
+	User  Userr    `json:"user"`
+	Roles []*Roles `json:"roles"`
+}
+
+type Userr struct {
+	ID       int64  `json:"id"`
+	Username string `json:"username"`
+	NickName string `json:"nickname"`
+	Phone    string `json:"phone"`
+	Gander   string `json:"gender"`
+	Avatar   string `json:"avatar"`
+	Email    string `json:"email"`
+	Status   string `json:"status"`
+	CreateAt string `json:"create_at"`
+}
+
+type Roles struct {
+	ID     int64  `json:"id"`
+	Name   string `json:"name"`
+	Remark string `json:"remark"`
 }
 
 type SaveOrUpdateRoleReq struct {
@@ -182,11 +211,11 @@ type ListLoginLogReq struct {
 }
 
 type ListLoginLogData struct {
-	ID       int64  `json:"id"`
-	UserId   int64  `json:"user_id"`
-	IP       string `json:"ip"`
-	Address  string `json:"address"`
-	CreateAt string `json:"create_at"`
+	ID        int64  `json:"id"`
+	UserId    int64  `json:"user_id"`
+	IP        string `json:"ip"`
+	Address   string `json:"address"`
+	CreatedAt string `json:"created_at"`
 }
 
 type ListLoginLogResp struct {
@@ -219,7 +248,7 @@ type ListSysLogData struct {
 	Params    string `json:"params"`
 	Time      int64  `json:"time"`
 	IP        string `json:"ip"`
-	CreateAt  string `json:"create_at"`
+	CreatedAt string `json:"created_at"`
 	UserInfo  User   `json:"user"`
 }
 
@@ -247,6 +276,57 @@ type OperationLogDeleteReq struct {
 }
 
 type OperationLogDeleteResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type SaveOrUpdateMemberReq struct {
+	ID       int64  `json:"id,optional"`
+	Password string `json:"password,optional"`
+	Nickname string `json:"nickname,optional"`
+	Phone    string `json:"phone,optional"`
+	Status   string `json:"status,optional"`
+	Avatar   string `json:"avatar,optional"`
+	Gender   string `json:"gender,optional"`
+	Email    string `json:"email,optional"`
+}
+
+type SaveOrUpdateMemberResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type ListMemberReq struct {
+	PageNum  int64  `form:"page_num,default=1"`
+	PageSize int64  `form:"page_size,default=20"`
+	Nickname string `form:"nickname,optional"`
+	Phone    string `form:"phone,optional"`
+	Status   string `form:"status,optional"`
+}
+
+type ListMemberData struct {
+	Id       int64  `json:"id"`
+	Nickname string `json:"nickname"`
+	Phone    string `json:"phone"`
+	Status   string `json:"status"`
+	Avatar   string `json:"avatar"`
+	Gender   string `json:"gender"`
+	Email    string `json:"email"`
+	CreateAt string `json:"created_at"`
+}
+
+type ListMemberResp struct {
+	Code    int64             `json:"code"`
+	Message string            `json:"message"`
+	Data    []*ListMemberData `json:"data"`
+	Total   int64             `json:"total"`
+}
+
+type DeleteMemberReq struct {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteMemberResp struct {
 	Code    int64  `json:"code"`
 	Message string `json:"message"`
 }

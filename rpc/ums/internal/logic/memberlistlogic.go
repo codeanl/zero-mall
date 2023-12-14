@@ -4,39 +4,40 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"simple_mall_new/rpc/ums/internal/svc"
+	"simple_mall_new/rpc/ums/ums"
+
 	"github.com/zeromicro/go-zero/core/logx"
-	"simple_mall_new/rpc/sys/internal/svc"
-	"simple_mall_new/rpc/sys/sys"
 )
 
-type UserListLogic struct {
+type MemberListLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserListLogic {
-	return &UserListLogic{
+func NewMemberListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MemberListLogic {
+	return &MemberListLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 用户列表
-func (l *UserListLogic) UserList(in *sys.UserListReq) (*sys.UserListResp, error) {
-	all, total, err := l.svcCtx.UserModel.GetUserList(in)
+// 会员列表
+func (l *MemberListLogic) MemberList(in *ums.MemberListReq) (*ums.MemberListResp, error) {
+	all, total, err := l.svcCtx.MemberModel.GetMemberList(in)
 	if err != nil {
 		return nil, err
 	}
-	var list []*sys.UserList
+	var list []*ums.MemberListData
 	jsonData, _ := json.Marshal(all)
 	err = json.Unmarshal(jsonData, &list)
 	for index, i := range all {
 		list[index].CreatedAt = i.CreatedAt.Format("2006-01-02 15:04:05")
 	}
 	fmt.Println(list[0].CreatedAt)
-	return &sys.UserListResp{
+	return &ums.MemberListResp{
 		Total: total,
 		List:  list,
 	}, nil

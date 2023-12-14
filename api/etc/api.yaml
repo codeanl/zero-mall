@@ -8,6 +8,12 @@ SysRpc:
       - localhost:2379
     Key: sys.rpc
 
+UmsRpc:
+  Etcd:
+    Hosts:
+      - localhost:2379
+    Key: ums.rpc
+
 Auth:
   AccessSecret: ad879037-c7a4-4063-9236-6bfc35d54b7d
   AccessExpire: 86400

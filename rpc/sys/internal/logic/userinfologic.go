@@ -2,7 +2,8 @@ package logic
 
 import (
 	"context"
-
+	"encoding/json"
+	"fmt"
 	"simple_mall_new/rpc/sys/internal/svc"
 	"simple_mall_new/rpc/sys/sys"
 
@@ -25,7 +26,23 @@ func NewUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserInfo
 
 // 用户信息
 func (l *UserInfoLogic) UserInfo(in *sys.UserInfoReq) (*sys.UserInfoResp, error) {
-	// todo: add your logic here and delete this line
+	//查询用户信息
+	user, _ := l.svcCtx.UserModel.GetUserByID(in.Id)
 
-	return &sys.UserInfoResp{}, nil
+	var UserInfo *sys.User
+	jsonData, err := json.Marshal(user)
+	err = json.Unmarshal(jsonData, &UserInfo)
+
+	role, err := l.svcCtx.RoleModel.GetRoleByUserID(in.Id)
+	if err != nil {
+		return nil, err
+	}
+	var Roles []*sys.RoleListData
+	jsonData1, err := json.Marshal(role)
+	err = json.Unmarshal(jsonData1, &Roles)
+	fmt.Println(Roles)
+	return &sys.UserInfoResp{
+		User:  UserInfo,
+		Roles: Roles,
+	}, nil
 }

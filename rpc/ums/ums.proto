@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package ums;
+
+option go_package = "./ums";
+
+//添加｜｜更新会员
+message SaveOrUpdateMemberReq {
+  int64       id = 1;
+  string      phone = 2;
+  string      password = 4;
+  string      nickname = 5;
+  string      status = 7;
+  string      avatar = 9;
+  string      gender = 10;
+  string      email = 12;
+}
+message SaveOrUpdateMemberResp {
+  string pong = 1;
+}
+
+//会员删除
+message MemberDeleteReq {
+  repeated int64 ids = 1;
+}
+message MemberDeleteResp {
+  string pong = 1;
+}
+
+//会员列表
+message MemberListReq {
+  int64 page_num = 1;
+  int64 page_size = 2;
+  string phone = 4;
+  string  status = 5;
+  string  nickname = 6;
+}
+message MemberListData{
+  int64       id = 1;
+  string      nickname = 5;
+  string      phone = 6;
+  string       status = 7;
+  string      avatar = 9;
+  string       gender = 10;
+  string      email = 12;
+  string    created_at=20;
+}
+message MemberListResp {
+  int64 total = 1;
+  repeated  MemberListData list = 2;
+}
+
+service Ums {
+  //添加｜｜更新会员
+  rpc SaveOrUpdateMember(SaveOrUpdateMemberReq) returns(SaveOrUpdateMemberResp);
+  //删除会员
+  rpc MemberDelete(MemberDeleteReq) returns(MemberDeleteResp);
+  //会员列表
+  rpc MemberList(MemberListReq) returns(MemberListResp);
+}

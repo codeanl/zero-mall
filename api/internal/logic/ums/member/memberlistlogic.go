@@ -1,47 +1,48 @@
-package login_log
+package member
 
 import (
 	"context"
 	"encoding/json"
-	"simple_mall_new/rpc/sys/sysclient"
-
 	"simple_mall_new/api/internal/svc"
 	"simple_mall_new/api/internal/types"
+	"simple_mall_new/rpc/ums/umsclient"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type LoginLogListLogic struct {
+type MemberListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewLoginLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogListLogic {
-	return &LoginLogListLogic{
+func NewMemberListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MemberListLogic {
+	return &MemberListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *LoginLogListLogic) LoginLogList(req *types.ListLoginLogReq) (resp *types.ListLoginLogResp, err error) {
-	data, err := l.svcCtx.Sys.LoginLogList(l.ctx, &sysclient.LoginLogListReq{
+func (l *MemberListLogic) MemberList(req *types.ListMemberReq) (resp *types.ListMemberResp, err error) {
+	data, err := l.svcCtx.Ums.MemberList(l.ctx, &umsclient.MemberListReq{
 		PageNum:  req.PageNum,
 		PageSize: req.PageSize,
-		UserId:   req.UserID,
+		Nickname: req.Nickname,
+		Phone:    req.Phone,
+		Status:   req.Status,
 	})
 	if err != nil {
-		return &types.ListLoginLogResp{
+		return &types.ListMemberResp{
 			Code:    400,
 			Message: "查询失败",
 		}, nil
 	}
-	var list []*types.ListLoginLogData
+	var list []*types.ListMemberData
 	jsonData, err := json.Marshal(data.List)
 	err = json.Unmarshal(jsonData, &list)
 
-	return &types.ListLoginLogResp{
+	return &types.ListMemberResp{
 		Code:    200,
 		Message: "查询成功",
 		Total:   data.Total,

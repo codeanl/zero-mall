@@ -30,11 +30,13 @@ func (l *LoginLogListLogic) LoginLogList(in *sys.LoginLogListReq) (*sys.LoginLog
 	if err != nil {
 		return nil, err
 	}
-	//
 	var list []*sys.LoginLogListData
-	jsonData, err := json.Marshal(all)
+	jsonData, _ := json.Marshal(all)
 	err = json.Unmarshal(jsonData, &list)
-	//
+	for index, i := range all {
+		list[index].CreatedAt = i.CreatedAt.Format("2006-01-02 15:04:05")
+	}
+
 	return &sys.LoginLogListResp{
 		Total: total,
 		List:  list,

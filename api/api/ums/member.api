@@ -1,0 +1,75 @@
+info(
+    title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+
+type (
+    SaveOrUpdateMemberReq struct {
+        ID int64 `json:"id,optional"`
+        Password string `json:"password,optional"`
+        Nickname string `json:"nickname,optional"`
+        Phone string `json:"phone,optional"`
+        Status string `json:"status,optional"`
+        Avatar string `json:"avatar,optional"`
+        Gender string `json:"gender,optional"`
+        Email string `json:"email,optional"`
+    }
+    SaveOrUpdateMemberResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+    ListMemberReq struct {
+        PageNum int64 `form:"page_num,default=1"`
+        PageSize int64 `form:"page_size,default=20"`
+        Nickname string `form:"nickname,optional"`
+        Phone string `form:"phone,optional"`
+        Status string `form:"status,optional"`
+    }
+    ListMemberData struct {
+        Id int64 `json:"id"`
+        Nickname string `json:"nickname"`
+        Phone string `json:"phone"`
+        Status string `json:"status"`
+        Avatar string `json:"avatar"`
+        Gender string `json:"gender"`
+        Email string `json:"email"`
+        CreateAt string `json:"created_at"`
+    }
+    ListMemberResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data []*ListMemberData `json:"data"`
+        Total int64 `json:"total"`
+    }
+
+    DeleteMemberReq struct {
+        Ids []int64 `json:"ids"`
+    }
+    DeleteMemberResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+)
+
+@server(
+    jwt: Auth
+    group: ums/member
+    prefix: /api/ums/member
+)
+service api {
+    @doc(summary: "添加｜｜更新会员")
+    @handler SaveOrUpdateMember
+    post / (SaveOrUpdateMemberReq) returns (SaveOrUpdateMemberResp)
+
+    @doc(summary: "会员列表")
+    @handler MemberList
+    get  /list (ListMemberReq) returns (ListMemberResp)
+
+    @doc(summary: "删除会员")
+    @handler MemberDelete
+    post /delete (DeleteMemberReq) returns (DeleteMemberResp)
+}

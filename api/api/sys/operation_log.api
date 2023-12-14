@@ -20,7 +20,7 @@ type (
         Params string `json:"params"`
         Time int64 `json:"time"`
         IP string `json:"ip"`
-        CreateAt string `json:"create_at"`
+        CreatedAt string `json:"created_at"`
         UserInfo User `json:"user"`
     }
 

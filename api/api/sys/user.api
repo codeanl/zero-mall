@@ -18,7 +18,6 @@ type(
         Message string `json:"message"`
         Data string `json:"data"`
    }
-
    SaveOrUpdateUserReq struct {
         ID int64 `json:"id,optional"`
         Username string `json:"username,optional"`
@@ -50,7 +49,7 @@ type(
 
     ListUserReq struct {
         PageNum int64 `form:"page_num,default=1"`
-        PageSize int64 `form:"page_size,default=1"`
+        PageSize int64 `form:"page_size,default=10"`
         Nickname string `form:"nickname,optional"`
         Phone string `form:"phone,optional"`
         Username string `form:"username,optional"`
@@ -67,8 +66,8 @@ type(
         Avatar string `json:"avatar"`
         Email string `json:"email"`
         Status string `json:"status"`
-        CreateAt string `json:"creat_at"`
-        RoleName  []string `json:"rol_name"`
+        CreatedAt string `json:"created_at"`
+        RoleName  []string `json:"role_name"`
     }
     ListUserResp struct {
         Code int64 `json:"code"`
@@ -87,6 +86,33 @@ type(
        Code int64 `json:"code"`
        Message string `json:"message"`
     }
+
+
+    UserInfoResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data UserInfoData `json:"data"`
+    }
+    UserInfoData struct {
+        User Userr  `json:"user"`
+        Roles []*Roles  `json:"roles"`
+    }
+     Userr struct{
+        ID int64 `json:"id"`
+        Username string `json:"username"`
+        NickName string `json:"nickname"`
+        Phone string `json:"phone"`
+        Gander string `json:"gender"`
+        Avatar string `json:"avatar"`
+        Email string `json:"email"`
+        Status string `json:"status"`
+        CreateAt string `json:"create_at"`
+     }
+     Roles struct {
+        ID int64 `json:"id"`
+        Name string `json:"name"`
+        Remark string `json:"remark"`
+     }
 )
 
 @server(
@@ -122,5 +148,9 @@ service api {
     @doc(summary: "更新密码｜｜重置密码")
     @handler UpdatePassword
     post /update_pass (UpdatePasswordReq) returns (UpdatePasswordResp)
+
+    @doc(summary: "个人信息")
+    @handler UserInfo
+    get /info  returns (UserInfoResp)
 }
 

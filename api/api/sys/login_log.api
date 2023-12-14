@@ -17,7 +17,7 @@ type (
         UserId   int64 `json:"user_id"`
         IP string `json:"ip"`
         Address string `json:"address"`
-        CreateAt string `json:"create_at"`
+        CreatedAt string `json:"created_at"`
     }
 
     ListLoginLogResp struct {

@@ -4,6 +4,8 @@ import "sys/menu.api"
 import "sys/login_log.api"
 import "sys/operation_log.api"
 
+import "ums/member.api"
+
 info(
 	title: "type title here"
 	desc: "type desc here"
