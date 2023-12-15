@@ -608,3 +608,104 @@ type DeleteMerchantsApplyResp struct {
 	Code    int64  `json:"code"`
 	Message string `json:"message"`
 }
+
+type ListMerchantsReq struct {
+	PageNum        int64  `form:"page_num,default=1"`
+	PageSize       int64  `form:"page_size,default=20"`
+	Name           string `form:"name,optional"`
+	Address        string `form:"address,optional"`
+	PrincipalPhone string `form:"principal_phone,optional"`
+	PrincipalName  string `form:"principal_name,optional"`
+}
+
+type ListMerchantsData struct {
+	ID             int64      `json:"id"`
+	Name           string     `json:"name"`
+	PrincipalPhone string     `json:"principal_phone"`
+	PrincipalName  string     `json:"principal_name"`
+	Address        string     `json:"address"`
+	Pic            string     `json:"pic"`
+	UserID         int64      `json:"user_id"`
+	UserInfoFF     UserInfoFF `json:"user"`
+}
+
+type UserInfoFF struct {
+	ID        int64  `json:"id"`
+	Username  string `json:"username"`
+	Phone     string `json:"phone"`
+	Nickname  string `json:"nickname"`
+	Gender    string `json:"gender"`
+	Avatar    string `json:"avatar"`
+	Email     string `json:"email"`
+	Status    string `json:"status"`
+	CreatedAt string `json:"created_at"`
+}
+
+type ListMerchantsResp struct {
+	Code    int64                `json:"code"`
+	Message string               `json:"message"`
+	Data    []*ListMerchantsData `json:"data"`
+	Total   int64                `json:"total"`
+}
+
+type UpdateMerchantsReq struct {
+	ID             int64  `json:"id"`
+	Name           string `json:"name"`
+	PrincipalPhone string `json:"principal_phone"`
+	PrincipalName  string `json:"principal_name"`
+	Address        string `json:"address"`
+	Pic            string `json:"pic"`
+}
+
+type UpdateMerchantsResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type DeleteMerchantsReq struct {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteMerchantsResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type MerchantsInfoReq struct {
+	ID int64 `json:"id"`
+}
+
+type MerchantsInfoResp struct {
+	Code    int64          `json:"code"`
+	Message string         `json:"message"`
+	Data    *MerchantsInfo `json:"data"`
+}
+
+type MerchantsInfo struct {
+	ID                 int64                  `json:"id"`
+	Name               string                 `json:"name"`
+	PrincipalPhone     string                 `json:"principal_phone"`
+	PrincipalName      string                 `json:"principal_name"`
+	Address            string                 `json:"address"`
+	Pic                string                 `json:"pic"`
+	UserID             int64                  `json:"user_id"`
+	MerchantsApplyInfo MerchantApplysListData `json:"merchants_apply_info"`
+}
+
+type MerchantApplysListData struct {
+	ID             int64  `json:"id"`
+	PrincipalName  string `json:"principal_name"`
+	PrincipalPhone string `json:"principal_phone"`
+	IDCardFront    string `json:"id_card_front"`
+	IDCardReverse  string `json:"id_card_reverse"`
+	Name           string `json:"name"`
+	Address        string `json:"address"`
+	Pic            string `json:"pic"`
+	Type           string `json:"type"`
+	Status         string `json:"status"`
+	Auditor        string `json:"auditor"`
+	ApprovalTime   string `json:"approval_time"`
+	Remark         string `json:"remark"`
+	AdminRemark    string `json:"admin_remark"`
+	CreatedAt      string `json:"created_at"`
+}

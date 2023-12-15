@@ -12,6 +12,7 @@ import "sms/subject.api"
 
 import "pms/category.api"
 import "pms/merchants_apply.api"
+import "pms/merchants.api"
 
 info(
 	title: "type title here"

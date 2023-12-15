@@ -29,6 +29,11 @@ const (
 	Pms_MerchantsList_FullMethodName        = "/pms.Pms/MerchantsList"
 	Pms_MerchantsUpdate_FullMethodName      = "/pms.Pms/MerchantsUpdate"
 	Pms_MerchantsDelete_FullMethodName      = "/pms.Pms/MerchantsDelete"
+	Pms_MerchantsInfo_FullMethodName        = "/pms.Pms/MerchantsInfo"
+	Pms_PlaceList_FullMethodName            = "/pms.Pms/PlaceList"
+	Pms_PlaceUpdate_FullMethodName          = "/pms.Pms/PlaceUpdate"
+	Pms_PlaceDelete_FullMethodName          = "/pms.Pms/PlaceDelete"
+	Pms_PlaceInfo_FullMethodName            = "/pms.Pms/PlaceInfo"
 )
 
 // PmsClient is the client API for Pms service.
@@ -55,6 +60,16 @@ type PmsClient interface {
 	MerchantsUpdate(ctx context.Context, in *MerchantsUpdateReq, opts ...grpc.CallOption) (*MerchantsUpdateResp, error)
 	// 删除商家
 	MerchantsDelete(ctx context.Context, in *MerchantsDeleteReq, opts ...grpc.CallOption) (*MerchantsDeleteResp, error)
+	// 商家详情
+	MerchantsInfo(ctx context.Context, in *MerchantsInfoReq, opts ...grpc.CallOption) (*MerchantsInfoResp, error)
+	// 自提点列表
+	PlaceList(ctx context.Context, in *PlaceListReq, opts ...grpc.CallOption) (*PlaceListResp, error)
+	// 更新自提点
+	PlaceUpdate(ctx context.Context, in *PlaceUpdateReq, opts ...grpc.CallOption) (*PlaceUpdateResp, error)
+	// 删除自提点
+	PlaceDelete(ctx context.Context, in *PlaceDeleteReq, opts ...grpc.CallOption) (*PlaceDeleteResp, error)
+	// 自提点详情
+	PlaceInfo(ctx context.Context, in *PlaceInfoReq, opts ...grpc.CallOption) (*PlaceInfoResp, error)
 }
 
 type pmsClient struct {
@@ -155,6 +170,51 @@ func (c *pmsClient) MerchantsDelete(ctx context.Context, in *MerchantsDeleteReq,
 	return out, nil
 }
 
+func (c *pmsClient) MerchantsInfo(ctx context.Context, in *MerchantsInfoReq, opts ...grpc.CallOption) (*MerchantsInfoResp, error) {
+	out := new(MerchantsInfoResp)
+	err := c.cc.Invoke(ctx, Pms_MerchantsInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pmsClient) PlaceList(ctx context.Context, in *PlaceListReq, opts ...grpc.CallOption) (*PlaceListResp, error) {
+	out := new(PlaceListResp)
+	err := c.cc.Invoke(ctx, Pms_PlaceList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pmsClient) PlaceUpdate(ctx context.Context, in *PlaceUpdateReq, opts ...grpc.CallOption) (*PlaceUpdateResp, error) {
+	out := new(PlaceUpdateResp)
+	err := c.cc.Invoke(ctx, Pms_PlaceUpdate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pmsClient) PlaceDelete(ctx context.Context, in *PlaceDeleteReq, opts ...grpc.CallOption) (*PlaceDeleteResp, error) {
+	out := new(PlaceDeleteResp)
+	err := c.cc.Invoke(ctx, Pms_PlaceDelete_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pmsClient) PlaceInfo(ctx context.Context, in *PlaceInfoReq, opts ...grpc.CallOption) (*PlaceInfoResp, error) {
+	out := new(PlaceInfoResp)
+	err := c.cc.Invoke(ctx, Pms_PlaceInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PmsServer is the server API for Pms service.
 // All implementations must embed UnimplementedPmsServer
 // for forward compatibility
@@ -179,6 +239,16 @@ type PmsServer interface {
 	MerchantsUpdate(context.Context, *MerchantsUpdateReq) (*MerchantsUpdateResp, error)
 	// 删除商家
 	MerchantsDelete(context.Context, *MerchantsDeleteReq) (*MerchantsDeleteResp, error)
+	// 商家详情
+	MerchantsInfo(context.Context, *MerchantsInfoReq) (*MerchantsInfoResp, error)
+	// 自提点列表
+	PlaceList(context.Context, *PlaceListReq) (*PlaceListResp, error)
+	// 更新自提点
+	PlaceUpdate(context.Context, *PlaceUpdateReq) (*PlaceUpdateResp, error)
+	// 删除自提点
+	PlaceDelete(context.Context, *PlaceDeleteReq) (*PlaceDeleteResp, error)
+	// 自提点详情
+	PlaceInfo(context.Context, *PlaceInfoReq) (*PlaceInfoResp, error)
 	mustEmbedUnimplementedPmsServer()
 }
 
@@ -215,6 +285,21 @@ func (UnimplementedPmsServer) MerchantsUpdate(context.Context, *MerchantsUpdateR
 }
 func (UnimplementedPmsServer) MerchantsDelete(context.Context, *MerchantsDeleteReq) (*MerchantsDeleteResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MerchantsDelete not implemented")
+}
+func (UnimplementedPmsServer) MerchantsInfo(context.Context, *MerchantsInfoReq) (*MerchantsInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MerchantsInfo not implemented")
+}
+func (UnimplementedPmsServer) PlaceList(context.Context, *PlaceListReq) (*PlaceListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PlaceList not implemented")
+}
+func (UnimplementedPmsServer) PlaceUpdate(context.Context, *PlaceUpdateReq) (*PlaceUpdateResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PlaceUpdate not implemented")
+}
+func (UnimplementedPmsServer) PlaceDelete(context.Context, *PlaceDeleteReq) (*PlaceDeleteResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PlaceDelete not implemented")
+}
+func (UnimplementedPmsServer) PlaceInfo(context.Context, *PlaceInfoReq) (*PlaceInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PlaceInfo not implemented")
 }
 func (UnimplementedPmsServer) mustEmbedUnimplementedPmsServer() {}
 
@@ -409,6 +494,96 @@ func _Pms_MerchantsDelete_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Pms_MerchantsInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MerchantsInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PmsServer).MerchantsInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Pms_MerchantsInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PmsServer).MerchantsInfo(ctx, req.(*MerchantsInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Pms_PlaceList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PlaceListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PmsServer).PlaceList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Pms_PlaceList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PmsServer).PlaceList(ctx, req.(*PlaceListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Pms_PlaceUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PlaceUpdateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PmsServer).PlaceUpdate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Pms_PlaceUpdate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PmsServer).PlaceUpdate(ctx, req.(*PlaceUpdateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Pms_PlaceDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PlaceDeleteReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PmsServer).PlaceDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Pms_PlaceDelete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PmsServer).PlaceDelete(ctx, req.(*PlaceDeleteReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Pms_PlaceInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PlaceInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PmsServer).PlaceInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Pms_PlaceInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PmsServer).PlaceInfo(ctx, req.(*PlaceInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Pms_ServiceDesc is the grpc.ServiceDesc for Pms service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -455,6 +630,26 @@ var Pms_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MerchantsDelete",
 			Handler:    _Pms_MerchantsDelete_Handler,
+		},
+		{
+			MethodName: "MerchantsInfo",
+			Handler:    _Pms_MerchantsInfo_Handler,
+		},
+		{
+			MethodName: "PlaceList",
+			Handler:    _Pms_PlaceList_Handler,
+		},
+		{
+			MethodName: "PlaceUpdate",
+			Handler:    _Pms_PlaceUpdate_Handler,
+		},
+		{
+			MethodName: "PlaceDelete",
+			Handler:    _Pms_PlaceDelete_Handler,
+		},
+		{
+			MethodName: "PlaceInfo",
+			Handler:    _Pms_PlaceInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

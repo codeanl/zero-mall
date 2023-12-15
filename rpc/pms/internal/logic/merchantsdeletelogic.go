@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"errors"
 
 	"simple_mall_new/rpc/pms/internal/svc"
 	"simple_mall_new/rpc/pms/pms"
@@ -25,7 +26,9 @@ func NewMerchantsDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *M
 
 // 删除商家
 func (l *MerchantsDeleteLogic) MerchantsDelete(in *pms.MerchantsDeleteReq) (*pms.MerchantsDeleteResp, error) {
-	// todo: add your logic here and delete this line
-
+	err := l.svcCtx.MerchantsModel.DeleteMerchantsByIds(in.IDs)
+	if err != nil {
+		return nil, errors.New("删除用户失败")
+	}
 	return &pms.MerchantsDeleteResp{}, nil
 }

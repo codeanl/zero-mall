@@ -1,0 +1,123 @@
+info(
+  title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+
+type (
+    ListMerchantsReq struct {
+        PageNum int64 `form:"page_num,default=1"`
+        PageSize int64 `form:"page_size,default=20"`
+        Name   string `form:"name,optional"`
+        Address   string `form:"address,optional"`
+        PrincipalPhone   string `form:"principal_phone,optional"`
+        PrincipalName   string `form:"principal_name,optional"`
+    }
+    ListMerchantsData struct {
+       ID              int64  `json:"id"`
+       Name            string `json:"name"`
+       PrincipalPhone   string `json:"principal_phone"`
+       PrincipalName    string `json:"principal_name"`
+       Address          string `json:"address"`
+       Pic              string `json:"pic"`
+       UserID           int64 `json:"user_id"`
+       UserInfoFF       UserInfoFF `json:"user"`
+    }
+    UserInfoFF struct {
+        ID           int64  `json:"id"`
+        Username      string `json:"username"`
+        Phone        string `json:"phone"`
+        Nickname    string `json:"nickname"`
+        gender       string `json:"gender"`
+        Avatar        string `json:"avatar"`
+        Email         string `json:"email"`
+        Status        string `json:"status"`
+        CreatedAt     string `json:"created_at"`
+    }
+    ListMerchantsResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data []*ListMerchantsData `json:"data"`
+        Total int64 `json:"total"`
+    }
+
+    UpdateMerchantsReq struct {
+          ID         int64  `json:"id"`
+          Name            string `json:"name"`
+          PrincipalPhone   string `json:"principal_phone"`
+          PrincipalName    string `json:"principal_name"`
+          Address          string `json:"address"`
+          Pic              string `json:"pic"`
+    }
+
+    UpdateMerchantsResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+    DeleteMerchantsReq struct {
+        Ids []int64 `json:"ids"`
+    }
+    DeleteMerchantsResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+
+    MerchantsInfoReq struct {
+         ID         int64  `json:"id"`
+    }
+    MerchantsInfoResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data *MerchantsInfo `json:"data"`
+    }
+
+    MerchantsInfo struct {
+       ID              int64  `json:"id"`
+       Name            string `json:"name"`
+       PrincipalPhone   string `json:"principal_phone"`
+       PrincipalName    string `json:"principal_name"`
+       Address          string `json:"address"`
+       Pic              string `json:"pic"`
+       UserID           int64 `json:"user_id"`
+       MerchantsApplyInfo  MerchantApplysListData `json:"merchants_apply_info"`
+    }
+    MerchantApplysListData struct {
+        ID                int64  `json:"id"`
+        PrincipalName     string `json:"principal_name"`
+        PrincipalPhone    string `json:"principal_phone"`
+        IDCardFront       string `json:"id_card_front"`
+        IDCardReverse     string `json:"id_card_reverse"`
+        Name              string `json:"name"`
+        Address           string `json:"address"`
+        Pic               string `json:"pic"`
+        Type              string `json:"type"`
+        Status            string `json:"status"`
+        Auditor           string `json:"auditor"`
+        ApprovalTime      string `json:"approval_time"`
+        Remark            string `json:"remark"`
+        AdminRemark       string `json:"admin_remark"`
+        CreatedAt         string `json:"created_at"`
+    }
+)
+@server(
+    jwt: Auth
+    group: pms/merchants
+    prefix: /api/pms/merchants
+)
+service api {
+    @handler MerchantsList
+    get /list (ListMerchantsReq) returns (ListMerchantsResp)
+
+    @handler MerchantsUpdate
+    post /update (UpdateMerchantsReq) returns (UpdateMerchantsResp)
+
+    @handler MerchantsDelete
+    post /delete (DeleteMerchantsReq) returns (DeleteMerchantsResp)
+
+    @handler MerchantsInfo
+    post /info (MerchantsInfoReq) returns (MerchantsInfoResp)
+}

@@ -138,7 +138,7 @@ message UserInfoFF{
   string avatar=6;
   string email=7;
   string status=8;
-  string create_at=13;
+  string created_at=13;
 }
 message MerchantsListResp{
   int64 total = 1;
@@ -164,6 +164,78 @@ message  MerchantsDeleteReq{
 message  MerchantsDeleteResp{
   string pong = 1;
 }
+//商家详情
+message  MerchantsInfoReq{
+  int64  id=1;
+}
+message  MerchantsInfoResp{
+  int64 id=1;
+  string name=2;
+  string principal_name=3;
+  string principal_phone=4;
+  string address=5;
+  string pic=6;
+  MerchantApplysListData  merchants_apply_info=7;
+}
+
+
+
+//商家列表
+message PlaceListReq {
+  int64 page_num = 1;
+  int64 page_size = 2;
+  string name=3;
+  string address = 4;
+  string principal_phone = 5;
+  string principal_name =6;
+}
+message  PlaceListData {
+  int64 id=1;
+  string name=2;
+  string principal_name=3;
+  string principal_phone=4;
+  string address=5;
+  string pic=6;
+  int64 user_id=7;
+  UserInfoFF user=8;
+}
+message PlaceListResp{
+  int64 total = 1;
+  repeated  PlaceListData list = 2;
+}
+//更新
+message  PlaceUpdateReq{
+  int64 id=1;
+  string name=2;
+  string principal_name=3;
+  string principal_phone=4;
+  string address=5;
+  string pic=6;
+}
+message  PlaceUpdateResp{
+  string pong = 1;
+}
+// 删除
+message  PlaceDeleteReq{
+  repeated int64  IDs=1;
+}
+message  PlaceDeleteResp{
+  string pong = 1;
+}
+//详情
+message  PlaceInfoReq{
+  int64  id=1;
+}
+message  PlaceInfoResp{
+  int64 id=1;
+  string name=2;
+  string principal_name=3;
+  string principal_phone=4;
+  string address=5;
+  string pic=6;
+  MerchantApplysListData  merchants_apply_info=7;
+}
+
 
 service Pms {
   //添加||更新分类
@@ -189,5 +261,15 @@ service Pms {
   //删除商家
   rpc MerchantsDelete(MerchantsDeleteReq) returns(MerchantsDeleteResp);
   //商家详情
-//  rpc MerchantsInfo(MerchantsInfoReq) returns(MerchantsInfoResp);
+  rpc MerchantsInfo(MerchantsInfoReq) returns(MerchantsInfoResp);
+
+
+  //自提点列表
+  rpc PlaceList(PlaceListReq) returns(PlaceListResp);
+  //更新自提点
+  rpc PlaceUpdate(PlaceUpdateReq) returns(PlaceUpdateResp);
+  //删除自提点
+  rpc PlaceDelete(PlaceDeleteReq) returns(PlaceDeleteResp);
+  //自提点详情
+  rpc PlaceInfo(PlaceInfoReq) returns(PlaceInfoResp);
 }

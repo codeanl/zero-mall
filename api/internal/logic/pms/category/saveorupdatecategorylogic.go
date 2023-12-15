@@ -56,5 +56,4 @@ func (l *SaveOrUpdateCategoryLogic) SaveOrUpdateCategory(req *types.SaveOrUpdate
 		Code:    200,
 		Message: msg,
 	}, nil
-	return
 }

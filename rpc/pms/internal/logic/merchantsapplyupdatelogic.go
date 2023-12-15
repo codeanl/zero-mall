@@ -67,24 +67,26 @@ func (l *MerchantsApplyUpdateLogic) MerchantsApplyUpdate(in *pms.MerchantsApplyU
 		//0->商家 1->自提点
 		if info.Type == "0" {
 			_, err := l.svcCtx.MerchantsModel.AddMerchants(&model.Merchants{
-				UserID:         int64(userInfo.ID),
-				Name:           info.Name,
-				PrincipalName:  info.PrincipalName,
-				PrincipalPhone: info.PrincipalPhone,
-				Address:        info.Address,
-				Pic:            info.Pic,
+				UserID:               int64(userInfo.ID),
+				Name:                 info.Name,
+				PrincipalName:        info.PrincipalName,
+				PrincipalPhone:       info.PrincipalPhone,
+				Address:              info.Address,
+				Pic:                  info.Pic,
+				MerchantApplysListID: int64(info.ID),
 			})
 			if err != nil {
 				return nil, errors.New("入驻失败")
 			}
 		} else if info.Type == "1" {
 			err := l.svcCtx.PlaceModel.AddPlace(&model.Place{
-				UserID:         int64(userInfo.ID),
-				Name:           info.Name,
-				PrincipalName:  info.PrincipalName,
-				PrincipalPhone: info.PrincipalPhone,
-				Address:        info.Address,
-				Pic:            info.Pic,
+				UserID:               int64(userInfo.ID),
+				Name:                 info.Name,
+				PrincipalName:        info.PrincipalName,
+				PrincipalPhone:       info.PrincipalPhone,
+				Address:              info.Address,
+				Pic:                  info.Pic,
+				MerchantApplysListID: int64(info.ID),
 			})
 			if err != nil {
 				return nil, errors.New("入驻失败")
