@@ -1,0 +1,123 @@
+info(
+  title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+
+type (
+    ListPlaceReq struct {
+        PageNum int64 `form:"page_num,default=1"`
+        PageSize int64 `form:"page_size,default=20"`
+        Name   string `form:"name,optional"`
+        Address   string `form:"address,optional"`
+        PrincipalPhone   string `form:"principal_phone,optional"`
+        PrincipalName   string `form:"principal_name,optional"`
+    }
+    ListPlaceData struct {
+       ID              int64  `json:"id"`
+       Name            string `json:"name"`
+       PrincipalPhone   string `json:"principal_phone"`
+       PrincipalName    string `json:"principal_name"`
+       Address          string `json:"address"`
+       Pic              string `json:"pic"`
+       UserID           int64 `json:"user_id"`
+       UserInfoFF       UserInfoFF1 `json:"user"`
+    }
+    UserInfoFF1 struct {
+        ID           int64  `json:"id"`
+        Username      string `json:"username"`
+        Phone        string `json:"phone"`
+        Nickname    string `json:"nickname"`
+        gender       string `json:"gender"`
+        Avatar        string `json:"avatar"`
+        Email         string `json:"email"`
+        Status        string `json:"status"`
+        CreatedAt     string `json:"created_at"`
+    }
+    ListPlaceResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data []*ListPlaceData `json:"data"`
+        Total int64 `json:"total"`
+    }
+
+    UpdatePlaceReq struct {
+          ID         int64  `json:"id"`
+          Name            string `json:"name"`
+          PrincipalPhone   string `json:"principal_phone"`
+          PrincipalName    string `json:"principal_name"`
+          Address          string `json:"address"`
+          Pic              string `json:"pic"`
+    }
+
+    UpdatePlaceResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+    DeletePlaceReq struct {
+        Ids []int64 `json:"ids"`
+    }
+    DeletePlaceResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+
+    PlaceInfoReq struct {
+         ID         int64  `json:"id"`
+    }
+    PlaceInfoResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data *PlaceInfo `json:"data"`
+    }
+
+    PlaceInfo struct {
+       ID              int64  `json:"id"`
+       Name            string `json:"name"`
+       PrincipalPhone   string `json:"principal_phone"`
+       PrincipalName    string `json:"principal_name"`
+       Address          string `json:"address"`
+       Pic              string `json:"pic"`
+       UserID           int64 `json:"user_id"`
+       PlaceApplyInfo  MerchantApplysListData1 `json:"Place_apply_info"`
+    }
+    MerchantApplysListData1 struct {
+        ID                int64  `json:"id"`
+        PrincipalName     string `json:"principal_name"`
+        PrincipalPhone    string `json:"principal_phone"`
+        IDCardFront       string `json:"id_card_front"`
+        IDCardReverse     string `json:"id_card_reverse"`
+        Name              string `json:"name"`
+        Address           string `json:"address"`
+        Pic               string `json:"pic"`
+        Type              string `json:"type"`
+        Status            string `json:"status"`
+        Auditor           string `json:"auditor"`
+        ApprovalTime      string `json:"approval_time"`
+        Remark            string `json:"remark"`
+        AdminRemark       string `json:"admin_remark"`
+        CreatedAt         string `json:"created_at"`
+    }
+)
+@server(
+    jwt: Auth
+    group: pms/place
+    prefix: /api/pms/place
+)
+service api {
+    @handler PlaceList
+    get /list (ListPlaceReq) returns (ListPlaceResp)
+
+    @handler PlaceUpdate
+    post /update (UpdatePlaceReq) returns (UpdatePlaceResp)
+
+    @handler PlaceDelete
+    post /delete (DeletePlaceReq) returns (DeletePlaceResp)
+
+    @handler PlaceInfo
+    post /info (PlaceInfoReq) returns (PlaceInfoResp)
+}

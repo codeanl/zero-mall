@@ -30,7 +30,7 @@ func (l *MerchantsApplyAddLogic) MerchantsApplyAdd(in *pms.MerchantsApplyAddReq)
 	//查询是否存在
 	_, exist, _ := l.svcCtx.MerchantsApplyModel.GetMerchantsApplyByPhone(in.PrincipalPhone)
 	if exist {
-		return nil, errors.New("菜单已存在")
+		return nil, errors.New("号码已存在")
 	}
 	info := &model.MerchantsApply{
 		PrincipalName:  in.PrincipalName,

@@ -709,3 +709,104 @@ type MerchantApplysListData struct {
 	AdminRemark    string `json:"admin_remark"`
 	CreatedAt      string `json:"created_at"`
 }
+
+type ListPlaceReq struct {
+	PageNum        int64  `form:"page_num,default=1"`
+	PageSize       int64  `form:"page_size,default=20"`
+	Name           string `form:"name,optional"`
+	Address        string `form:"address,optional"`
+	PrincipalPhone string `form:"principal_phone,optional"`
+	PrincipalName  string `form:"principal_name,optional"`
+}
+
+type ListPlaceData struct {
+	ID             int64       `json:"id"`
+	Name           string      `json:"name"`
+	PrincipalPhone string      `json:"principal_phone"`
+	PrincipalName  string      `json:"principal_name"`
+	Address        string      `json:"address"`
+	Pic            string      `json:"pic"`
+	UserID         int64       `json:"user_id"`
+	UserInfoFF     UserInfoFF1 `json:"user"`
+}
+
+type UserInfoFF1 struct {
+	ID        int64  `json:"id"`
+	Username  string `json:"username"`
+	Phone     string `json:"phone"`
+	Nickname  string `json:"nickname"`
+	Gender    string `json:"gender"`
+	Avatar    string `json:"avatar"`
+	Email     string `json:"email"`
+	Status    string `json:"status"`
+	CreatedAt string `json:"created_at"`
+}
+
+type ListPlaceResp struct {
+	Code    int64            `json:"code"`
+	Message string           `json:"message"`
+	Data    []*ListPlaceData `json:"data"`
+	Total   int64            `json:"total"`
+}
+
+type UpdatePlaceReq struct {
+	ID             int64  `json:"id"`
+	Name           string `json:"name"`
+	PrincipalPhone string `json:"principal_phone"`
+	PrincipalName  string `json:"principal_name"`
+	Address        string `json:"address"`
+	Pic            string `json:"pic"`
+}
+
+type UpdatePlaceResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type DeletePlaceReq struct {
+	Ids []int64 `json:"ids"`
+}
+
+type DeletePlaceResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type PlaceInfoReq struct {
+	ID int64 `json:"id"`
+}
+
+type PlaceInfoResp struct {
+	Code    int64      `json:"code"`
+	Message string     `json:"message"`
+	Data    *PlaceInfo `json:"data"`
+}
+
+type PlaceInfo struct {
+	ID             int64                   `json:"id"`
+	Name           string                  `json:"name"`
+	PrincipalPhone string                  `json:"principal_phone"`
+	PrincipalName  string                  `json:"principal_name"`
+	Address        string                  `json:"address"`
+	Pic            string                  `json:"pic"`
+	UserID         int64                   `json:"user_id"`
+	PlaceApplyInfo MerchantApplysListData1 `json:"Place_apply_info"`
+}
+
+type MerchantApplysListData1 struct {
+	ID             int64  `json:"id"`
+	PrincipalName  string `json:"principal_name"`
+	PrincipalPhone string `json:"principal_phone"`
+	IDCardFront    string `json:"id_card_front"`
+	IDCardReverse  string `json:"id_card_reverse"`
+	Name           string `json:"name"`
+	Address        string `json:"address"`
+	Pic            string `json:"pic"`
+	Type           string `json:"type"`
+	Status         string `json:"status"`
+	Auditor        string `json:"auditor"`
+	ApprovalTime   string `json:"approval_time"`
+	Remark         string `json:"remark"`
+	AdminRemark    string `json:"admin_remark"`
+	CreatedAt      string `json:"created_at"`
+}

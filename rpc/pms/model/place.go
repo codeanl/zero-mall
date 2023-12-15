@@ -1,16 +1,19 @@
 package model
 
 import (
+	"fmt"
 	"gorm.io/gorm"
+	"simple_mall_new/rpc/pms/pms"
 )
 
 type (
 	PlaceModel interface {
 		AddPlace(role *Place) (err error)
 		DeletePlaceByIds(ids []int64) error
-		//GetPlaceList(in *sys.PlaceListReq) ([]*Place, int64, error)
+		GetPlaceList(in *pms.PlaceListReq) ([]*Place, int64, error)
 		UpdatePlace(id int64, role *Place) error
 		//GetPlaceByIdOrUserID(in *sys.PlaceInfoReq) (place *Place, err error)
+		GetPlaceByID(id int64) (user *Place, err error)
 	}
 
 	defaultPlaceModel struct {
@@ -63,30 +66,39 @@ func (m *defaultPlaceModel) DeletePlaceByIds(ids []int64) error {
 //	return place, err
 //}
 
-//func (m *defaultPlaceModel) GetPlaceList(in *sys.PlaceListReq) ([]*Place, int64, error) {
-//	var list []*Place
-//	db := m.conn.Model(&Place{}).Order("created_at DESC")
-//	if in.Name != "" {
-//		db = db.Where("name LIKE ?", fmt.Sprintf("%%%s%%", in.Name))
-//	}
-//	if in.Place != "" {
-//		db = db.Where("place LIKE ?", fmt.Sprintf("%%%s%%", in.Place))
-//	}
-//	if in.Phone != "" {
-//		db = db.Where("phone LIKE ?", fmt.Sprintf("%%%s%%", in.Phone))
-//	}
-//	if in.Principal != "" {
-//		db = db.Where("principal LIKE ?", fmt.Sprintf("%%%s%%", in.Principal))
-//	}
-//	var total int64
-//	err := db.Count(&total).Error
-//	if err != nil {
-//		return list, total, err
-//	}
-//	if in.Current > 0 && in.PageSize > 0 {
-//		err = db.Offset(int((in.Current - 1) * in.PageSize)).Limit(int(in.PageSize)).Find(&list).Error
-//	} else {
-//		err = db.Find(&list).Error
-//	}
-//	return list, total, err
-//}
+func (m *defaultPlaceModel) GetPlaceList(in *pms.PlaceListReq) ([]*Place, int64, error) {
+	var list []*Place
+	db := m.conn.Model(&Place{}).Order("created_at DESC")
+	if in.Name != "" {
+		db = db.Where("name LIKE ?", fmt.Sprintf("%%%s%%", in.Name))
+	}
+	if in.PrincipalName != "" {
+		db = db.Where("principal_name LIKE ?", fmt.Sprintf("%%%s%%", in.PrincipalName))
+	}
+	if in.PrincipalPhone != "" {
+		db = db.Where("principal_phone LIKE ?", fmt.Sprintf("%%%s%%", in.PrincipalPhone))
+	}
+	if in.Address != "" {
+		db = db.Where("address LIKE ?", fmt.Sprintf("%%%s%%", in.Address))
+	}
+
+	var total int64
+	err := db.Count(&total).Error
+	if err != nil {
+		return list, total, err
+	}
+	if in.PageNum > 0 && in.PageSize > 0 {
+		err = db.Offset(int((in.PageNum - 1) * in.PageSize)).Limit(int(in.PageSize)).Find(&list).Error
+	} else {
+		err = db.Find(&list).Error
+	}
+	return list, total, err
+}
+
+func (m *defaultPlaceModel) GetPlaceByID(id int64) (user *Place, err error) {
+	err = m.conn.Model(&Place{}).Where("id=?", id).First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}

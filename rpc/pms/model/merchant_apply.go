@@ -33,7 +33,7 @@ type (
 		Type           string    `json:"type" gorm:"type:varchar(225);comment:类型;not null"`                 //类型：0->商家 1->自提点
 		Status         string    `json:"status" gorm:"type:varchar(225);comment:审核状态;not null"`             //审核状态 0->申请中 1->申请成功 2->申请失败
 		Auditor        string    `json:"auditor" gorm:"type:varchar(225);comment:审核人;not null"`             //审核人
-		ApprovalTime   time.Time `json:"approval_time" gorm:"type:datetime;comment:审核时间;not null"`          //审核时间
+		ApprovalTime   time.Time `json:"approval_time" gorm:"type:datetime;comment:审核时间;default:null"`      //审核时间
 		Remark         string    `json:"remark" gorm:"type:varchar(225);comment:备注;not null"`               //备注
 		AdminRemark    string    `json:"admin_remark" gorm:"type:varchar(225);comment:管理员备注;not null"`      //备注
 	}

@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"errors"
 
 	"simple_mall_new/rpc/pms/internal/svc"
 	"simple_mall_new/rpc/pms/pms"
@@ -25,7 +26,9 @@ func NewPlaceDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Place
 
 // 删除自提点
 func (l *PlaceDeleteLogic) PlaceDelete(in *pms.PlaceDeleteReq) (*pms.PlaceDeleteResp, error) {
-	// todo: add your logic here and delete this line
-
+	err := l.svcCtx.PlaceModel.DeletePlaceByIds(in.IDs)
+	if err != nil {
+		return nil, errors.New("删除用户失败")
+	}
 	return &pms.PlaceDeleteResp{}, nil
 }
