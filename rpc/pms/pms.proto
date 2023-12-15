@@ -46,6 +46,124 @@ message CategoryListResp {
   repeated  CategoryListData list = 2;
 }
 
+//添加商家申请
+message  MerchantsApplyAddReq{
+  string principal_name=1;
+  string principal_phone=2;
+  string id_card_front=3;
+  string id_card_reverse=4;
+  string name=5;
+  string address=6;
+  string pic=7;
+  string type=9;
+  string status=10;
+  string remark=13;
+}
+message  MerchantsApplyAddResp{
+  string pong=1;
+}
+//审核入驻申请
+message  MerchantsApplyUpdateReq{
+  int64 id=1;
+  string status=8;
+  string auditor=9;
+  string approval_time=10;
+  string admin_remark=11;
+}
+message  MerchantsApplyUpdateResp{
+  string pong = 1;
+}
+// 删除入驻申请
+message  MerchantsApplyDeleteReq{
+  repeated int64  IDs=1;
+}
+message  MerchantsApplyDeleteResp{
+  string pong = 1;
+}
+message MerchantsApplyListReq {
+  int64 page_num = 1;
+  int64 page_size = 2;
+  string name=3;
+  string status=4;
+  string type=5;
+}
+
+message  MerchantApplysListData {
+  int64 id=1;
+  string principal_name=2;
+  string principal_phone=3;
+  string id_card_front=4;
+  string id_card_reverse=5;
+  string name=6;
+  string address=7;
+  string pic=8;
+  string type=9;
+  string status=10;
+  string auditor=11;
+  string approval_time=12;
+  string remark=13;
+  string admin_remark=14;
+  string created_at=15;
+}
+message MerchantsApplyListResp{
+  int64 total = 1;
+  repeated  MerchantApplysListData list = 2;
+}
+
+//商家列表
+message MerchantsListReq {
+  int64 page_num = 1;
+  int64 page_size = 2;
+  string name=3;
+  string address = 4;
+  string principal_phone = 5;
+  string principal_name =6;
+}
+message  MerchantsListData {
+  int64 id=1;
+  string name=2;
+  string principal_name=3;
+  string principal_phone=4;
+  string address=5;
+  string pic=6;
+  int64 user_id=7;
+  UserInfoFF user=8;
+}
+message UserInfoFF{
+  int64 id = 1;
+  string username =2;
+  string phone=3;
+  string nickname=4;
+  string gender=5;
+  string avatar=6;
+  string email=7;
+  string status=8;
+  string create_at=13;
+}
+message MerchantsListResp{
+  int64 total = 1;
+  repeated  MerchantsListData list = 2;
+}
+
+//更新商家
+message  MerchantsUpdateReq{
+  int64 id=1;
+  string name=2;
+  string principal_name=3;
+  string principal_phone=4;
+  string address=5;
+  string pic=6;
+}
+message  MerchantsUpdateResp{
+  string pong = 1;
+}
+// 删除商家
+message  MerchantsDeleteReq{
+  repeated int64  IDs=1;
+}
+message  MerchantsDeleteResp{
+  string pong = 1;
+}
 
 service Pms {
   //添加||更新分类
@@ -54,4 +172,22 @@ service Pms {
   rpc CategoryList(CategoryListReq) returns(CategoryListResp);
   //删除分类
   rpc CategoryDelete(CategoryDeleteReq) returns(CategoryDeleteResp);
+
+  //入驻申请
+  rpc MerchantsApplyAdd(MerchantsApplyAddReq) returns(MerchantsApplyAddResp);
+  //入驻申请列表
+  rpc MerchantsApplyList(MerchantsApplyListReq) returns(MerchantsApplyListResp);
+  //审核入驻申请
+  rpc MerchantsApplyUpdate(MerchantsApplyUpdateReq) returns(MerchantsApplyUpdateResp);
+  //删除入驻申请
+  rpc MerchantsApplyDelete(MerchantsApplyDeleteReq) returns(MerchantsApplyDeleteResp);
+
+  //商家列表
+  rpc MerchantsList(MerchantsListReq) returns(MerchantsListResp);
+  //更新商家
+  rpc MerchantsUpdate(MerchantsUpdateReq) returns(MerchantsUpdateResp);
+  //删除商家
+  rpc MerchantsDelete(MerchantsDeleteReq) returns(MerchantsDeleteResp);
+  //商家详情
+//  rpc MerchantsInfo(MerchantsInfoReq) returns(MerchantsInfoResp);
 }

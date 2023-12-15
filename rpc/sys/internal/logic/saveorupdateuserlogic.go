@@ -46,7 +46,7 @@ func (l *SaveOrUpdateUserLogic) SaveOrUpdateUser(in *sys.SaveOrUpdateUserReq) (*
 	if in.Id == 0 {
 		user.Password = utils.SetPassword("123456")
 	}
-	err := l.svcCtx.UserModel.SaveOrUpdateUser(in.Id, user)
+	_, err := l.svcCtx.UserModel.SaveOrUpdateUser(in.Id, user)
 	if err != nil {
 		msgErr := "添加失败"
 		if in.Id > 0 {

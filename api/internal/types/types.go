@@ -538,3 +538,73 @@ type DeleteCategoryResp struct {
 	Code    int64  `json:"code"`
 	Message string `json:"message"`
 }
+
+type AddMerchantsApplyReq struct {
+	PrincipalName  string `json:"principal_name"`
+	PrincipalPhone string `json:"principal_phone"`
+	IDCardFront    string `json:"id_card_front"`
+	IDCardReverse  string `json:"id_card_reverse"`
+	Name           string `json:"name"`
+	Address        string `json:"address"`
+	Type           string `json:"type"`
+	Pic            string `json:"pic"`
+	Remark         string `json:"remark,optional"`
+}
+
+type AddMerchantsApplyResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type ListMerchantsApplyReq struct {
+	PageNum  int64  `form:"page_num,default=1"`
+	PageSize int64  `form:"page_size,default=20"`
+	Name     string `form:"name,optional"`
+	Status   string `form:"status,optional"`
+	Type     string `form:"type,optional"`
+}
+
+type ListMerchantsApplyData struct {
+	ID             int64  `json:"id"`
+	PrincipalName  string `json:"principal_name"`
+	PrincipalPhone string `json:"principal_phone"`
+	IDCardFront    string `json:"id_card_front"`
+	IDCardReverse  string `json:"id_card_reverse"`
+	Name           string `json:"name"`
+	Address        string `json:"address"`
+	Pic            string `json:"pic"`
+	Type           string `json:"type"`
+	Status         string `json:"status"`
+	Auditor        string `json:"auditor"`
+	ApprovalTime   string `json:"approval_time"`
+	Remark         string `json:"remark"`
+	AdminRemark    string `json:"admin_remark"`
+	CreatedAt      string `json:"created_at"`
+}
+
+type ListMerchantsApplyResp struct {
+	Code    int64                     `json:"code"`
+	Message string                    `json:"message"`
+	Data    []*ListMerchantsApplyData `json:"data"`
+	Total   int64                     `json:"total"`
+}
+
+type UpdateMerchantsApplyReq struct {
+	ID          int64  `json:"id"`
+	Status      string `json:"status"`
+	AdminRemark string `json:"admin_remark,optional"`
+}
+
+type UpdateMerchantsApplyResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type DeleteMerchantsApplyReq struct {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteMerchantsApplyResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}

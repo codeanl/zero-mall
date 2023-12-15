@@ -39,3 +39,45 @@ func (s *PmsServer) CategoryDelete(ctx context.Context, in *pms.CategoryDeleteRe
 	l := logic.NewCategoryDeleteLogic(ctx, s.svcCtx)
 	return l.CategoryDelete(in)
 }
+
+// 入驻申请
+func (s *PmsServer) MerchantsApplyAdd(ctx context.Context, in *pms.MerchantsApplyAddReq) (*pms.MerchantsApplyAddResp, error) {
+	l := logic.NewMerchantsApplyAddLogic(ctx, s.svcCtx)
+	return l.MerchantsApplyAdd(in)
+}
+
+// 入驻申请列表
+func (s *PmsServer) MerchantsApplyList(ctx context.Context, in *pms.MerchantsApplyListReq) (*pms.MerchantsApplyListResp, error) {
+	l := logic.NewMerchantsApplyListLogic(ctx, s.svcCtx)
+	return l.MerchantsApplyList(in)
+}
+
+// 审核入驻申请
+func (s *PmsServer) MerchantsApplyUpdate(ctx context.Context, in *pms.MerchantsApplyUpdateReq) (*pms.MerchantsApplyUpdateResp, error) {
+	l := logic.NewMerchantsApplyUpdateLogic(ctx, s.svcCtx)
+	return l.MerchantsApplyUpdate(in)
+}
+
+// 删除入驻申请
+func (s *PmsServer) MerchantsApplyDelete(ctx context.Context, in *pms.MerchantsApplyDeleteReq) (*pms.MerchantsApplyDeleteResp, error) {
+	l := logic.NewMerchantsApplyDeleteLogic(ctx, s.svcCtx)
+	return l.MerchantsApplyDelete(in)
+}
+
+// 商家列表
+func (s *PmsServer) MerchantsList(ctx context.Context, in *pms.MerchantsListReq) (*pms.MerchantsListResp, error) {
+	l := logic.NewMerchantsListLogic(ctx, s.svcCtx)
+	return l.MerchantsList(in)
+}
+
+// 更新商家
+func (s *PmsServer) MerchantsUpdate(ctx context.Context, in *pms.MerchantsUpdateReq) (*pms.MerchantsUpdateResp, error) {
+	l := logic.NewMerchantsUpdateLogic(ctx, s.svcCtx)
+	return l.MerchantsUpdate(in)
+}
+
+// 删除商家
+func (s *PmsServer) MerchantsDelete(ctx context.Context, in *pms.MerchantsDeleteReq) (*pms.MerchantsDeleteResp, error) {
+	l := logic.NewMerchantsDeleteLogic(ctx, s.svcCtx)
+	return l.MerchantsDelete(in)
+}

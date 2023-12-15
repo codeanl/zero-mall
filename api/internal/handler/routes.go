@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	pmscategory "simple_mall_new/api/internal/handler/pms/category"
+	pmsmerchants_apply "simple_mall_new/api/internal/handler/pms/merchants_apply"
 	smscoupon "simple_mall_new/api/internal/handler/sms/coupon"
 	smshome_advertise "simple_mall_new/api/internal/handler/sms/home_advertise"
 	smssubject "simple_mall_new/api/internal/handler/sms/subject"
@@ -249,5 +250,38 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/pms/category"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/add",
+				Handler: pmsmerchants_apply.MerchantsApplyAddHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/pms/merchants_apply"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: pmsmerchants_apply.MerchantsApplyListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/update",
+				Handler: pmsmerchants_apply.MerchantsApplyUpdateHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: pmsmerchants_apply.MerchantsApplyDeleteHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/pms/merchants_apply"),
 	)
 }

@@ -10,9 +10,10 @@ type (
 	UserModel interface {
 		GetUserByUsername(username string) (user *User, exist bool, err error)
 		GetUserByID(id int64) (user *User, err error)
-		SaveOrUpdateUser(id int64, req *User) (err error)
+		//SaveOrUpdateUser(id int64, req *User) (err error)
 		DeleteByIds(ids []int64) error
 		GetUserList(in *sys.UserListReq) ([]*User, int64, error)
+		SaveOrUpdateUser(id int64, req *User) (*User, error)
 	}
 	defaultUserModel struct {
 		conn *gorm.DB
@@ -56,12 +57,13 @@ func (m *defaultUserModel) GetUserByID(id int64) (user *User, err error) {
 	return user, err
 }
 
-func (m *defaultUserModel) SaveOrUpdateUser(id int64, req *User) (err error) {
-	fmt.Println(id)
+func (m *defaultUserModel) SaveOrUpdateUser(id int64, req *User) (*User, error) {
 	if id > 0 {
-		return m.conn.Model(&User{}).Where("id=?", id).Updates(req).Error
+		err := m.conn.Model(&User{}).Where("id=?", id).Updates(req).Error
+		return req, err
 	} else {
-		return m.conn.Model(&User{}).Create(req).Error
+		err := m.conn.Model(&User{}).Create(req).Error
+		return req, err
 	}
 }
 

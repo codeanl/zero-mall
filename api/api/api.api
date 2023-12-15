@@ -11,6 +11,7 @@ import "sms/coupon.api"
 import "sms/subject.api"
 
 import "pms/category.api"
+import "pms/merchants_apply.api"
 
 info(
 	title: "type title here"

@@ -38,7 +38,7 @@ func (l *UpdatePasswordLogic) UpdatePassword(in *sys.UpdatePasswordReq) (*sys.Up
 			return nil, errors.New("旧密码不正确")
 		}
 		//更新
-		err := l.svcCtx.UserModel.SaveOrUpdateUser(in.Id, &model.User{
+		_, err := l.svcCtx.UserModel.SaveOrUpdateUser(in.Id, &model.User{
 			Password: utils.SetPassword(in.NewPassword),
 		})
 		if err != nil {
@@ -46,7 +46,7 @@ func (l *UpdatePasswordLogic) UpdatePassword(in *sys.UpdatePasswordReq) (*sys.Up
 		}
 	} else if in.Type == "1" { //重置密码
 		//更新
-		err := l.svcCtx.UserModel.SaveOrUpdateUser(in.Id, &model.User{
+		_, err := l.svcCtx.UserModel.SaveOrUpdateUser(in.Id, &model.User{
 			Password: utils.SetPassword("123456"),
 		})
 		if err != nil {
