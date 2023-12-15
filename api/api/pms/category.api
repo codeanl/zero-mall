@@ -1,0 +1,67 @@
+info(
+    title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+type (
+    ListCategoryReq struct {
+        PageNum int64 `json:"page_num,optional"`
+        PageSize int64 `json:"page_size,optional"`
+        Name   string `json:"name,optional"`
+        ParentId int64 `json:"parent_id,optional"`
+    }
+    ListCategoryData struct {
+        ID int64 `json:"id"`
+        ParentId int64 `json:"parent_id"`
+        Name string `json:"name"`
+        Status string `json:"status"`
+        Sort int64 `json:"sort"`
+        Icon string `json:"icon"`
+        Desc string `json:"desc"`
+        Children []ListCategoryData `json:"children"`
+    }
+    ListCategoryResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data []ListCategoryData `json:"data"`
+        Total int64 `json:"total"`
+    }
+    SaveOrUpdateCategoryReq struct {
+        ID int64 `json:"id,optional"`
+        ParentId int64 `json:"parent_id"`
+        Name string `json:"name"`
+        Status string `json:"status"`
+        Sort int64 `json:"sort"`
+        Icon string `json:"icon"`
+        Desc string `json:"desc,optional"`
+    }
+    SaveOrUpdateCategoryResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+    DeleteCategoryReq struct {
+        Ids []int64 `json:"ids"`
+    }
+    DeleteCategoryResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+)
+
+@server(
+    jwt: Auth
+    group: pms/category
+    prefix: /api/pms/category
+)
+service api {
+    @handler SaveOrUpdateCategory
+    post / (SaveOrUpdateCategoryReq) returns (SaveOrUpdateCategoryResp)
+
+    @handler CategoryList
+    post /list (ListCategoryReq) returns (ListCategoryResp)
+
+    @handler CategoryDelete
+    post /delete (DeleteCategoryReq) returns (DeleteCategoryResp)
+}

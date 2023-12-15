@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package pms;
+
+option go_package = "./pms";
+
+message SaveOrUpdateCategoryReq {
+  int64    id = 1;
+  int64    parent_id = 2;
+  string  name = 3;
+  string    status = 4;
+  int64    sort = 5;
+  string  icon = 6;
+  string  desc = 7;
+}
+message SaveOrUpdateCategoryResp {
+  string pong = 1;
+}
+//删除分类
+message CategoryDeleteReq {
+  repeated int64 ids = 1;
+}
+message CategoryDeleteResp {
+  string pong = 1;
+}
+
+//分类列表
+message CategoryListReq {
+  int64 page_num = 1;
+  int64 page_size = 2;
+  string name = 3;
+  int64 parent_id = 4;
+}
+message CategoryListData{
+  int64    id = 1;
+  int64    parent_id = 2;
+  string  name = 3;
+  string    status = 4;
+  int64    sort = 5;
+  string  icon = 6;
+  string  desc = 7;
+  string  created_at = 8;
+}
+message CategoryListResp {
+  int64 total = 1;
+  repeated  CategoryListData list = 2;
+}
+
+
+service Pms {
+  //添加||更新分类
+  rpc SaveOrUpdateCategory(SaveOrUpdateCategoryReq) returns(SaveOrUpdateCategoryResp);
+  //分类列表
+  rpc CategoryList(CategoryListReq) returns(CategoryListResp);
+  //删除分类
+  rpc CategoryDelete(CategoryDeleteReq) returns(CategoryDeleteResp);
+}

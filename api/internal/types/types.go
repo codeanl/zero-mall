@@ -489,3 +489,52 @@ type ListSubjectResp struct {
 	Total   int64              `json:"total"`
 	Data    []*ListSubjectData `json:"data"`
 }
+
+type ListCategoryReq struct {
+	PageNum  int64  `json:"page_num,optional"`
+	PageSize int64  `json:"page_size,optional"`
+	Name     string `json:"name,optional"`
+	ParentId int64  `json:"parent_id,optional"`
+}
+
+type ListCategoryData struct {
+	ID       int64              `json:"id"`
+	ParentId int64              `json:"parent_id"`
+	Name     string             `json:"name"`
+	Status   string             `json:"status"`
+	Sort     int64              `json:"sort"`
+	Icon     string             `json:"icon"`
+	Desc     string             `json:"desc"`
+	Children []ListCategoryData `json:"children"`
+}
+
+type ListCategoryResp struct {
+	Code    int64              `json:"code"`
+	Message string             `json:"message"`
+	Data    []ListCategoryData `json:"data"`
+	Total   int64              `json:"total"`
+}
+
+type SaveOrUpdateCategoryReq struct {
+	ID       int64  `json:"id,optional"`
+	ParentId int64  `json:"parent_id"`
+	Name     string `json:"name"`
+	Status   string `json:"status"`
+	Sort     int64  `json:"sort"`
+	Icon     string `json:"icon"`
+	Desc     string `json:"desc,optional"`
+}
+
+type SaveOrUpdateCategoryResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type DeleteCategoryReq struct {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteCategoryResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}

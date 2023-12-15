@@ -103,7 +103,6 @@ func (m *defaultCouponModel) GetCouponByName(name string) (coupon *Coupon, exist
 	return coupon, true, nil
 }
 func (m *defaultCouponModel) SaveOrUpdateCoupon(id int64, req *Coupon) (err error) {
-	fmt.Println(id)
 	if id > 0 {
 		return m.conn.Model(&Coupon{}).Where("id=?", id).Updates(req).Error
 	} else {

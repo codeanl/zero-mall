@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	pmscategory "simple_mall_new/api/internal/handler/pms/category"
 	smscoupon "simple_mall_new/api/internal/handler/sms/coupon"
 	smshome_advertise "simple_mall_new/api/internal/handler/sms/home_advertise"
 	smssubject "simple_mall_new/api/internal/handler/sms/subject"
@@ -226,5 +227,27 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/sms/subject"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/",
+				Handler: pmscategory.SaveOrUpdateCategoryHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/list",
+				Handler: pmscategory.CategoryListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/delete",
+				Handler: pmscategory.CategoryDeleteHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/pms/category"),
 	)
 }

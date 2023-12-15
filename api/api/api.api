@@ -10,6 +10,8 @@ import "sms/home_advertise.api"
 import "sms/coupon.api"
 import "sms/subject.api"
 
+import "pms/category.api"
+
 info(
 	title: "type title here"
 	desc: "type desc here"
