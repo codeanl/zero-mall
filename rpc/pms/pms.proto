@@ -320,6 +320,28 @@ message SkuListData{
   string      tag=14;
   int64       merchant_id = 107;
 }
+//Sku列表
+message SkuListReq {
+  int64 product_ids = 1;
+}
+message SkuListResp {
+  int64 total = 1;
+  repeated  SkuListData list = 2;
+}
+//更新Sku
+message SkuUpdateReq {
+  int64      id=1;
+  string      name = 6;
+  string      pic = 7;
+  string      sku_sn = 8;
+  string      desc = 21;
+  double     price = 22;
+  int64     stock = 16;
+}
+message SkuUpdateResp {
+  string pong = 1;
+}
+
 service Pms {
   //添加||更新分类
   rpc SaveOrUpdateCategory(SaveOrUpdateCategoryReq) returns(SaveOrUpdateCategoryResp);
@@ -365,4 +387,9 @@ service Pms {
   rpc ProductDelete(ProductDeleteReq) returns(ProductDeleteResp);
   //查询商品详情
   rpc ProductInfo(ProductInfoReq) returns(ProductInfoResp);
+
+  //Sku列表
+  rpc SkuList(SkuListReq) returns(SkuListResp);
+  //更新Sku
+  rpc SkuUpdate(SkuUpdateReq) returns(SkuUpdateResp);
 }

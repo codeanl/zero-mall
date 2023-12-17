@@ -911,3 +911,40 @@ type ProductInfoResp struct {
 	Message string   `json:"message"`
 	Data    InfoData `json:"data"`
 }
+
+type UpdateSkuReq struct {
+	ID    int64   `json:"id"`
+	Name  string  `json:"name,optional"`
+	Pic   string  `json:"pic,optional"`
+	SkuSn string  `json:"sku_sn,optional"`
+	Desc  string  `json:"desc,optional"`
+	Stock int64   `json:"stock,optional"`
+	Price float64 `json:"price,optional"`
+}
+
+type UpdateSkuResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type ListSkuReq struct {
+	ProductID int64 `json:"product_id"`
+}
+
+type ListSkuResp struct {
+	Code    int64          `json:"code"`
+	Message string         `json:"message"`
+	Data    []*ListSkuData `json:"data"`
+}
+
+type ListSkuData struct {
+	ID        int64   `json:"id"`
+	ProductID int64   `json:"product_id"`
+	Name      string  `json:"name"`
+	Pic       string  `json:"pic"`
+	SkuSn     string  `json:"sku_sn"`
+	Desc      string  `json:"desc"`
+	Price     float64 `json:"price"`
+	Stock     int64   `json:"stock"`
+	Tag       string  `json:"tag"`
+}

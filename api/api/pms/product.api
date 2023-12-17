@@ -1,0 +1,123 @@
+info(
+    title: "type title here"
+     desc: "type desc here"
+     author: "type author here"
+     email: "type email here"
+     version: "type version here"
+)
+
+type (
+    SaveOrUpdateProductReq struct {
+        ID int64 `json:"id,optional"`
+        CategoryID int64 `json:"category_id"`
+        MerchantID int64 `json:"merchant_id,optional"`
+        Name string `json:"name"`
+        Pic string `json:"pic,optional"`
+        ProductSn string `json:"product_sn"`
+        Desc string `json:"desc,optional"`
+        OriginalPrice float64 `json:"original_prices"`
+        Price float64 `json:"price,optional,default=0"`
+        IsPublished string `json:"is_published,optional"`
+        IsHot string `json:"is_hot,optional"`
+
+        Size []Size  `json:"size,optional"`
+        ImgUrl []string `json:"img_url,optional"`
+        IntroduceImgUrl []string `json:"introduce_img_url,optional"`
+    }
+    Size struct{
+        Name string `json:"name"`
+        Value string `json:"value"`
+    }
+
+    SaveOrUpdateProductResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+     DeleteProductReq struct {
+        Ids []int64 `json:"ids"`
+    }
+    DeleteProductResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+    }
+
+    ListProductReq struct {
+        PageNum int64 `form:"page_num,default=1"`
+        PageSize int64 `form:"page_size,default=10"`
+        Name   string `form:"name,optional"`
+        CategoryId int64  `form:"category_id,optional"`
+        MerchantID int64 `form:"merchant_id,optional"`
+        MinPrice int64 `form:"min_price,optional"`
+        MaxPrice int64 `form:"max_price,optional"`
+        SearchType int64 `form:"search_type,optional"`
+    }
+    ListProductData struct {
+        ID int64 `json:"id"`
+        CategoryID int64 `json:"category_id"`
+         Name string `json:"name"`
+         Pic string `json:"pic,optional"`
+         ProductSn string `json:"product_sn"`
+         Desc string `json:"desc,optional"`
+        OriginalPrice float64 `json:"original_price,optional"`
+        Price float64 `json:"price,optional"`
+        MerchantID int64 `json:"merchant_id,optional"`
+    }
+    ListProductResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data []*ListProductData `json:"data"`
+        Total int64 `json:"total"`
+    }
+
+    ProductInfoReq struct {
+        ID int64 `json:"id"`
+    }
+     InfoData struct {
+        ProductInfo ListProductData  `json:"product_info"`
+        ImgUrl []string `json:"img_url"`
+        IntroduceImgUrl []string `json:"introduce_img_url"`
+        SkuList []SkuListData11 `json:"sku_list"`
+        Size []SizeData `json:"size"`
+    }
+    SizeData struct{
+        Name string `json:"name"`
+        Value string `json:"value"`
+    }
+    SkuListData11 struct{
+        ID int64 `json:"id"`
+        ProductID int64 `json:"product_id"`
+        Name string `json:"name"`
+        Pic string `json:"pic"`
+        SkuSn string `json:"sku_sn"`
+        Desc string `json:"desc"`
+        Price float64 `json:"price"`
+        Stock int64 `json:"stock"`
+        Tag string `json:"tag"`
+    }
+    ProductInfoResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data InfoData `json:"data"`
+    }
+
+)
+
+@server(
+    jwt: Auth
+    group: pms/product
+    prefix: /api/pms/product
+)
+service api {
+    @handler SaveOrUpdateProduct
+    post / (SaveOrUpdateProductReq) returns (SaveOrUpdateProductResp)
+
+    @handler ProductDelete
+    post /delete (DeleteProductReq) returns (DeleteProductResp)
+
+    @handler ProductList
+    get /list (ListProductReq) returns (ListProductResp)
+
+    @handler ProductInfo
+    post /info (ProductInfoReq) returns (ProductInfoResp)
+}

@@ -38,6 +38,8 @@ const (
 	Pms_ProductList_FullMethodName          = "/pms.Pms/ProductList"
 	Pms_ProductDelete_FullMethodName        = "/pms.Pms/ProductDelete"
 	Pms_ProductInfo_FullMethodName          = "/pms.Pms/ProductInfo"
+	Pms_SkuList_FullMethodName              = "/pms.Pms/SkuList"
+	Pms_SkuUpdate_FullMethodName            = "/pms.Pms/SkuUpdate"
 )
 
 // PmsClient is the client API for Pms service.
@@ -82,6 +84,10 @@ type PmsClient interface {
 	ProductDelete(ctx context.Context, in *ProductDeleteReq, opts ...grpc.CallOption) (*ProductDeleteResp, error)
 	// 查询商品详情
 	ProductInfo(ctx context.Context, in *ProductInfoReq, opts ...grpc.CallOption) (*ProductInfoResp, error)
+	// Sku列表
+	SkuList(ctx context.Context, in *SkuListReq, opts ...grpc.CallOption) (*SkuListResp, error)
+	// 更新Sku
+	SkuUpdate(ctx context.Context, in *SkuUpdateReq, opts ...grpc.CallOption) (*SkuUpdateResp, error)
 }
 
 type pmsClient struct {
@@ -263,6 +269,24 @@ func (c *pmsClient) ProductInfo(ctx context.Context, in *ProductInfoReq, opts ..
 	return out, nil
 }
 
+func (c *pmsClient) SkuList(ctx context.Context, in *SkuListReq, opts ...grpc.CallOption) (*SkuListResp, error) {
+	out := new(SkuListResp)
+	err := c.cc.Invoke(ctx, Pms_SkuList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pmsClient) SkuUpdate(ctx context.Context, in *SkuUpdateReq, opts ...grpc.CallOption) (*SkuUpdateResp, error) {
+	out := new(SkuUpdateResp)
+	err := c.cc.Invoke(ctx, Pms_SkuUpdate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PmsServer is the server API for Pms service.
 // All implementations must embed UnimplementedPmsServer
 // for forward compatibility
@@ -305,6 +329,10 @@ type PmsServer interface {
 	ProductDelete(context.Context, *ProductDeleteReq) (*ProductDeleteResp, error)
 	// 查询商品详情
 	ProductInfo(context.Context, *ProductInfoReq) (*ProductInfoResp, error)
+	// Sku列表
+	SkuList(context.Context, *SkuListReq) (*SkuListResp, error)
+	// 更新Sku
+	SkuUpdate(context.Context, *SkuUpdateReq) (*SkuUpdateResp, error)
 	mustEmbedUnimplementedPmsServer()
 }
 
@@ -368,6 +396,12 @@ func (UnimplementedPmsServer) ProductDelete(context.Context, *ProductDeleteReq) 
 }
 func (UnimplementedPmsServer) ProductInfo(context.Context, *ProductInfoReq) (*ProductInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ProductInfo not implemented")
+}
+func (UnimplementedPmsServer) SkuList(context.Context, *SkuListReq) (*SkuListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SkuList not implemented")
+}
+func (UnimplementedPmsServer) SkuUpdate(context.Context, *SkuUpdateReq) (*SkuUpdateResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SkuUpdate not implemented")
 }
 func (UnimplementedPmsServer) mustEmbedUnimplementedPmsServer() {}
 
@@ -724,6 +758,42 @@ func _Pms_ProductInfo_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Pms_SkuList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SkuListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PmsServer).SkuList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Pms_SkuList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PmsServer).SkuList(ctx, req.(*SkuListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Pms_SkuUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SkuUpdateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PmsServer).SkuUpdate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Pms_SkuUpdate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PmsServer).SkuUpdate(ctx, req.(*SkuUpdateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Pms_ServiceDesc is the grpc.ServiceDesc for Pms service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -806,6 +876,14 @@ var Pms_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ProductInfo",
 			Handler:    _Pms_ProductInfo_Handler,
+		},
+		{
+			MethodName: "SkuList",
+			Handler:    _Pms_SkuList_Handler,
+		},
+		{
+			MethodName: "SkuUpdate",
+			Handler:    _Pms_SkuUpdate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

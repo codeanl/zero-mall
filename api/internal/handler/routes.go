@@ -9,6 +9,7 @@ import (
 	pmsmerchants_apply "simple_mall_new/api/internal/handler/pms/merchants_apply"
 	pmsplace "simple_mall_new/api/internal/handler/pms/place"
 	pmsproduct "simple_mall_new/api/internal/handler/pms/product"
+	pmssku "simple_mall_new/api/internal/handler/pms/sku"
 	smscoupon "simple_mall_new/api/internal/handler/sms/coupon"
 	smshome_advertise "simple_mall_new/api/internal/handler/sms/home_advertise"
 	smssubject "simple_mall_new/api/internal/handler/sms/subject"
@@ -367,5 +368,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/pms/product"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/update",
+				Handler: pmssku.SkuUpdateHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/list",
+				Handler: pmssku.SkuListHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/pms/sku"),
 	)
 }

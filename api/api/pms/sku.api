@@ -1,0 +1,60 @@
+syntax = "v1"
+
+info(
+    title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+
+
+type(
+        updateSkuReq struct {
+           ID int64 `json:"id"`
+           Name string `json:"name,optional"`
+           Pic string `json:"pic,optional"`
+           SkuSn string `json:"sku_sn,optional"`
+           Desc string `json:"desc,optional"`
+           Stock int64 `json:"stock,optional"`
+           Price float64 `json:"price,optional"`
+       }
+       updateSkuResp struct {
+           Code int64 `json:"code"`
+           Message string `json:"message"`
+       }
+
+        ListSkuReq struct{
+             ProductID int64 `json:"product_id"`
+        }
+        ListSkuResp struct{
+              Code int64 `json:"code"`
+              Message string `json:"message"`
+              Data []*ListSkuData `json:"data"`
+        }
+        ListSkuData struct{
+            ID int64 `json:"id"`
+            ProductID int64 `json:"product_id"`
+            Name string `json:"name"`
+            Pic string `json:"pic"`
+            SkuSn string `json:"sku_sn"`
+            Desc string `json:"desc"`
+            Price float64 `json:"price"`
+            Stock int64 `json:"stock"`
+            Tag string `json:"tag"`
+        }
+)
+
+
+
+@server(
+    jwt: Auth
+    group: pms/sku
+    prefix: /api/pms/sku
+)
+service api {
+    @handler SkuUpdate
+    post /update (updateSkuReq) returns (updateSkuResp)
+    @handler SkuList
+    post /list (ListSkuReq) returns (ListSkuResp)
+}

@@ -58,6 +58,10 @@ type (
 	SaveOrUpdateProductResp  = pms.SaveOrUpdateProductResp
 	Size                     = pms.Size
 	SkuListData              = pms.SkuListData
+	SkuListReq               = pms.SkuListReq
+	SkuListResp              = pms.SkuListResp
+	SkuUpdateReq             = pms.SkuUpdateReq
+	SkuUpdateResp            = pms.SkuUpdateResp
 	UserInfoFF               = pms.UserInfoFF
 
 	Pms interface {
@@ -99,6 +103,10 @@ type (
 		ProductDelete(ctx context.Context, in *ProductDeleteReq, opts ...grpc.CallOption) (*ProductDeleteResp, error)
 		// 查询商品详情
 		ProductInfo(ctx context.Context, in *ProductInfoReq, opts ...grpc.CallOption) (*ProductInfoResp, error)
+		// Sku列表
+		SkuList(ctx context.Context, in *SkuListReq, opts ...grpc.CallOption) (*SkuListResp, error)
+		// 更新Sku
+		SkuUpdate(ctx context.Context, in *SkuUpdateReq, opts ...grpc.CallOption) (*SkuUpdateResp, error)
 	}
 
 	defaultPms struct {
@@ -224,4 +232,16 @@ func (m *defaultPms) ProductDelete(ctx context.Context, in *ProductDeleteReq, op
 func (m *defaultPms) ProductInfo(ctx context.Context, in *ProductInfoReq, opts ...grpc.CallOption) (*ProductInfoResp, error) {
 	client := pms.NewPmsClient(m.cli.Conn())
 	return client.ProductInfo(ctx, in, opts...)
+}
+
+// Sku列表
+func (m *defaultPms) SkuList(ctx context.Context, in *SkuListReq, opts ...grpc.CallOption) (*SkuListResp, error) {
+	client := pms.NewPmsClient(m.cli.Conn())
+	return client.SkuList(ctx, in, opts...)
+}
+
+// 更新Sku
+func (m *defaultPms) SkuUpdate(ctx context.Context, in *SkuUpdateReq, opts ...grpc.CallOption) (*SkuUpdateResp, error) {
+	client := pms.NewPmsClient(m.cli.Conn())
+	return client.SkuUpdate(ctx, in, opts...)
 }

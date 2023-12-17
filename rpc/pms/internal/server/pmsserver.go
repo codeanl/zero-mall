@@ -135,3 +135,15 @@ func (s *PmsServer) ProductInfo(ctx context.Context, in *pms.ProductInfoReq) (*p
 	l := logic.NewProductInfoLogic(ctx, s.svcCtx)
 	return l.ProductInfo(in)
 }
+
+// Sku列表
+func (s *PmsServer) SkuList(ctx context.Context, in *pms.SkuListReq) (*pms.SkuListResp, error) {
+	l := logic.NewSkuListLogic(ctx, s.svcCtx)
+	return l.SkuList(in)
+}
+
+// 更新Sku
+func (s *PmsServer) SkuUpdate(ctx context.Context, in *pms.SkuUpdateReq) (*pms.SkuUpdateResp, error) {
+	l := logic.NewSkuUpdateLogic(ctx, s.svcCtx)
+	return l.SkuUpdate(in)
+}
