@@ -34,6 +34,10 @@ const (
 	Pms_PlaceUpdate_FullMethodName          = "/pms.Pms/PlaceUpdate"
 	Pms_PlaceDelete_FullMethodName          = "/pms.Pms/PlaceDelete"
 	Pms_PlaceInfo_FullMethodName            = "/pms.Pms/PlaceInfo"
+	Pms_SaveOrUpdateProduct_FullMethodName  = "/pms.Pms/SaveOrUpdateProduct"
+	Pms_ProductList_FullMethodName          = "/pms.Pms/ProductList"
+	Pms_ProductDelete_FullMethodName        = "/pms.Pms/ProductDelete"
+	Pms_ProductInfo_FullMethodName          = "/pms.Pms/ProductInfo"
 )
 
 // PmsClient is the client API for Pms service.
@@ -70,6 +74,14 @@ type PmsClient interface {
 	PlaceDelete(ctx context.Context, in *PlaceDeleteReq, opts ...grpc.CallOption) (*PlaceDeleteResp, error)
 	// 自提点详情
 	PlaceInfo(ctx context.Context, in *PlaceInfoReq, opts ...grpc.CallOption) (*PlaceInfoResp, error)
+	// 添加||更新商品
+	SaveOrUpdateProduct(ctx context.Context, in *SaveOrUpdateProductReq, opts ...grpc.CallOption) (*SaveOrUpdateProductResp, error)
+	// 商品列表
+	ProductList(ctx context.Context, in *ProductListReq, opts ...grpc.CallOption) (*ProductListResp, error)
+	// 删除商品
+	ProductDelete(ctx context.Context, in *ProductDeleteReq, opts ...grpc.CallOption) (*ProductDeleteResp, error)
+	// 查询商品详情
+	ProductInfo(ctx context.Context, in *ProductInfoReq, opts ...grpc.CallOption) (*ProductInfoResp, error)
 }
 
 type pmsClient struct {
@@ -215,6 +227,42 @@ func (c *pmsClient) PlaceInfo(ctx context.Context, in *PlaceInfoReq, opts ...grp
 	return out, nil
 }
 
+func (c *pmsClient) SaveOrUpdateProduct(ctx context.Context, in *SaveOrUpdateProductReq, opts ...grpc.CallOption) (*SaveOrUpdateProductResp, error) {
+	out := new(SaveOrUpdateProductResp)
+	err := c.cc.Invoke(ctx, Pms_SaveOrUpdateProduct_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pmsClient) ProductList(ctx context.Context, in *ProductListReq, opts ...grpc.CallOption) (*ProductListResp, error) {
+	out := new(ProductListResp)
+	err := c.cc.Invoke(ctx, Pms_ProductList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pmsClient) ProductDelete(ctx context.Context, in *ProductDeleteReq, opts ...grpc.CallOption) (*ProductDeleteResp, error) {
+	out := new(ProductDeleteResp)
+	err := c.cc.Invoke(ctx, Pms_ProductDelete_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pmsClient) ProductInfo(ctx context.Context, in *ProductInfoReq, opts ...grpc.CallOption) (*ProductInfoResp, error) {
+	out := new(ProductInfoResp)
+	err := c.cc.Invoke(ctx, Pms_ProductInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PmsServer is the server API for Pms service.
 // All implementations must embed UnimplementedPmsServer
 // for forward compatibility
@@ -249,6 +297,14 @@ type PmsServer interface {
 	PlaceDelete(context.Context, *PlaceDeleteReq) (*PlaceDeleteResp, error)
 	// 自提点详情
 	PlaceInfo(context.Context, *PlaceInfoReq) (*PlaceInfoResp, error)
+	// 添加||更新商品
+	SaveOrUpdateProduct(context.Context, *SaveOrUpdateProductReq) (*SaveOrUpdateProductResp, error)
+	// 商品列表
+	ProductList(context.Context, *ProductListReq) (*ProductListResp, error)
+	// 删除商品
+	ProductDelete(context.Context, *ProductDeleteReq) (*ProductDeleteResp, error)
+	// 查询商品详情
+	ProductInfo(context.Context, *ProductInfoReq) (*ProductInfoResp, error)
 	mustEmbedUnimplementedPmsServer()
 }
 
@@ -300,6 +356,18 @@ func (UnimplementedPmsServer) PlaceDelete(context.Context, *PlaceDeleteReq) (*Pl
 }
 func (UnimplementedPmsServer) PlaceInfo(context.Context, *PlaceInfoReq) (*PlaceInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlaceInfo not implemented")
+}
+func (UnimplementedPmsServer) SaveOrUpdateProduct(context.Context, *SaveOrUpdateProductReq) (*SaveOrUpdateProductResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveOrUpdateProduct not implemented")
+}
+func (UnimplementedPmsServer) ProductList(context.Context, *ProductListReq) (*ProductListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProductList not implemented")
+}
+func (UnimplementedPmsServer) ProductDelete(context.Context, *ProductDeleteReq) (*ProductDeleteResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProductDelete not implemented")
+}
+func (UnimplementedPmsServer) ProductInfo(context.Context, *ProductInfoReq) (*ProductInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProductInfo not implemented")
 }
 func (UnimplementedPmsServer) mustEmbedUnimplementedPmsServer() {}
 
@@ -584,6 +652,78 @@ func _Pms_PlaceInfo_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Pms_SaveOrUpdateProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveOrUpdateProductReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PmsServer).SaveOrUpdateProduct(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Pms_SaveOrUpdateProduct_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PmsServer).SaveOrUpdateProduct(ctx, req.(*SaveOrUpdateProductReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Pms_ProductList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProductListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PmsServer).ProductList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Pms_ProductList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PmsServer).ProductList(ctx, req.(*ProductListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Pms_ProductDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProductDeleteReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PmsServer).ProductDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Pms_ProductDelete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PmsServer).ProductDelete(ctx, req.(*ProductDeleteReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Pms_ProductInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProductInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PmsServer).ProductInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Pms_ProductInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PmsServer).ProductInfo(ctx, req.(*ProductInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Pms_ServiceDesc is the grpc.ServiceDesc for Pms service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -650,6 +790,22 @@ var Pms_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PlaceInfo",
 			Handler:    _Pms_PlaceInfo_Handler,
+		},
+		{
+			MethodName: "SaveOrUpdateProduct",
+			Handler:    _Pms_SaveOrUpdateProduct_Handler,
+		},
+		{
+			MethodName: "ProductList",
+			Handler:    _Pms_ProductList_Handler,
+		},
+		{
+			MethodName: "ProductDelete",
+			Handler:    _Pms_ProductDelete_Handler,
+		},
+		{
+			MethodName: "ProductInfo",
+			Handler:    _Pms_ProductInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

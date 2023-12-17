@@ -45,8 +45,19 @@ type (
 	PlaceListResp            = pms.PlaceListResp
 	PlaceUpdateReq           = pms.PlaceUpdateReq
 	PlaceUpdateResp          = pms.PlaceUpdateResp
+	ProductDeleteReq         = pms.ProductDeleteReq
+	ProductDeleteResp        = pms.ProductDeleteResp
+	ProductInfoReq           = pms.ProductInfoReq
+	ProductInfoResp          = pms.ProductInfoResp
+	ProductListData          = pms.ProductListData
+	ProductListReq           = pms.ProductListReq
+	ProductListResp          = pms.ProductListResp
 	SaveOrUpdateCategoryReq  = pms.SaveOrUpdateCategoryReq
 	SaveOrUpdateCategoryResp = pms.SaveOrUpdateCategoryResp
+	SaveOrUpdateProductReq   = pms.SaveOrUpdateProductReq
+	SaveOrUpdateProductResp  = pms.SaveOrUpdateProductResp
+	Size                     = pms.Size
+	SkuListData              = pms.SkuListData
 	UserInfoFF               = pms.UserInfoFF
 
 	Pms interface {
@@ -80,6 +91,14 @@ type (
 		PlaceDelete(ctx context.Context, in *PlaceDeleteReq, opts ...grpc.CallOption) (*PlaceDeleteResp, error)
 		// 自提点详情
 		PlaceInfo(ctx context.Context, in *PlaceInfoReq, opts ...grpc.CallOption) (*PlaceInfoResp, error)
+		// 添加||更新商品
+		SaveOrUpdateProduct(ctx context.Context, in *SaveOrUpdateProductReq, opts ...grpc.CallOption) (*SaveOrUpdateProductResp, error)
+		// 商品列表
+		ProductList(ctx context.Context, in *ProductListReq, opts ...grpc.CallOption) (*ProductListResp, error)
+		// 删除商品
+		ProductDelete(ctx context.Context, in *ProductDeleteReq, opts ...grpc.CallOption) (*ProductDeleteResp, error)
+		// 查询商品详情
+		ProductInfo(ctx context.Context, in *ProductInfoReq, opts ...grpc.CallOption) (*ProductInfoResp, error)
 	}
 
 	defaultPms struct {
@@ -181,4 +200,28 @@ func (m *defaultPms) PlaceDelete(ctx context.Context, in *PlaceDeleteReq, opts .
 func (m *defaultPms) PlaceInfo(ctx context.Context, in *PlaceInfoReq, opts ...grpc.CallOption) (*PlaceInfoResp, error) {
 	client := pms.NewPmsClient(m.cli.Conn())
 	return client.PlaceInfo(ctx, in, opts...)
+}
+
+// 添加||更新商品
+func (m *defaultPms) SaveOrUpdateProduct(ctx context.Context, in *SaveOrUpdateProductReq, opts ...grpc.CallOption) (*SaveOrUpdateProductResp, error) {
+	client := pms.NewPmsClient(m.cli.Conn())
+	return client.SaveOrUpdateProduct(ctx, in, opts...)
+}
+
+// 商品列表
+func (m *defaultPms) ProductList(ctx context.Context, in *ProductListReq, opts ...grpc.CallOption) (*ProductListResp, error) {
+	client := pms.NewPmsClient(m.cli.Conn())
+	return client.ProductList(ctx, in, opts...)
+}
+
+// 删除商品
+func (m *defaultPms) ProductDelete(ctx context.Context, in *ProductDeleteReq, opts ...grpc.CallOption) (*ProductDeleteResp, error) {
+	client := pms.NewPmsClient(m.cli.Conn())
+	return client.ProductDelete(ctx, in, opts...)
+}
+
+// 查询商品详情
+func (m *defaultPms) ProductInfo(ctx context.Context, in *ProductInfoReq, opts ...grpc.CallOption) (*ProductInfoResp, error) {
+	client := pms.NewPmsClient(m.cli.Conn())
+	return client.ProductInfo(ctx, in, opts...)
 }

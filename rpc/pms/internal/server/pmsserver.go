@@ -111,3 +111,27 @@ func (s *PmsServer) PlaceInfo(ctx context.Context, in *pms.PlaceInfoReq) (*pms.P
 	l := logic.NewPlaceInfoLogic(ctx, s.svcCtx)
 	return l.PlaceInfo(in)
 }
+
+// 添加||更新商品
+func (s *PmsServer) SaveOrUpdateProduct(ctx context.Context, in *pms.SaveOrUpdateProductReq) (*pms.SaveOrUpdateProductResp, error) {
+	l := logic.NewSaveOrUpdateProductLogic(ctx, s.svcCtx)
+	return l.SaveOrUpdateProduct(in)
+}
+
+// 商品列表
+func (s *PmsServer) ProductList(ctx context.Context, in *pms.ProductListReq) (*pms.ProductListResp, error) {
+	l := logic.NewProductListLogic(ctx, s.svcCtx)
+	return l.ProductList(in)
+}
+
+// 删除商品
+func (s *PmsServer) ProductDelete(ctx context.Context, in *pms.ProductDeleteReq) (*pms.ProductDeleteResp, error) {
+	l := logic.NewProductDeleteLogic(ctx, s.svcCtx)
+	return l.ProductDelete(in)
+}
+
+// 查询商品详情
+func (s *PmsServer) ProductInfo(ctx context.Context, in *pms.ProductInfoReq) (*pms.ProductInfoResp, error) {
+	l := logic.NewProductInfoLogic(ctx, s.svcCtx)
+	return l.ProductInfo(in)
+}

@@ -810,3 +810,104 @@ type MerchantApplysListData1 struct {
 	AdminRemark    string `json:"admin_remark"`
 	CreatedAt      string `json:"created_at"`
 }
+
+type SaveOrUpdateProductReq struct {
+	ID              int64    `json:"id,optional"`
+	CategoryID      int64    `json:"category_id"`
+	MerchantID      int64    `json:"merchant_id,optional"`
+	Name            string   `json:"name"`
+	Pic             string   `json:"pic,optional"`
+	ProductSn       string   `json:"product_sn"`
+	Desc            string   `json:"desc,optional"`
+	OriginalPrice   float64  `json:"original_prices"`
+	Price           float64  `json:"price,optional,default=0"`
+	IsPublished     string   `json:"is_published,optional"`
+	IsHot           string   `json:"is_hot,optional"`
+	Size            []Size   `json:"size,optional"`
+	ImgUrl          []string `json:"img_url,optional"`
+	IntroduceImgUrl []string `json:"introduce_img_url,optional"`
+}
+
+type Size struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+type SaveOrUpdateProductResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type DeleteProductReq struct {
+	Ids []int64 `json:"ids"`
+}
+
+type DeleteProductResp struct {
+	Code    int64  `json:"code"`
+	Message string `json:"message"`
+}
+
+type ListProductReq struct {
+	PageNum    int64  `form:"page_num,default=1"`
+	PageSize   int64  `form:"page_size,default=10"`
+	Name       string `form:"name,optional"`
+	CategoryId int64  `form:"category_id,optional"`
+	MerchantID int64  `form:"merchant_id,optional"`
+	MinPrice   int64  `form:"min_price,optional"`
+	MaxPrice   int64  `form:"max_price,optional"`
+	SearchType int64  `form:"search_type,optional"`
+}
+
+type ListProductData struct {
+	ID            int64   `json:"id"`
+	CategoryID    int64   `json:"category_id"`
+	Name          string  `json:"name"`
+	Pic           string  `json:"pic,optional"`
+	ProductSn     string  `json:"product_sn"`
+	Desc          string  `json:"desc,optional"`
+	OriginalPrice float64 `json:"original_price,optional"`
+	Price         float64 `json:"price,optional"`
+	MerchantID    int64   `json:"merchant_id,optional"`
+}
+
+type ListProductResp struct {
+	Code    int64              `json:"code"`
+	Message string             `json:"message"`
+	Data    []*ListProductData `json:"data"`
+	Total   int64              `json:"total"`
+}
+
+type ProductInfoReq struct {
+	ID int64 `json:"id"`
+}
+
+type InfoData struct {
+	ProductInfo     ListProductData `json:"product_info"`
+	ImgUrl          []string        `json:"img_url"`
+	IntroduceImgUrl []string        `json:"introduce_img_url"`
+	SkuList         []SkuListData11 `json:"sku_list"`
+	Size            []SizeData      `json:"size"`
+}
+
+type SizeData struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+type SkuListData11 struct {
+	ID        int64   `json:"id"`
+	ProductID int64   `json:"product_id"`
+	Name      string  `json:"name"`
+	Pic       string  `json:"pic"`
+	SkuSn     string  `json:"sku_sn"`
+	Desc      string  `json:"desc"`
+	Price     float64 `json:"price"`
+	Stock     int64   `json:"stock"`
+	Tag       string  `json:"tag"`
+}
+
+type ProductInfoResp struct {
+	Code    int64    `json:"code"`
+	Message string   `json:"message"`
+	Data    InfoData `json:"data"`
+}
